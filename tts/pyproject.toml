@@ -1,0 +1,32 @@
+[project]
+name = "uta-tts"
+version = "0.1.0"
+description = "Local voice for Under the Abstraction: Chatterbox TTS + Whisper word alignment"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+  "torch==2.8.0",
+  "torchaudio==2.8.0",
+  "chatterbox-tts==0.1.7",
+  "faster-whisper==1.2.1",
+  "fastapi>=0.115",
+  "uvicorn>=0.30",
+  "soundfile>=0.12",
+  "numpy<2",
+  # resemble-perth (Chatterbox's audio watermark) still imports pkg_resources
+  "setuptools<81",
+]
+
+[tool.uv]
+# chatterbox-tts pins torch 2.6, which has no kernels for Blackwell (RTX 50xx, sm_120).
+# torch 2.8 + CUDA 12.8 does. gradio is only used by chatterbox's demo apps.
+override-dependencies = ["torch==2.8.0", "torchaudio==2.8.0", "gradio; sys_platform == 'never'"]
+package = false
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+torchaudio = { index = "pytorch-cu128" }
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true

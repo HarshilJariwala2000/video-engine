@@ -1,0 +1,183 @@
+00:00 It's time to get a bit controversial.
+00:02 I don't think you should
+write comments in your code
+00:05 pretty much most of the time.
+00:12 Here,
+00:12 we have some code
+where we expect the value to be 5
+00:15 Looking at this code, it's not obvious
+what five signals.
+00:19 We could add a comment
+explaining what five is,
+00:22 but even better we can create a constant
+representing the variable instead.
+00:26 The if statement now reads like a comment:
+00:29 that we want status to be message sent.
+00:32 If your code is complex enough that it
+warrants a comment, you should instead
+00:36 see if you can simplify or refactor
+the code to make it better instead.
+00:41 Right now,
+this condition is complex enough
+00:44 that we add a comment explaining it,
+but we can simplify this
+00:47 by using variables
+to name parts of the expression.
+00:55 Now the
+condition reads like the comment does.
+00:57 So the comment is basically redundant
+and can be removed.
+01:02 When conditions are complex
+enough like this,
+01:04 you could also consider moving
+the whole condition to its own function.
+01:07 Now you don't need to decipher at all.
+01:10 Types can also make comments redundant.
+01:12 In C++,
+there's no built in memory management.
+01:16 You often have a function like this
+where you get back a thing,
+01:19 but we need to make clear
+who will take ownership of the thing.
+01:23 Ownership, meaning the responsibility
+01:24 to release the memory
+after everyone is done with it.
+01:27 In older C++, you pretty much
+had to rely on comments to do this.
+01:32 If you were given ownership of an object,
+you'd find out by reading
+01:35 the comments of the function.
+01:38 But C++
+added a new type called unique_ptr.
+01:42 The type represents
+a unique reference to the object.
+01:46 So if you get one, congratulations!
+01:48 It's now your responsibility.
+01:51 The type tells you explicitly
+01:53 that you now own it
+without the need for a comment.
+01:57 And even better, the type makes it
+so you get a compile error
+02:01 if you do bad things with it.
+02:03 A comment doesn't do that.
+02:05 Likewise,
+if we have a function that returns an int,
+02:08 but that int is optional.
+02:11 We could add a comment
+saying that -1 means we're not actually
+02:14 returning a value.
+02:16 But even better, we could use a type.
+02:18 If we return an optional int instead, it's
+02:21 now obvious
+that we might not give a value.
+02:24 We can't miss the comment
+and not realize that we might get
+02:27 an invalid timestamp back.
+02:29 The user needs to handle a missing value
+or they'll get a compiler error.
+02:33 You might
+02:34 wonder why don't we just make our code
+high quality and add comments anyways?
+02:38 Isn't more comments just better?
+02:40 That ignores the problems with comments.
+02:42 Comments get bugs like code.
+02:44 When people make changes to code,
+02:46 they often don't
+update the comments to match.
+02:48 But unlike comments, we have tools to stop
+bugs from entering code.
+02:52 We have tests, compiler
+checks and limiting.
+02:55 We don't have any system like that
+for comments.
+02:57 Maybe one day we can have some static
+analysis tool that uses AI to determine
+03:02 if the code matches the comments and flags
+any discrepancies -
+03:05 there's a start up idea - but
+because of this I don't trust the comments
+03:09 even when they exist.
+03:10 Comments can lie, but code cannot.
+03:12 So when trying to understand what
+a piece of code does, I read the code.
+03:16 I never read the comments.
+03:17 Maybe it's just me.
+03:18 Do you guys find yourself
+reading comments to understand code?
+03:23 What I do read is code documentation.
+03:26 Code documentation describes
+the high level
+03:28 architecture and public APIs of a system.
+03:32 Code documentation differs from comments
+03:34 where comments describe the internals
+of how your code works.
+03:38 Documentation describes
+how you use the code.
+03:42 The world needs more high quality
+documentation,
+03:46 and while we could write the documentation
+for our code
+03:49 completely separated from our code,
+it makes sense to keep our documentation
+03:52 as close to the code as possible
+in order to try to help them stay in sync.
+03:56 Tools like Doxygen, pydoc and JavaDoc
+generate documents
+04:00 directly from code files
+and therefore change alongside our code.
+04:05 It's useful to document
+what a class or API represents
+04:09 and any expectations
+for interface definitions
+04:12 like thread safety,
+possible states or error conditions.
+04:15 This helps the consumers of the API
+know how to use it and also helps
+04:19 any new implementers of the interface
+04:21 know how they're supposed to operate
+and behave.
+04:24 The guidance I've given about comments
+still applies for documentation.
+04:27 If we write better APIs,
+our documentation will be more concise
+04:31 and less prone to errors.
+04:33 But I concede that you'll never be able
+to make all of the parts
+04:35 of the system obvious with pure code.
+04:38 I do think there's a few cases
+where you should consider comments:
+04:42 if the code does something non-obvious
+for performance reasons,
+04:45 a comment can help explain
+why the code looks weird.
+04:49 If the code is utilizing a specific
+04:51 mathematical principle
+or an algorithm from a particular source
+04:55 you might consider linking to the source
+to help future maintainers.
+04:60 There's this comic called comic strip,
+05:02 and one of the comics is about a guy
+05:05 telling a developer that one day
+we won't need code in the future
+05:09 because you'll be able to
+05:10 simply write a spec
+and the program will just write itself.
+05:14 The developers are casting retorts
+that code is just a more precise way
+05:17 of writing a spec.
+05:19 I mean, I think it's wrong. And A.I.
+05:21 is coming for all our jobs,
+and we should be afraid
+05:23 of the impending sociopolitical turmoil
+that comes when our best tool
+05:26 for distributing wealth,
+the job disappears.
+05:28 But alas, it still helps my point.
+05:31 Code is a much better way to express
+intent than comments about code.
+05:36 So in general, if you feel like you need
+human language to describe your code,
+05:40 see if you could make your code
+more human.
+05:45 What other cases
+do you think comments are needed?

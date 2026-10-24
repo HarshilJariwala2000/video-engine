@@ -1,0 +1,36 @@
+{
+  "kicker": "Docker",
+  "clips": [
+    {
+      "title": "Your container thinks it's process #1",
+      "from": "scene09:blinders",
+      "to": "scene10",
+      "view": [-70, -60, 1540],
+      "shots": [
+        {"at": "scene09:one", "view": [100, -110, 1300]},
+        {"at": "scene10:same", "view": [30, -50, 1220]}
+      ]
+    },
+    {
+      "title": "Docker never changes your image",
+      "from": "scene18",
+      "to": "scene19",
+      "view": [0, -15, 1120],
+      "shots": [
+        {"at": "scene19", "view": [-400, -30, 1000]},
+        {"at": "scene19:change", "view": [-50, -10, 1700]}
+      ]
+    },
+    {
+      "title": "Containers don't exist. Processes do.",
+      "from": "scene20:proc",
+      "to": "scene22",
+      "view": [-65, -25, 1130],
+      "shots": [
+        {"at": "scene21", "view": [200, -60, 1360]},
+        {"at": "scene21:same", "view": [0, -50, 1420]},
+        {"at": "scene22", "view": [70, -60, 1560]}
+      ]
+    }
+  ]
+}

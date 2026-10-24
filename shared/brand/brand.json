@@ -1,0 +1,32 @@
+{
+  "_about": "Channel intro/outro config, shared by the animation (shared/motion/intros, outro.tsx), the music composer (tools/music/compose.py) and the voiceover tool. Times are seconds from the start of the intro; durations are whole 60 fps frames.",
+  "defaultIntro": "A",
+  "name": "under the abstraction",
+  "tagline": "how the tools you use every day actually work",
+  "intros": {
+    "A": {
+      "title": "Lifted Lid",
+      "duration": 7.0,
+      "music": "intro-a",
+      "beats": {"boxDraw": 0.3, "core": 1.6, "lidLand": 2.3, "rattle": [2.75, 3.1, 3.35, 3.5], "lift": 3.6, "type": 4.1, "typeEnd": 5.0, "tagline": 5.15, "fadeOut": 6.45}
+    },
+    "B": {
+      "title": "Descent",
+      "duration": 7.0,
+      "music": "intro-b",
+      "beats": {"layers": [0.8, 1.55, 2.3, 3.05, 3.8], "core": 4.2, "lid": 4.95, "wordmark": 5.15, "tagline": 5.6, "fadeOut": 6.45}
+    },
+    "C": {
+      "title": "Decode",
+      "duration": 6.5,
+      "music": "intro-c",
+      "beats": {"scramble": 0.3, "lockStart": 1.0, "lockEnd": 2.6, "assemble": 1.1, "core": 2.9, "lidOpen": 3.0, "tagline": 3.45, "fadeOut": 5.95}
+    }
+  },
+  "outro": {
+    "bed": "outro-bed",
+    "bedGainDb": -21,
+    "endScreenHold": 8,
+    "cta": "If you liked the video, drop a like and subscribe, and tell me what topics you want to see next."
+  }
+}

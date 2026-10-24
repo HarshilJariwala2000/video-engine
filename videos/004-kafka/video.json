@@ -1,0 +1,36 @@
+{
+  "slug": "004-kafka",
+  "title": "Kafka will finally make sense after this video",
+  "created": "2026-10-21",
+  "stage": "script",
+  "voice": "local",
+  "idea": {
+    "id": "kafka-finally",
+    "batch": "2026-10-17 general",
+    "title": "Kafka will finally make sense after this video",
+    "format": "finally-make-sense",
+    "topic": "Kafka",
+    "aha": "Kafka isn't a queue, it's an append-only log file, and each consumer just keeps a bookmark of how far it has read.",
+    "pain": "Your team adopted Kafka, and you're nodding along to 'partitions', 'offsets' and 'consumer groups' without knowing what they are.",
+    "didntKnow": [
+      "Reading a message doesn't remove it; messages are deleted by age or size, read or not",
+      "Order is only guaranteed within one partition, not across a topic",
+      "A consumer group can't have more active consumers than partitions; the extra ones sit idle",
+      "You can replay the past by moving your offset back",
+      "A message's key decides its partition, which is how 'all events for user 42 stay in order' works"
+    ],
+    "visual": "A long tape of numbered cells (the log) with bookmark arrows for each consumer; topic = several tapes side by side",
+    "device": "Bookmark arrows labelled with offset numbers that move along the log",
+    "score": 9,
+    "why": "Directly matches the proven Redis/Nginx 'finally make sense' hit pattern with a top-searched tool",
+    "status": "picked"
+  },
+  "reviews": [],
+  "selectedThumbnail": null,
+  "history": [
+    {
+      "at": "2026-10-21T12:13:55.429Z",
+      "event": "Created"
+    }
+  ]
+}

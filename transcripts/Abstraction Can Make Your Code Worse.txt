@@ -1,0 +1,140 @@
+00:00 You have a game where you have a main
+character, enemy characters and obstacles.
+00:06 For each of these objects
+we need to have code that keeps track
+00:09 of its position in the world and code
+for rendering the image for each object.
+00:15 We could write the same code
+in all three classes,
+00:18 but you recognize that
+this is all similar.
+00:22 So instead you make a third class called
+Game Object that handles this for you.
+00:27 You now have a general implementation
+that tracks and renders out the object.
+00:32 The code is mostly identical,
+but you allow the subclass to specify
+00:36 which image is shown.
+00:39 You just created an abstraction.
+00:47 Architects have gotten really good
+at this game
+00:50 of identifying repetition
+and extracting it out.
+00:54 We get into the mode of code
+repetition bad, more abstraction good.
+00:58 But there's a hidden tradeoff
+that doesn't get considered: Coupling.
+01:03 Most engineers conceptually understand
+what coupling is,
+01:06 and they definitely feel its web when
+trying to modify an over coupled system.
+01:11 But when designing software,
+you don't feel
+01:14 the impacts of coupling.
+01:17 I consider coupling to be an equal
+and opposite reaction of abstraction.
+01:21 For every bit of abstraction
+you add, you've added more coupling.
+01:26 Let's explore an example.
+01:29 We have a program that saves out
+data to XML, but that's the old format.
+01:34 So we want to move to JSON.
+01:38 We could do this by adding a configuration
+to the save logic
+01:42 to support both modes.
+01:49 But this will make the removal
+01:50 of XML complicated and dangerous
+01:53 because they're all intermingled.
+01:57 So instead we'll make the JSON writer
+a separate class.
+02:01 Then we can just chop off the XML support
+by deleting the whole file,
+02:05 not needing to unweave the program logic.
+02:09 All right, so now we've written our fancy
+new JSON writing class.
+02:12 We might notice that both take in a file
+name during construction.
+02:17 Our little repetition detectors
+go off and realize that maybe.
+02:21 Maybe we could extract this out.
+02:24 So our instinct is to create
+a common class called file saver
+02:28 that just takes the file name,
+and our subclasses can grab it
+02:32 from this protected variable.
+02:38 But this is a bad idea.
+02:40 We've now coupled both of these classes
+to the same input.
+02:45 They must take a file input.
+02:47 So if there ever became a need to create
+something that didn't use a file
+02:51 like a database or cloud connection,
+this would break the abstraction.
+02:55 And on the flip side,
+this abstraction brings us no value.
+02:59 What does this abstraction save us?
+03:02 Well, I guess we don't need
+to assign the variable twice.
+03:05 But this isn't any complicated logic.
+03:08 It's simply assigning a variable.
+03:10 So for me, this squarely fits into the
+not worth it camp.
+03:15 Okay, now
+what about the save functionality?
+03:18 We could consider creating an interface
+that represents the “save” method,
+03:22 but we do know that this would increase
+coupling because now
+03:24 both of these classes
+are constrained to the same save method.
+03:30 So what benefits does this abstraction
+bring us?
+03:33 Well, let's look at the usage.
+03:35 We have an if statement that decides
+which class
+03:37 to create and calls save on one of them.
+03:41 So if we add a common interface,
+03:43 we only get to remove this
+one duplicate save line.
+03:47 That doesn't simplify the program
+in any meaningful way.
+03:51 So I'd also put this into
+the it's not worth it camp.
+03:53 At this point it's better
+to keep these as two distinct classes
+03:58 with no connection at all.
+04:01 There are two cases where it would make me
+decide it was worth it.
+04:05 One would be
+if we added more save options.
+04:08 If we had three or more
+we might want to extract the construction
+04:12 of these save objects
+into a separate piece of code, especially
+04:18 if the different savers had different
+parameters, like a database configuration.
+04:24 The other case would be
+if we needed our program to defer
+04:27 or repeat saving at a different point
+in the program.
+04:30 For example,
+if we wanted to save every 5 minutes
+04:33 automatically, we’d create
+a class called “IntervalSaver”,
+04:37 and it would make sense for this Interval
+Saver class
+04:40 to be unaware which saver it's calling.
+04:44 In both cases, it becomes worth it
+when we want to separate the decision
+04:47 of which saver we want from the time
+we actually want to save.
+04:52 Overall, it's
+good to only apply abstraction
+04:55 when the value it brings overweighs
+the coupling.
+04:58 This does mean that you might have
+a little bit of code repetition.
+05:01 But I think that a little code repetition
+05:03 brings less pain
+when changing code than over coupling.
+05:07 What do you think?

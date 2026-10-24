@@ -1,0 +1,10 @@
+{
+  "extends": "@motion-canvas/2d/tsconfig.project.json",
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "types": ["vite/client", "@motion-canvas/core/project"],
+    "baseUrl": ".",
+    "paths": {"@shared/*": ["shared/motion/*"]}
+  },
+  "include": ["shared/motion", "videos/*/src"]
+}

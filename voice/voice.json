@@ -1,0 +1,17 @@
+{
+  "_about": "The channel voice. Every video uses these settings so it always sounds like the same narrator. Tune with `npm run voice:test` (or Studio → Voice).",
+  "engine": "chatterbox",
+  "reference": "reference.wav",
+  "exaggeration": 0.5,
+  "cfg_weight": 0.5,
+  "temperature": 0.7,
+  "seed": 42,
+  "max_chars": 260,
+  "sentence_pause": 0.28,
+  "target_lufs": -18,
+  "max_wer": 0.12,
+  "max_takes": 4,
+  "align_model": "small.en",
+  "align_device": "auto",
+  "_chosen_from": "Picked by ear in Studio → Voice → Try a line (take say-223254, 2026-10-17): exaggeration 0.5, cfg_weight 0.5 on the bake-off reference clip"
+}

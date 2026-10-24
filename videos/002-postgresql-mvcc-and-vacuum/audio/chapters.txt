@@ -1,0 +1,20 @@
+0:00 The Problem
+1:09 What We Need
+1:43 Attempt 1: Overwrite
+2:47 The Better Question
+3:16 Row Versions
+3:46 Transactions
+4:11 The Stamps
+4:45 Snapshots
+5:42 Rollback
+6:12 Mvcc
+6:46 Dead Rows
+7:22 Vacuum
+7:54 Vacuum Full
+8:25 Autovacuum
+9:05 Wraparound
+10:02 The Big Idea
+10:28 The Problem, Revisited
+10:56 Proof
+11:27 To Summarise
+11:58 End

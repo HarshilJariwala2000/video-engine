@@ -1,0 +1,125 @@
+{
+  "slug": "003-kubernetes",
+  "title": "Kubernetes will finally make sense after this video",
+  "created": "2026-10-19",
+  "stage": "thumbnails",
+  "voice": "elevenlabs",
+  "idea": {
+    "id": "kubernetes-finally",
+    "batch": "2026-10-17 general",
+    "title": "Kubernetes will finally make sense after this video",
+    "format": "finally-make-sense",
+    "topic": "Kubernetes",
+    "aha": "Kubernetes is not a launcher, it's a set of loops that keep comparing what you asked for with what exists and fixing the difference.",
+    "pain": "You kill a pod to fix it and it instantly comes back, and you have no idea who brought it back or why.",
+    "didntKnow": [
+      "kubectl apply doesn't start anything: it just writes your YAML into a database (etcd)",
+      "The scheduler's whole job is writing a node name into one field of the pod",
+      "Every component only talks to the API server; they never talk to each other directly",
+      "A Service usually isn't a running proxy: kube-proxy writes kernel packet rules (iptables/IPVS) on every node",
+      "Deleting a pod owned by a Deployment is a bug report to a loop, which immediately 'fixes' it"
+    ],
+    "visual": "A WANT column and a HAVE column with a diff arrow; each controller is a small box running the same loop: read, compare, act",
+    "device": "Reconcile loop stamp: WANT 3 / HAVE 2 / ACT +1, reappearing for each component",
+    "score": 9,
+    "why": "Most-used, least-understood infra tool; 'finally make sense' format proven at 150k+ on this niche",
+    "status": "picked"
+  },
+  "scriptVersion": 4,
+  "reviews": [
+    {
+      "version": 1,
+      "at": "2026-10-19T19:41:13.733Z",
+      "decision": "changes",
+      "general": "Define a different problem\n",
+      "comments": [],
+      "addressed": true,
+      "addressedIn": 2
+    },
+    {
+      "version": 2,
+      "at": "2026-10-20T12:21:34.028Z",
+      "decision": "changes",
+      "general": "",
+      "comments": [
+        {
+          "scene": "scene01",
+          "text": "Problem statement should be around why do we need this technology. Like here it is kubernetes, so it should be like, what it is like manually managing containers, if it grows to multiple containers then what problem arises and how kubernetes comes into picture"
+        }
+      ],
+      "addressed": true,
+      "addressedIn": 3
+    },
+    {
+      "version": 3,
+      "at": "2026-10-20T17:10:46.215Z",
+      "decision": "changes",
+      "general": "Where are the explanation of what are nodes, clusters, control planes, pods. Please add them, other than that script seems fine",
+      "comments": [],
+      "addressed": true,
+      "addressedIn": 4
+    },
+    {
+      "version": 4,
+      "at": "2026-10-20T17:14:28.546Z",
+      "decision": "approved",
+      "general": "",
+      "comments": []
+    }
+  ],
+  "selectedThumbnail": null,
+  "history": [
+    {
+      "at": "2026-10-19T15:16:48.373Z",
+      "event": "Created"
+    },
+    {
+      "at": "2026-10-19T15:24:50.474Z",
+      "event": "Script v1 written"
+    },
+    {
+      "at": "2026-10-19T19:41:13.736Z",
+      "event": "Changes requested on v1 (0 comments)"
+    },
+    {
+      "at": "2026-10-19T19:46:45.414Z",
+      "event": "Script v2 addresses review of v1"
+    },
+    {
+      "at": "2026-10-20T12:21:34.030Z",
+      "event": "Changes requested on v2 (1 comments)"
+    },
+    {
+      "at": "2026-10-20T12:25:06.653Z",
+      "event": "Script v3 addresses review of v2"
+    },
+    {
+      "at": "2026-10-20T17:10:46.217Z",
+      "event": "Changes requested on v3 (0 comments)"
+    },
+    {
+      "at": "2026-10-20T17:12:44.225Z",
+      "event": "Script v4 addresses review of v3"
+    },
+    {
+      "at": "2026-10-20T17:14:28.548Z",
+      "event": "Script v4 approved"
+    },
+    {
+      "at": "2026-10-20T17:21:44.798Z",
+      "event": "Voiceover generated with ElevenLabs"
+    },
+    {
+      "at": "2026-10-20T17:22:54.424Z",
+      "event": "Voiceover approved"
+    },
+    {
+      "at": "2026-10-20T17:33:50.846Z",
+      "event": "Animation code written, check passed"
+    },
+    {
+      "at": "2026-10-21T06:21:08.708Z",
+      "event": "Thumbnails v1 rendered"
+    }
+  ]
+}

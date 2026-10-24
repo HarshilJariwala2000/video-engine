@@ -1,0 +1,200 @@
+00:00 The classic quote is “There are only two
+hard things in computer science:
+00:05 cache invalidation and naming things”.
+00:08 I do agree
+that these are hard to get right, but
+00:11 they're also easy to get wrong.
+00:13 And we can get 80% of the way by avoiding
+00:16 bad patterns.
+00:23 We're going to talk about
+00:24 what I consider to be bad naming practices, practices
+00:27 that if you avoid you’ll force yourself
+into better naming, the classic
+00:32 first example you'll see is you shouldn't
+name variables with a single letter.
+00:36 I suspect this originally came
+from when math
+00:39 and computer science were more
+or less the same.
+00:42 Mathematicians
+pride themselves on being terse.
+00:45 They like to crystallize down to the
+smallest, most concise way of expression.
+00:50 The thing is, you don't need to edit math,
+but you do need to edit code.
+00:55 So it's become obvious to programmers
+that we should avoid using single letter
+00:59 variable names because they don't tell you
+anything about the variable.
+01:04 But I'd argue that you should take
+this one step further.
+01:08 You should never abbreviate names, period.
+01:13 Look at this code.
+01:14 Can you tell me its purpose?
+01:21 What about now?
+01:26 Abbreviations rely on context
+that you may or may not have.
+01:30 You spend more time
+reading code than writing code.
+01:33 So forcing yourself to understand
+per system naming patterns
+01:37 makes it much harder to dig
+into unfamiliar code.
+01:42 Abbreviations used to help
+because of two reasons:
+01:45 It saved you typing
+01:48 and screens were 80 characters wide.
+01:51 But now, when we write code, we get this.
+01:56 It takes less keyboard strokes
+than ever to write variable names.
+01:60 And we have massive 4K screens now.
+02:02 So there's no real advantage
+to abbreviation.
+02:06 Don't put types in your name.
+02:08 If you've edited older code on Windows,
+02:11 you'll see something called
+Hungarian notation.
+02:14 This is where you'd prefix the type
+to the variable name.
+02:17 I think this goes back to before
+we had good standard types in C,
+02:20 so everything would basically be int
+02:23 and the type of the variable wouldn't
+actually tell you what was inside of it.
+02:27 But now with statically typed languages,
+02:30 the type should tell you
+exactly what you're looking at.
+02:32 So putting types in
+your variables is no longer necessary.
+02:38 Related,
+02:38 it's considered good practice
+to put units in your variable names.
+02:42 For example, if you have a function
+that accepts a delay time.
+02:45 If this value is in seconds,
+you should name the variable delaySeconds.
+02:51 This way
+it's clear to the user of the function
+02:54 that they better be putting in seconds.
+02:56 It's also more clear to someone
+02:58 editing the class itself
+what unit they're working with.
+03:02 But even better than that is
+to have a type that removes the ambiguity
+03:06 completely.
+03:08 For example, in C#, the time span
+03:11 or chrono::duration in C++.
+03:14 The type abstracts the user from
+understanding the exact underlying unit.
+03:19 You need to explicitly ask for a unit
+back.
+03:22 Like here, getting seconds back.
+03:26 For dynamically typed languages
+like Python,
+03:29 you sadly
+can't rely on type declarations to help.
+03:32 So we'll need a bit of
+help from the variable name.
+03:37 Interestingly,
+03:38 people also add types to their types.
+03:41 In C# there's this pattern
+of prefixing interfaces with “I”.
+03:46 This is something I have never understood.
+03:49 Good code uses interfaces all the time
+and the consumer doesn't
+03:53 really care whether it's an interface,
+class, or abstract class.
+03:57 They just want to know what they can call.
+04:00 In this code,
+we animate an object on the screen.
+04:04 This is an interface.
+04:06 If I swap this to an abstract class
+04:08 or a concrete class,
+it wouldn't change this code.
+04:12 Nor would it help the code
+do anything better.
+04:16 C# is still following this pattern,
+even for new .NET library code.
+04:20 So for your C# code, it might make sense
+just to follow the pattern.
+04:23 Since bad style guidelines
+are better than no style guidelines.
+04:26 For other languages, I’d definitely avoid.
+04:31 Another example of typing your types
+04:33 is if you find yourself
+naming a class with “Base” or “Abstract”.
+04:38 This I've never found
+in a standard library.
+04:41 If I have a “Truck” class
+and then realize that
+04:43 it might make sense
+to create a parent class instead.
+04:46 I've seen folks name
+the new parent class “BaseTruck”.
+04:50 This isn't a great name because it doesn't
+help the users of the class.
+04:54 It still represents a truck.
+04:56 If you ever find yourself unable
+to come up with a good name for the parent
+04:60 class, it probably means that we should
+actually rename the child class instead.
+05:06 Instead of “BaseTruck”,
+let's just name it “Truck”.
+05:09 And for the child class lets over specify
+the name.
+05:13 We'll call it a “TrailerTruck”.
+05:16 Now, if someone gets a truck,
+they understand what they're getting.
+05:19 It's a truck.
+05:20 And they don't need to know
+about any of the details of subclasses.
+05:23 And if they need to know
+05:24 a specific type of truck, well,
+then they get the specific name.
+05:29 Sometimes if you're struggling to name
+05:31 something, it's actually indicative
+that the code structure is to blame.
+05:35 A common anti pattern I see is
+if there's a collection of functions
+05:38 used widely in the code base,
+05:40 but it's all bundled up
+into a single utils class or module.
+05:44 If you're thinking of naming code
+“utils” or “helper”,
+05:48 you should think if it's really
+the right spot for it.
+05:50 Here's some code from a
+no doubt that processes movies.
+05:53 There's a bunch of util functions here.
+05:58 Firstly, we should consider
+whether some of these methods
+06:01 actually make sense as a part
+of their respective types instead.
+06:06 So this code here,
+we can actually just move into the movie
+06:09 class itself.
+06:19 For some of these, we can instead
+create a class that represents
+06:22 a collection of movies
+and that has the desired methods.
+06:31 And finally, some of these
+06:32 can be separated into other classes
+with descriptive names.
+06:35 The paging functionality
+can be moved into its own class,
+06:46 and we can even make this generic
+if we want,
+06:48 so that it can operate
+on more than just movies.
+06:51 And the cookie function
+should really just be in a cookie class.
+06:55 Now we don't have anything in our utils
+class, so we can just delete it.
+06:60 You don't see a bundle of utils
+in standard libraries
+07:03 because they can all be sorted
+into modules that have good names.
+07:07 So we should do the same in our code.
+07:10 These few rules will help you write code
+07:12 that is easier to read and change.
+07:17 What would you add?

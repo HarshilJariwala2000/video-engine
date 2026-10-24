@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch",
+      "Bash(npm run *)",
+      "Bash(node tools/*)",
+      "Bash(node -e *)",
+      "PowerShell(npm run *)",
+      "PowerShell(node tools/*)"
+    ]
+  }
+}

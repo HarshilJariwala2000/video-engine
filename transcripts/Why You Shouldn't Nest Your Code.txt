@@ -1,0 +1,219 @@
+00:00 I have to admit, I'm a never nester.
+00:04 I know.
+00:05 Shocking.
+00:07 But there are more of us than you think.
+00:09 Dozens. Even Linus Torvalds is one.
+00:12 I mean, I haven't asked him, but
+I'll show you what I mean in a little bit.
+00:16 You might be wondering,
+well, what is a never nester.
+00:19 A never nester never nests their code.
+00:23 Okay. Not never.
+00:24 But we do have a disgust-o-meter
+which grows
+00:28 uncontrollably as the number of tabs
+go up.
+00:32 Nesting code is when you add
+more inner blocks to a function.
+00:35 We’ll consider each open brace to be
+adding one more depth to the function.
+00:41 So this function is one deep
+because there's no inner blocks.
+00:45 And if we add an if statement,
+we've made it two deep.
+00:49 If we add a loop, we've
+now made this function three deep.
+00:54 And this, my fellow
+00:55 programmers, is the maximum
+a never nester can handle.
+00:59 A never nester doesn't
+dare to go four deep.
+01:03 Now the perverse among you might wonder
+what four deep even looks like.
+01:07 And while it brings me great pain to do,
+01:10 I understand that
+I must show you for science.
+01:13 Here is four deep.
+01:27 We've now taken a reasonably readable
+function and dramatically increased
+01:31 the amount of conditions
+your brain must simultaneously hold.
+01:35 But what can we do about it?
+01:37 Well, there's two methods
+you can use to denest: Extraction.
+01:42 This is where you pull out part
+of the function into its own function.
+01:46 And inversion,
+which is simply flipping conditions
+01:49 and switching to an early return.
+01:52 Let's look at extraction first.
+01:55 We can extract the inner
+part of the loop into its own function.
+02:02 Now we can apply inversion.
+02:05 When you put the happy path of code
+02:08 within deeper and deeper blocks,
+it creates a lot of nesting.
+02:11 Instead, we'll invert that condition
+and put the unhappy first.
+02:17 First, we'll flip our
+if else, by inverting the condition.
+02:21 Now, since we can return here,
+we know that the else block isn't
+02:25 actually needed so we can flatten our else
+into the main level.
+02:30 Now, if we hit our unhappy case
+02:32 condition here,
+we simply get out of the way.
+02:35 And then the main
+part of the code can do its job.
+02:40 When you have a lot of conditions
+to check like this,
+02:43 we can apply inversion over and over again
+02:46 and we end up with a sort of validation
+gatekeeping section of the code
+02:51 which sort of declares
+the requirements of the function.
+02:55 And then we have the
+02:56 crux of the real functionality here.
+02:59 And you'll notice
+that the happy path moves
+03:01 down the function
+and all of the error paths.
+03:04 They're indented.
+03:07 When reading this code,
+I find I can mentally discard
+03:11 the condition and focus on the core code
+versus when it's nested.
+03:14 I find myself
+having to hold these ideas in my head.
+03:18 I'm curious
+if you’ve experienced the same thing?
+03:22 Let's look at a larger example.
+03:25 All right.
+03:25 Look at this beauty.
+03:28 Before we go refactoring it,
+03:31 let me walk you through what's happening.
+03:34 The goal of this code is to download
+a bunch of files from the web.
+03:39 It talks with this download class
+that we can't alter.
+03:43 It's an async download.
+03:45 So when we start the download, you have to
+call process over and over again.
+03:50 And each
+03:51 time it gives you one of these results.
+03:54 If it returns InProgress,
+we'll need to keep calling process() more.
+03:60 On top of that, we want to download
+multiple files at once in the background.
+04:04 So we've created a thread that manages
+all of them.
+04:09 The way new downloads enter the system
+is through this append download method,
+04:14 which puts the requested URLs
+onto a queue.
+04:17 The thread then wakes up and grabs
+the URLs from the queue
+04:21 and then adds them to this list of current
+downloads.
+04:25 Each download is given a state
+04:27 which is either
+pending InProgress or Complete.
+04:31 So in each cycle of the main loop,
+the thread walks
+04:34 through each download and checks
+what it needs to do with it.
+04:39 If it's pending we start a new download.
+04:43 If it's complete,
+04:44 we simply remove it from the list.
+04:48 If it's InProgress, we call that process
+method we mentioned earlier
+04:53 and figure out what's happening
+with the download.
+04:56 If it's completed successfully,
+we mark it as complete
+04:58 so it can get removed from the list
+and InProgress means
+05:01 we do nothing because it's still ongoing.
+05:04 But things get interesting
+if we hit an error,
+05:08 if the connection was okay,
+but we got an unhappy HTTP response.
+05:13 We determine whether the air is retriable
+05:15 If it is, we retry up to three times,
+05:18 setting the download back to Pending.
+05:21 Once it's failed plenty,
+we ejected from our download list
+05:25 and push it to a failure queue
+for someone else to deal with.
+05:29 For connection error,
+we retry three times.
+05:32 Then we set the special connection
+disabled flag and this causes us
+05:36 to basically give up
+on every download and clear the list.
+05:42 Okay, so there's a lot going on here
+and it's all heavily
+05:45 nested in this function,
+which makes it hard to follow.
+05:49 So let's apply extraction and inversion
+to flatten
+05:54 the first two big candidates.
+05:55 Here are the two big branches of download
+processing:
+05:58 Pending and InProgress.
+06:01 So let's extract these out.
+06:04 We'll move the pending part
+to processPending()
+06:13 and InProgress
+06:15 to processInProgress().
+06:22 That's a bit better.
+06:24 But this in-progress function is still too
+deep for my liking.
+06:29 The worst offender
+is this HTP error section.
+06:32 So let's move that out as well.
+06:35 Now we'll keep extracting further
+in our run function.
+06:39 We have four major sections of our code.
+06:42 Where we process
+incoming requests from the queue;
+06:47 Where we deal with our current downloads;
+06:50 where we clear out
+the InProgress downloads,
+06:53 and where we wait for the signal
+that there's new downloads to look at.
+06:57 So let's do it.
+07:09 So now
+07:10 our main function clearly outlines
+the steps that are happening.
+07:14 You can see the high level logic
+I described before.
+07:18 And if you were to dig into
+any of these functions,
+07:21 there are also concise.
+07:24 At the beginning of this video,
+I mentioned that Linus
+07:27 Torvalds is a suspected never nester.
+07:31 And I say this because in the Linux
+kernel style guidelines they state
+07:35 if you need more than three levels
+of indentation, you're screwed anyway
+07:40 and should fix your program.
+07:44 The kernel dudes are always so dramatic.
+07:48 They visually enforce this
+07:49 by making the tab size
+eight characters wide.
+07:52 This is what eight characters
+look like with heavy nesting.
+07:57 Yeah.
+07:59 I'll admit I'm not that committed to the
+cause, but I am into limiting indentation.
+08:05 I believe that constraining
+08:07 how much you nest forces
+you to write better code.
+08:11 If you notice, instead of one
+large function that handles many things.
+08:16 We now have small, concise functions
+that have one responsibility.
+08:21 What do you think?

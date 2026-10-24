@@ -1,0 +1,2046 @@
+{
+  "fps": 60,
+  "estimated": true,
+  "provider": "estimate",
+  "generated": "2026-10-19T15:23:31.435Z",
+  "scenes": {
+    "scene01": {
+      "duration": 31.516666666666666,
+      "offset": 0,
+      "cues": {
+        "table": 0.2,
+        "size": 5.925,
+        "delete": 8.313,
+        "count": 11.383,
+        "disk": 14.382,
+        "still": 16.429,
+        "vacuum": 20.467
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.452,
+          "text": "Want to ruin your afternoon?"
+        },
+        {
+          "start": 2.519,
+          "end": 4.013,
+          "text": "Take an accounts table"
+        },
+        {
+          "start": 4.081,
+          "end": 5.858,
+          "text": "with 20 million rows."
+        },
+        {
+          "start": 5.925,
+          "end": 8.245,
+          "text": "It uses 10 gigabytes of disk."
+        },
+        {
+          "start": 8.313,
+          "end": 11.315,
+          "text": "You delete the 10 million closed accounts,"
+        },
+        {
+          "start": 11.383,
+          "end": 14.314,
+          "text": "and the row count drops to 10 million."
+        },
+        {
+          "start": 14.382,
+          "end": 16.361,
+          "text": "Then you check the disk."
+        },
+        {
+          "start": 16.429,
+          "end": 17.662,
+          "text": "10 gigabytes."
+        },
+        {
+          "start": 17.73,
+          "end": 18.488,
+          "text": "Not 9."
+        },
+        {
+          "start": 18.556,
+          "end": 20.4,
+          "text": "Not even 9 and a half."
+        },
+        {
+          "start": 20.467,
+          "end": 23.266,
+          "text": "And Sam from infra leans over and says:"
+        },
+        {
+          "start": 23.334,
+          "end": 24.974,
+          "text": "you need to vacuum."
+        },
+        {
+          "start": 25.042,
+          "end": 27.623,
+          "text": "Which sounds less like database advice"
+        },
+        {
+          "start": 27.691,
+          "end": 30.961,
+          "text": "and more like something your mom would say."
+        }
+      ]
+    },
+    "scene02": {
+      "duration": 30.85,
+      "offset": 31.517,
+      "cues": {
+        "gone": 0.2,
+        "space": 2.995,
+        "stranger": 5.518,
+        "update": 8.449,
+        "double": 10.772,
+        "never": 13.906,
+        "promise": 19.432,
+        "why": 26.951
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.927,
+          "text": "The rows are gone from every query."
+        },
+        {
+          "start": 2.995,
+          "end": 5.45,
+          "text": "But their space is still taken."
+        },
+        {
+          "start": 5.518,
+          "end": 8.381,
+          "text": "Now try something even more innocent."
+        },
+        {
+          "start": 8.449,
+          "end": 10.704,
+          "text": "Change one column in every row,"
+        },
+        {
+          "start": 10.772,
+          "end": 13.838,
+          "text": "and the table can almost double in size."
+        },
+        {
+          "start": 13.906,
+          "end": 16.297,
+          "text": "My favourite fact about Postgres:"
+        },
+        {
+          "start": 16.365,
+          "end": 19.364,
+          "text": "it has never updated a row in its life."
+        },
+        {
+          "start": 19.432,
+          "end": 21.276,
+          "text": "Postgres is a hoarder."
+        },
+        {
+          "start": 21.344,
+          "end": 23.391,
+          "text": "A very organised hoarder."
+        },
+        {
+          "start": 23.459,
+          "end": 25.171,
+          "text": "By the end, you'll know"
+        },
+        {
+          "start": 25.239,
+          "end": 26.883,
+          "text": "exactly what it keeps,"
+        },
+        {
+          "start": 26.951,
+          "end": 28.581,
+          "text": "and why I think hoarding"
+        },
+        {
+          "start": 28.649,
+          "end": 30.289,
+          "text": "was the right call."
+        }
+      ]
+    },
+    "intro": {
+      "duration": 7,
+      "offset": 62.367,
+      "cues": {},
+      "captions": [],
+      "intro": "A"
+    },
+    "scene03": {
+      "duration": 34.46666666666667,
+      "offset": 69.367,
+      "cues": {
+        "build": 0.2,
+        "rows": 4.149,
+        "report": 7.72,
+        "pay": 10.582,
+        "four": 15.972,
+        "r1": 19.8,
+        "r2": 21.997,
+        "r3": 25.01,
+        "r4": 30.006
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.102,
+          "text": "Let's pretend we're building"
+        },
+        {
+          "start": 2.169,
+          "end": 4.081,
+          "text": "the database ourselves."
+        },
+        {
+          "start": 4.149,
+          "end": 6.079,
+          "text": "Two rows: alice and bob,"
+        },
+        {
+          "start": 6.147,
+          "end": 7.652,
+          "text": "100 dollars each."
+        },
+        {
+          "start": 7.72,
+          "end": 10.514,
+          "text": "A report is adding up all the money."
+        },
+        {
+          "start": 10.582,
+          "end": 12.43,
+          "text": "At the exact same moment,"
+        },
+        {
+          "start": 12.498,
+          "end": 14.264,
+          "text": "a payment moves 50 dollars"
+        },
+        {
+          "start": 14.332,
+          "end": 15.904,
+          "text": "from alice to bob."
+        },
+        {
+          "start": 15.972,
+          "end": 17.48,
+          "text": "To survive that, our"
+        },
+        {
+          "start": 17.548,
+          "end": 19.732,
+          "text": "database needs four things."
+        },
+        {
+          "start": 19.8,
+          "end": 21.929,
+          "text": "One: readers never wait."
+        },
+        {
+          "start": 21.997,
+          "end": 24.942,
+          "text": "Two: writers never wait for readers."
+        },
+        {
+          "start": 25.01,
+          "end": 28.094,
+          "text": "Three: every query sees one clean moment,"
+        },
+        {
+          "start": 28.162,
+          "end": 29.939,
+          "text": "never half a payment."
+        },
+        {
+          "start": 30.006,
+          "end": 32.412,
+          "text": "And four: if the payment fails,"
+        },
+        {
+          "start": 32.48,
+          "end": 33.916,
+          "text": "undo is instant."
+        }
+      ]
+    },
+    "scene04": {
+      "duration": 28.05,
+      "offset": 103.833,
+      "cues": {
+        "obvious": 0.2,
+        "reads": 4.789,
+        "pay": 7.258,
+        "after": 10.936,
+        "bob": 12.726,
+        "total": 15.399,
+        "money": 17.258,
+        "fail": 25.167
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.64,
+          "text": "The obvious design:"
+        },
+        {
+          "start": 1.708,
+          "end": 4.721,
+          "text": "when something changes, overwrite it."
+        },
+        {
+          "start": 4.789,
+          "end": 7.19,
+          "text": "The report reads alice: 100."
+        },
+        {
+          "start": 7.258,
+          "end": 8.752,
+          "text": "Then the payment lands"
+        },
+        {
+          "start": 8.82,
+          "end": 10.868,
+          "text": "and overwrites both rows."
+        },
+        {
+          "start": 10.936,
+          "end": 12.658,
+          "text": "Alice 50, bob 150."
+        },
+        {
+          "start": 12.726,
+          "end": 15.332,
+          "text": "Then the report reads bob: 150."
+        },
+        {
+          "start": 15.399,
+          "end": 17.19,
+          "text": "Total: 250 dollars."
+        },
+        {
+          "start": 17.258,
+          "end": 18.48,
+          "text": "Fifty dollars just"
+        },
+        {
+          "start": 18.548,
+          "end": 20.596,
+          "text": "appeared out of thin air."
+        },
+        {
+          "start": 20.664,
+          "end": 22.983,
+          "text": "Great news for alice and bob."
+        },
+        {
+          "start": 23.051,
+          "end": 25.099,
+          "text": "Terrible news for a bank."
+        },
+        {
+          "start": 25.167,
+          "end": 27.486,
+          "text": "So much for one clean moment."
+        }
+      ]
+    },
+    "scene05": {
+      "duration": 36,
+      "offset": 131.883,
+      "cues": {
+        "fix": 0.2,
+        "sign": 2.252,
+        "while": 4.978,
+        "writes": 8.399,
+        "clean": 11.887,
+        "but": 14.206,
+        "fail": 21.032,
+        "undo": 23.624,
+        "back": 27.033,
+        "four": 30.453
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.184,
+          "text": "The textbook fix is a lock:"
+        },
+        {
+          "start": 2.252,
+          "end": 4.911,
+          "text": "a do not disturb sign on the rows."
+        },
+        {
+          "start": 4.978,
+          "end": 6.69,
+          "text": "While the report reads,"
+        },
+        {
+          "start": 6.758,
+          "end": 8.331,
+          "text": "the payment waits."
+        },
+        {
+          "start": 8.399,
+          "end": 10.246,
+          "text": "While the payment writes,"
+        },
+        {
+          "start": 10.314,
+          "end": 11.819,
+          "text": "the report waits."
+        },
+        {
+          "start": 11.887,
+          "end": 14.138,
+          "text": "Every total comes out clean."
+        },
+        {
+          "start": 14.206,
+          "end": 16.108,
+          "text": "But now everyone is politely"
+        },
+        {
+          "start": 16.176,
+          "end": 18.291,
+          "text": "waiting for everyone else."
+        },
+        {
+          "start": 18.359,
+          "end": 20.965,
+          "text": "It's a four-way stop, for data."
+        },
+        {
+          "start": 21.032,
+          "end": 23.556,
+          "text": "So much for the first two boxes."
+        },
+        {
+          "start": 23.624,
+          "end": 25.05,
+          "text": "And undo means saving"
+        },
+        {
+          "start": 25.118,
+          "end": 26.965,
+          "text": "the old values somewhere,"
+        },
+        {
+          "start": 27.033,
+          "end": 28.745,
+          "text": "then copying them back,"
+        },
+        {
+          "start": 28.813,
+          "end": 30.386,
+          "text": "one row at a time."
+        },
+        {
+          "start": 30.453,
+          "end": 31.826,
+          "text": "On a million rows,"
+        },
+        {
+          "start": 31.894,
+          "end": 33.534,
+          "text": "that's not instant."
+        },
+        {
+          "start": 33.602,
+          "end": 35.446,
+          "text": "That's a coffee break."
+        }
+      ]
+    },
+    "scene06": {
+      "duration": 28.816666666666666,
+      "offset": 167.883,
+      "cues": {
+        "reset": 0.2,
+        "keep": 5.6,
+        "what": 9.428,
+        "never": 12.494,
+        "old": 15.9,
+        "new": 18.967,
+        "both": 22.93
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 0.89,
+          "text": "Okay."
+        },
+        {
+          "start": 0.957,
+          "end": 3.349,
+          "text": "Let's look under the abstraction,"
+        },
+        {
+          "start": 3.416,
+          "end": 5.532,
+          "text": "and ask a better question."
+        },
+        {
+          "start": 5.6,
+          "end": 7.108,
+          "text": "To undo anything, we"
+        },
+        {
+          "start": 7.176,
+          "end": 9.36,
+          "text": "already need the old value."
+        },
+        {
+          "start": 9.428,
+          "end": 12.426,
+          "text": "So what if we just never threw it away?"
+        },
+        {
+          "start": 12.494,
+          "end": 13.852,
+          "text": "What if nothing ever"
+        },
+        {
+          "start": 13.92,
+          "end": 15.832,
+          "text": "got overwritten at all?"
+        },
+        {
+          "start": 15.9,
+          "end": 18.899,
+          "text": "The report keeps reading the old alice."
+        },
+        {
+          "start": 18.967,
+          "end": 21.222,
+          "text": "The payment writes a new alice,"
+        },
+        {
+          "start": 21.29,
+          "end": 22.862,
+          "text": "right next to her."
+        },
+        {
+          "start": 22.93,
+          "end": 24.163,
+          "text": "Nobody waits."
+        },
+        {
+          "start": 24.231,
+          "end": 26.822,
+          "text": "It's not a four-way stop anymore."
+        },
+        {
+          "start": 26.89,
+          "end": 28.259,
+          "text": "It's two lanes."
+        }
+      ]
+    },
+    "scene07": {
+      "duration": 30,
+      "offset": 196.7,
+      "cues": {
+        "that": 0.2,
+        "update": 3.266,
+        "copy": 4.978,
+        "balance": 9.146,
+        "old": 10.99,
+        "expired": 13.788,
+        "version": 16.937,
+        "insert": 19.664
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 3.199,
+          "text": "And that is exactly what Postgres does."
+        },
+        {
+          "start": 3.266,
+          "end": 4.911,
+          "text": "When you update alice,"
+        },
+        {
+          "start": 4.978,
+          "end": 7.026,
+          "text": "it doesn't touch her row."
+        },
+        {
+          "start": 7.094,
+          "end": 9.078,
+          "text": "It writes a whole new copy,"
+        },
+        {
+          "start": 9.146,
+          "end": 10.922,
+          "text": "with the new balance."
+        },
+        {
+          "start": 10.99,
+          "end": 13.72,
+          "text": "The old copy stays right where it was,"
+        },
+        {
+          "start": 13.788,
+          "end": 16.869,
+          "text": "with a little note that says: expired."
+        },
+        {
+          "start": 16.937,
+          "end": 19.596,
+          "text": "Each copy is called a row version."
+        },
+        {
+          "start": 19.664,
+          "end": 22.055,
+          "text": "So an update is really an insert,"
+        },
+        {
+          "start": 22.123,
+          "end": 23.899,
+          "text": "with extra paperwork."
+        },
+        {
+          "start": 23.967,
+          "end": 25.611,
+          "text": "You might be thinking:"
+        },
+        {
+          "start": 25.679,
+          "end": 27.455,
+          "text": "that sounds wasteful."
+        },
+        {
+          "start": 27.523,
+          "end": 28.28,
+          "text": "It is."
+        },
+        {
+          "start": 28.348,
+          "end": 29.445,
+          "text": "On purpose."
+        }
+      ]
+    },
+    "scene08": {
+      "duration": 25.266666666666666,
+      "offset": 226.7,
+      "cues": {
+        "mark": 0.2,
+        "group": 4.231,
+        "name": 10.246,
+        "ticket": 14.332,
+        "up": 20.676,
+        "ours": 22.384
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 3.134,
+          "text": "But that note has to say who expired her,"
+        },
+        {
+          "start": 3.202,
+          "end": 4.163,
+          "text": "and when."
+        },
+        {
+          "start": 4.231,
+          "end": 6.351,
+          "text": "Our payment changes two rows,"
+        },
+        {
+          "start": 6.419,
+          "end": 8.81,
+          "text": "and they have to happen together,"
+        },
+        {
+          "start": 8.878,
+          "end": 10.179,
+          "text": "or not at all."
+        },
+        {
+          "start": 10.246,
+          "end": 11.876,
+          "text": "A bundle of changes like"
+        },
+        {
+          "start": 11.944,
+          "end": 14.264,
+          "text": "that is called a transaction."
+        },
+        {
+          "start": 14.332,
+          "end": 15.826,
+          "text": "Every transaction that"
+        },
+        {
+          "start": 15.894,
+          "end": 18.013,
+          "text": "writes takes a ticket number,"
+        },
+        {
+          "start": 18.081,
+          "end": 20.608,
+          "text": "like the machine at a deli counter,"
+        },
+        {
+          "start": 20.676,
+          "end": 22.316,
+          "text": "always counting up."
+        },
+        {
+          "start": 22.384,
+          "end": 24.703,
+          "text": "Our payment pulled number 42."
+        }
+      ]
+    },
+    "scene09": {
+      "duration": 33.15,
+      "offset": 251.967,
+      "cues": {
+        "every": 0.2,
+        "two": 3.606,
+        "created": 11.44,
+        "deleted": 14.521,
+        "oldalice": 17.738,
+        "newalice": 21.715,
+        "names": 26.522
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.694,
+          "text": "This is the bit I find"
+        },
+        {
+          "start": 1.762,
+          "end": 3.538,
+          "text": "genuinely delightful."
+        },
+        {
+          "start": 3.606,
+          "end": 5.304,
+          "text": "Postgres labels every row"
+        },
+        {
+          "start": 5.372,
+          "end": 7.627,
+          "text": "version with two hidden stamps,"
+        },
+        {
+          "start": 7.695,
+          "end": 9.325,
+          "text": "like a hoarder labelling"
+        },
+        {
+          "start": 9.393,
+          "end": 11.373,
+          "text": "every box in the garage."
+        },
+        {
+          "start": 11.44,
+          "end": 14.453,
+          "text": "Created by: the ticket that wrote it."
+        },
+        {
+          "start": 14.521,
+          "end": 17.67,
+          "text": "Deleted by: the ticket that expired it."
+        },
+        {
+          "start": 17.738,
+          "end": 19.178,
+          "text": "The old alice says:"
+        },
+        {
+          "start": 19.246,
+          "end": 21.647,
+          "text": "created by 7, deleted by 42."
+        },
+        {
+          "start": 21.715,
+          "end": 23.156,
+          "text": "The new alice says:"
+        },
+        {
+          "start": 23.224,
+          "end": 26.454,
+          "text": "created by 42, deleted by nobody, yet."
+        },
+        {
+          "start": 26.522,
+          "end": 29.049,
+          "text": "Postgres calls these xmin and xmax,"
+        },
+        {
+          "start": 29.117,
+          "end": 30.815,
+          "text": "which might be why you've"
+        },
+        {
+          "start": 30.883,
+          "end": 32.591,
+          "text": "never heard of them."
+        }
+      ]
+    },
+    "scene10": {
+      "duration": 23,
+      "offset": 285.117,
+      "cues": {
+        "which": 0.2,
+        "photo": 4.775,
+        "list": 8.538,
+        "rule": 13.574,
+        "see": 16.233,
+        "not": 20.526
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.455,
+          "text": "So with two alices on the page,"
+        },
+        {
+          "start": 2.523,
+          "end": 4.707,
+          "text": "which one does a query see?"
+        },
+        {
+          "start": 4.775,
+          "end": 6.283,
+          "text": "When a query starts,"
+        },
+        {
+          "start": 6.351,
+          "end": 8.47,
+          "text": "Postgres hands it a snapshot:"
+        },
+        {
+          "start": 8.538,
+          "end": 10.643,
+          "text": "think of it as a photo of which"
+        },
+        {
+          "start": 10.711,
+          "end": 13.506,
+          "text": "tickets had finished at that moment."
+        },
+        {
+          "start": 13.574,
+          "end": 16.165,
+          "text": "Then one rule decides everything."
+        },
+        {
+          "start": 16.233,
+          "end": 18.406,
+          "text": "You see a version if its creator"
+        },
+        {
+          "start": 18.474,
+          "end": 20.458,
+          "text": "had finished in your photo,"
+        },
+        {
+          "start": 20.526,
+          "end": 22.438,
+          "text": "and its deleter hadn't."
+        }
+      ]
+    },
+    "scene11": {
+      "duration": 34,
+      "offset": 308.117,
+      "cues": {
+        "report": 0.2,
+        "photo": 1.908,
+        "alice": 5.314,
+        "bob": 7.72,
+        "total": 9.714,
+        "second": 11.029,
+        "sees": 14.774,
+        "also": 17.161,
+        "same": 18.191,
+        "nobody": 27.704,
+        "boxes": 30.159
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.84,
+          "text": "Back to our report."
+        },
+        {
+          "start": 1.908,
+          "end": 3.538,
+          "text": "It took its photo before"
+        },
+        {
+          "start": 3.606,
+          "end": 5.246,
+          "text": "ticket 42 finished."
+        },
+        {
+          "start": 5.314,
+          "end": 7.162,
+          "text": "So it sees the old alice,"
+        },
+        {
+          "start": 7.23,
+          "end": 9.646,
+          "text": "100, and the old bob, 100."
+        },
+        {
+          "start": 9.714,
+          "end": 10.961,
+          "text": "Total: 200."
+        },
+        {
+          "start": 11.029,
+          "end": 12.726,
+          "text": "Now a second query starts"
+        },
+        {
+          "start": 12.794,
+          "end": 14.706,
+          "text": "just after 42 finishes."
+        },
+        {
+          "start": 14.774,
+          "end": 17.094,
+          "text": "It sees alice 50 and bob 150."
+        },
+        {
+          "start": 17.161,
+          "end": 18.123,
+          "text": "Also 200."
+        },
+        {
+          "start": 18.191,
+          "end": 20.188,
+          "text": "Same table, same instant,"
+        },
+        {
+          "start": 20.256,
+          "end": 21.9,
+          "text": "two different answers,"
+        },
+        {
+          "start": 21.968,
+          "end": 23.609,
+          "text": "and both are right."
+        },
+        {
+          "start": 23.676,
+          "end": 25.588,
+          "text": "That sounds like a bug."
+        },
+        {
+          "start": 25.656,
+          "end": 27.636,
+          "text": "It's the entire feature."
+        },
+        {
+          "start": 27.704,
+          "end": 30.092,
+          "text": "And nobody waited for anybody."
+        },
+        {
+          "start": 30.159,
+          "end": 31.532,
+          "text": "Three out of four,"
+        },
+        {
+          "start": 31.6,
+          "end": 33.444,
+          "text": "without a single lock."
+        }
+      ]
+    },
+    "scene12": {
+      "duration": 29.9,
+      "offset": 342.117,
+      "cues": {
+        "fails": 0.2,
+        "rollback": 3.674,
+        "erase": 5.246,
+        "note": 8.109,
+        "never": 13.105,
+        "expiry": 16.511,
+        "instant": 19.442,
+        "box": 27.912
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.49,
+          "text": "Now say the payment"
+        },
+        {
+          "start": 1.558,
+          "end": 3.606,
+          "text": "blows up halfway through."
+        },
+        {
+          "start": 3.674,
+          "end": 5.178,
+          "text": "You roll it back."
+        },
+        {
+          "start": 5.246,
+          "end": 8.041,
+          "text": "And Postgres doesn't erase anything."
+        },
+        {
+          "start": 8.109,
+          "end": 9.331,
+          "text": "It writes one line"
+        },
+        {
+          "start": 9.399,
+          "end": 11.179,
+          "text": "in a little status list:"
+        },
+        {
+          "start": 11.247,
+          "end": 13.038,
+          "text": "ticket 42, aborted."
+        },
+        {
+          "start": 13.105,
+          "end": 14.532,
+          "text": "Everything 42 created"
+        },
+        {
+          "start": 14.599,
+          "end": 16.444,
+          "text": "now counts for nobody."
+        },
+        {
+          "start": 16.511,
+          "end": 19.374,
+          "text": "Every deleted-by-42 stamp is ignored."
+        },
+        {
+          "start": 19.442,
+          "end": 21.562,
+          "text": "One line, whether the payment"
+        },
+        {
+          "start": 21.629,
+          "end": 24.153,
+          "text": "touched two rows or two million."
+        },
+        {
+          "start": 24.221,
+          "end": 25.661,
+          "text": "Honestly, I wish my"
+        },
+        {
+          "start": 25.729,
+          "end": 27.844,
+          "text": "mistakes worked like that."
+        },
+        {
+          "start": 27.912,
+          "end": 29.349,
+          "text": "That's all four."
+        }
+      ]
+    },
+    "scene13": {
+      "duration": 34.31666666666667,
+      "offset": 372.017,
+      "cues": {
+        "all": 0.2,
+        "many": 3.284,
+        "each": 5.675,
+        "name": 9.421,
+        "means": 18.42,
+        "bill": 28.996
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 3.216,
+          "text": "All four boxes, from one hoarding habit:"
+        },
+        {
+          "start": 3.284,
+          "end": 5.608,
+          "text": "keep many versions of every row,"
+        },
+        {
+          "start": 5.675,
+          "end": 7.237,
+          "text": "and let each query pick"
+        },
+        {
+          "start": 7.305,
+          "end": 9.353,
+          "text": "the one its photo allows."
+        },
+        {
+          "start": 9.421,
+          "end": 11.73,
+          "text": "The official name is multi-version"
+        },
+        {
+          "start": 11.798,
+          "end": 13.306,
+          "text": "concurrency control,"
+        },
+        {
+          "start": 13.374,
+          "end": 16.101,
+          "text": "a name only a committee could love."
+        },
+        {
+          "start": 16.169,
+          "end": 18.353,
+          "text": "Everyone just says M-V-C-C."
+        },
+        {
+          "start": 18.42,
+          "end": 19.793,
+          "text": "MySQL does it too,"
+        },
+        {
+          "start": 19.861,
+          "end": 21.709,
+          "text": "but tidier: it overwrites"
+        },
+        {
+          "start": 21.776,
+          "end": 23.61,
+          "text": "the row and stashes the old"
+        },
+        {
+          "start": 23.678,
+          "end": 26.133,
+          "text": "version in a separate undo log."
+        },
+        {
+          "start": 26.201,
+          "end": 28.928,
+          "text": "Postgres keeps it all in the table."
+        },
+        {
+          "start": 28.996,
+          "end": 31.305,
+          "text": "So every one of those old versions"
+        },
+        {
+          "start": 31.373,
+          "end": 33.76,
+          "text": "is still sitting on your disk."
+        }
+      ]
+    },
+    "scene14": {
+      "duration": 35.96666666666667,
+      "offset": 406.333,
+      "cues": {
+        "report": 0.2,
+        "nobody": 2.116,
+        "ever": 5.25,
+        "dead": 6.687,
+        "space": 8.259,
+        "twist": 11.665,
+        "does": 20.461,
+        "stamp": 21.626,
+        "hook": 28.041,
+        "disk": 32.683
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.048,
+          "text": "Once the report finishes,"
+        },
+        {
+          "start": 2.116,
+          "end": 5.182,
+          "text": "no photo anywhere can see the old alice."
+        },
+        {
+          "start": 5.25,
+          "end": 6.619,
+          "text": "Not ever again."
+        },
+        {
+          "start": 6.687,
+          "end": 8.191,
+          "text": "She's a dead row."
+        },
+        {
+          "start": 8.259,
+          "end": 9.753,
+          "text": "But she's still taking"
+        },
+        {
+          "start": 9.821,
+          "end": 11.597,
+          "text": "up space on the page."
+        },
+        {
+          "start": 11.665,
+          "end": 14.256,
+          "text": "So why not delete her right away?"
+        },
+        {
+          "start": 14.324,
+          "end": 17.191,
+          "text": "Because some photo might still need her,"
+        },
+        {
+          "start": 17.258,
+          "end": 20.393,
+          "text": "so Postgres leaves the cleanup for later."
+        },
+        {
+          "start": 20.461,
+          "end": 21.558,
+          "text": "And delete?"
+        },
+        {
+          "start": 21.626,
+          "end": 22.723,
+          "text": "Same trick."
+        },
+        {
+          "start": 22.791,
+          "end": 24.974,
+          "text": "It doesn't remove anything."
+        },
+        {
+          "start": 25.042,
+          "end": 27.973,
+          "text": "It just fills in the deleted-by stamp."
+        },
+        {
+          "start": 28.041,
+          "end": 30.971,
+          "text": "Those 10 million accounts you deleted?"
+        },
+        {
+          "start": 31.039,
+          "end": 32.615,
+          "text": "10 million dead rows,"
+        },
+        {
+          "start": 32.683,
+          "end": 35.41,
+          "text": "still sitting in your 10 gigabytes."
+        }
+      ]
+    },
+    "scene15": {
+      "duration": 31.95,
+      "offset": 442.3,
+      "cues": {
+        "crew": 0.2,
+        "think": 2.384,
+        "walks": 6.755,
+        "finds": 9.146,
+        "marks": 11.808,
+        "new": 14.264,
+        "but": 16.787,
+        "file": 20.6,
+        "stays": 22.648
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.316,
+          "text": "Which brings us to vacuum."
+        },
+        {
+          "start": 2.384,
+          "end": 4.367,
+          "text": "If Postgres is the hoarder,"
+        },
+        {
+          "start": 4.435,
+          "end": 6.687,
+          "text": "vacuum is the cleaning crew."
+        },
+        {
+          "start": 6.755,
+          "end": 9.078,
+          "text": "It walks the table page by page,"
+        },
+        {
+          "start": 9.146,
+          "end": 11.74,
+          "text": "finds rows no photo can see anymore,"
+        },
+        {
+          "start": 11.808,
+          "end": 14.196,
+          "text": "and marks their space as free."
+        },
+        {
+          "start": 14.264,
+          "end": 16.719,
+          "text": "New rows move into those holes."
+        },
+        {
+          "start": 16.787,
+          "end": 18.349,
+          "text": "And this is where Sam's"
+        },
+        {
+          "start": 18.417,
+          "end": 20.532,
+          "text": "advice disappoints people."
+        },
+        {
+          "start": 20.6,
+          "end": 22.58,
+          "text": "The file doesn't shrink."
+        },
+        {
+          "start": 22.648,
+          "end": 24.971,
+          "text": "You cleared out half the closet,"
+        },
+        {
+          "start": 25.039,
+          "end": 27.97,
+          "text": "and the closet is still the same size."
+        },
+        {
+          "start": 28.038,
+          "end": 29.478,
+          "text": "Still 10 gigabytes,"
+        },
+        {
+          "start": 29.546,
+          "end": 31.39,
+          "text": "just with room inside."
+        }
+      ]
+    },
+    "scene16": {
+      "duration": 31.166666666666668,
+      "offset": 474.25,
+      "cues": {
+        "shrink": 0.2,
+        "copy": 4.503,
+        "live": 7.437,
+        "swap": 9.285,
+        "five": 11.74,
+        "lock": 13.72,
+        "nothing": 17.126,
+        "room": 21.933
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.659,
+          "text": "If you really want the space back,"
+        },
+        {
+          "start": 2.727,
+          "end": 4.435,
+          "text": "there's vacuum full."
+        },
+        {
+          "start": 4.503,
+          "end": 7.37,
+          "text": "It builds a brand new copy of the table,"
+        },
+        {
+          "start": 7.437,
+          "end": 9.217,
+          "text": "with only the live rows,"
+        },
+        {
+          "start": 9.285,
+          "end": 11.673,
+          "text": "then throws the old file away."
+        },
+        {
+          "start": 11.74,
+          "end": 13.652,
+          "text": "10 gigabytes becomes 5."
+        },
+        {
+          "start": 13.72,
+          "end": 15.079,
+          "text": "But it's like moving"
+        },
+        {
+          "start": 15.147,
+          "end": 17.058,
+          "text": "to a smaller apartment."
+        },
+        {
+          "start": 17.126,
+          "end": 18.703,
+          "text": "While you're packing,"
+        },
+        {
+          "start": 18.77,
+          "end": 21.865,
+          "text": "nobody gets in: no reads, no writes."
+        },
+        {
+          "start": 21.933,
+          "end": 23.645,
+          "text": "And for a while, you're"
+        },
+        {
+          "start": 23.713,
+          "end": 25.897,
+          "text": "paying rent on both places."
+        },
+        {
+          "start": 25.965,
+          "end": 28.084,
+          "text": "That's the bill for hoarding,"
+        },
+        {
+          "start": 28.152,
+          "end": 30.607,
+          "text": "and I won't pretend it's small."
+        }
+      ]
+    },
+    "scene17": {
+      "duration": 39.666666666666664,
+      "offset": 505.417,
+      "cues": {
+        "rarely": 0.2,
+        "auto": 3.824,
+        "wakes": 7.705,
+        "but": 11.79,
+        "open": 15.279,
+        "holds": 21.647,
+        "cant": 25.597,
+        "grows": 30.021
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.64,
+          "text": "Luckily, you almost"
+        },
+        {
+          "start": 1.708,
+          "end": 3.756,
+          "text": "never run vacuum by hand."
+        },
+        {
+          "start": 3.824,
+          "end": 5.522,
+          "text": "Postgres has a background"
+        },
+        {
+          "start": 5.59,
+          "end": 7.637,
+          "text": "helper called autovacuum."
+        },
+        {
+          "start": 7.705,
+          "end": 9.539,
+          "text": "It wakes up whenever enough"
+        },
+        {
+          "start": 9.607,
+          "end": 11.723,
+          "text": "rows in a table have died."
+        },
+        {
+          "start": 11.79,
+          "end": 13.57,
+          "text": "But it has one weakness,"
+        },
+        {
+          "start": 13.638,
+          "end": 15.211,
+          "text": "and it's a person."
+        },
+        {
+          "start": 15.279,
+          "end": 17.058,
+          "text": "Somewhere, someone typed"
+        },
+        {
+          "start": 17.126,
+          "end": 18.635,
+          "text": "BEGIN in a terminal,"
+        },
+        {
+          "start": 18.703,
+          "end": 21.579,
+          "text": "went to lunch, and never came back."
+        },
+        {
+          "start": 21.647,
+          "end": 23.209,
+          "text": "That forgotten BEGIN is"
+        },
+        {
+          "start": 23.277,
+          "end": 25.529,
+          "text": "still holding its old photo."
+        },
+        {
+          "start": 25.597,
+          "end": 27.702,
+          "text": "And vacuum won't clean anything"
+        },
+        {
+          "start": 27.77,
+          "end": 29.953,
+          "text": "that photo might still see."
+        },
+        {
+          "start": 30.021,
+          "end": 31.662,
+          "text": "So the table grows."
+        },
+        {
+          "start": 31.73,
+          "end": 32.759,
+          "text": "And grows."
+        },
+        {
+          "start": 32.827,
+          "end": 33.856,
+          "text": "And grows."
+        },
+        {
+          "start": 33.924,
+          "end": 36.311,
+          "text": "Disk filling up for no reason?"
+        },
+        {
+          "start": 36.379,
+          "end": 39.106,
+          "text": "Look for the forgotten BEGIN first."
+        }
+      ]
+    },
+    "scene18": {
+      "duration": 57.6,
+      "offset": 545.083,
+      "cues": {
+        "one": 0.2,
+        "limit": 4.028,
+        "four": 7.094,
+        "clock": 11.601,
+        "past": 14.464,
+        "future": 17.123,
+        "old": 19.578,
+        "vanish": 25.379,
+        "freeze": 30.765,
+        "forever": 32.816,
+        "stop": 36.576,
+        "protect": 44.425
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.98,
+          "text": "Vacuum has one more job,"
+        },
+        {
+          "start": 2.048,
+          "end": 3.96,
+          "text": "and it's the scary one."
+        },
+        {
+          "start": 4.028,
+          "end": 7.026,
+          "text": "Those deli tickets are a 32-bit number."
+        },
+        {
+          "start": 7.094,
+          "end": 8.738,
+          "text": "After about 4 billion,"
+        },
+        {
+          "start": 8.806,
+          "end": 11.533,
+          "text": "they wrap back around to the start."
+        },
+        {
+          "start": 11.601,
+          "end": 14.396,
+          "text": "So Postgres reads them like a clock."
+        },
+        {
+          "start": 14.464,
+          "end": 17.055,
+          "text": "2 billion behind now is the past."
+        },
+        {
+          "start": 17.123,
+          "end": 19.51,
+          "text": "2 billion ahead is the future."
+        },
+        {
+          "start": 19.578,
+          "end": 21.765,
+          "text": "Leave a row alone long enough,"
+        },
+        {
+          "start": 21.833,
+          "end": 23.531,
+          "text": "and its created-by ticket"
+        },
+        {
+          "start": 23.599,
+          "end": 25.311,
+          "text": "drifts into the future,"
+        },
+        {
+          "start": 25.379,
+          "end": 28.377,
+          "text": "and a row from the future is invisible."
+        },
+        {
+          "start": 28.445,
+          "end": 30.697,
+          "text": "Your data would just vanish."
+        },
+        {
+          "start": 30.765,
+          "end": 32.748,
+          "text": "So vacuum freezes old rows:"
+        },
+        {
+          "start": 32.816,
+          "end": 35.547,
+          "text": "it stamps them as visible to everyone,"
+        },
+        {
+          "start": 35.615,
+          "end": 36.508,
+          "text": "forever."
+        },
+        {
+          "start": 36.576,
+          "end": 39.103,
+          "text": "And if vacuum falls too far behind,"
+        },
+        {
+          "start": 39.171,
+          "end": 41.494,
+          "text": "Postgres stops accepting writes,"
+        },
+        {
+          "start": 41.562,
+          "end": 44.357,
+          "text": "rather than let your data disappear."
+        },
+        {
+          "start": 44.425,
+          "end": 46.404,
+          "text": "This isn't hypothetical."
+        },
+        {
+          "start": 46.472,
+          "end": 49.067,
+          "text": "In 2015, Sentry was down for most of"
+        },
+        {
+          "start": 49.135,
+          "end": 52.066,
+          "text": "a working day because of exactly this."
+        },
+        {
+          "start": 52.134,
+          "end": 53.027,
+          "text": "Painful."
+        },
+        {
+          "start": 53.095,
+          "end": 54.657,
+          "text": "But I'd still rather my"
+        },
+        {
+          "start": 54.725,
+          "end": 57.044,
+          "text": "database stop than lie to me."
+        }
+      ]
+    },
+    "scene19": {
+      "duration": 25.316666666666666,
+      "offset": 602.683,
+      "cues": {
+        "together": 0.2,
+        "update": 2.669,
+        "delete": 5.193,
+        "photo": 7.444,
+        "vacuum": 10.579,
+        "aha": 14.188,
+        "instead": 16.576,
+        "readers": 18.152,
+        "grows": 21.154
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.602,
+          "text": "So, putting it all together."
+        },
+        {
+          "start": 2.669,
+          "end": 5.125,
+          "text": "An update writes a new version."
+        },
+        {
+          "start": 5.193,
+          "end": 7.376,
+          "text": "A delete stamps an old one."
+        },
+        {
+          "start": 7.444,
+          "end": 10.511,
+          "text": "Every query reads through its own photo."
+        },
+        {
+          "start": 10.579,
+          "end": 11.937,
+          "text": "And vacuum sweeps up"
+        },
+        {
+          "start": 12.005,
+          "end": 14.12,
+          "text": "whatever no photo can see."
+        },
+        {
+          "start": 14.188,
+          "end": 16.508,
+          "text": "Postgres never changes a row."
+        },
+        {
+          "start": 16.576,
+          "end": 18.084,
+          "text": "It writes a new one,"
+        },
+        {
+          "start": 18.152,
+          "end": 21.086,
+          "text": "which is why readers never block writers,"
+        },
+        {
+          "start": 21.154,
+          "end": 22.784,
+          "text": "and why your table grows"
+        },
+        {
+          "start": 22.852,
+          "end": 24.764,
+          "text": "until vacuum cleans up."
+        }
+      ]
+    },
+    "scene20": {
+      "duration": 28.016666666666666,
+      "offset": 628,
+      "cues": {
+        "back": 0.2,
+        "delete": 2.805,
+        "auto": 6.211,
+        "next": 9.142,
+        "flat": 12.823,
+        "need": 15.482,
+        "full": 18.145,
+        "now": 22.741
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.737,
+          "text": "So, back to your 10 gigabytes."
+        },
+        {
+          "start": 2.805,
+          "end": 4.096,
+          "text": "Your delete stamped"
+        },
+        {
+          "start": 4.163,
+          "end": 6.143,
+          "text": "10 million rows as dead."
+        },
+        {
+          "start": 6.211,
+          "end": 9.074,
+          "text": "Autovacuum marks their space as free."
+        },
+        {
+          "start": 9.142,
+          "end": 11.043,
+          "text": "Your next 10 million inserts"
+        },
+        {
+          "start": 11.111,
+          "end": 12.755,
+          "text": "move into those holes,"
+        },
+        {
+          "start": 12.823,
+          "end": 15.414,
+          "text": "and the file doesn't grow at all."
+        },
+        {
+          "start": 15.482,
+          "end": 18.077,
+          "text": "And if you truly need the disk back,"
+        },
+        {
+          "start": 18.145,
+          "end": 20.761,
+          "text": "run vacuum full at 3 a.m.,"
+        },
+        {
+          "start": 20.829,
+          "end": 22.673,
+          "text": "when nobody's looking."
+        },
+        {
+          "start": 22.741,
+          "end": 25.006,
+          "text": "Sam was right, by the way."
+        },
+        {
+          "start": 25.074,
+          "end": 27.462,
+          "text": "Sam is annoyingly often right."
+        }
+      ]
+    },
+    "scene21": {
+      "duration": 31.55,
+      "offset": 656.017,
+      "cues": {
+        "proof": 0.2,
+        "select": 2.927,
+        "hidden": 6.497,
+        "update": 10.786,
+        "again": 11.887,
+        "changed": 12.988,
+        "new": 15.986,
+        "copy": 18.441
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.859,
+          "text": "Want to catch Postgres in the act?"
+        },
+        {
+          "start": 2.927,
+          "end": 4.721,
+          "text": "Run select xmin, xmax,"
+        },
+        {
+          "start": 4.789,
+          "end": 6.429,
+          "text": "star from accounts."
+        },
+        {
+          "start": 6.497,
+          "end": 8.331,
+          "text": "Those are hidden columns on"
+        },
+        {
+          "start": 8.399,
+          "end": 10.718,
+          "text": "every table you've ever made."
+        },
+        {
+          "start": 10.786,
+          "end": 12.92,
+          "text": "Update a row, run it again,"
+        },
+        {
+          "start": 12.988,
+          "end": 15.918,
+          "text": "and the created-by number has changed."
+        },
+        {
+          "start": 15.986,
+          "end": 18.373,
+          "text": "It's not the same row anymore."
+        },
+        {
+          "start": 18.441,
+          "end": 20.285,
+          "text": "It's a brand new copy."
+        },
+        {
+          "start": 20.353,
+          "end": 22.265,
+          "text": "Postgres never forgets."
+        },
+        {
+          "start": 22.333,
+          "end": 24.517,
+          "text": "It just eventually lets go."
+        },
+        {
+          "start": 24.585,
+          "end": 26.283,
+          "text": "Have you ever been bitten"
+        },
+        {
+          "start": 26.35,
+          "end": 28.127,
+          "text": "by a forgotten BEGIN?"
+        },
+        {
+          "start": 28.194,
+          "end": 30.989,
+          "text": "How long did it take you to find it?"
+        }
+      ]
+    },
+    "scene22": {
+      "duration": 31.216666666666665,
+      "offset": 687.567,
+      "cues": {
+        "sum": 0.2,
+        "p1": 2.669,
+        "p2": 8.952,
+        "p3": 15.836,
+        "p4": 21.973,
+        "aha": 27.648
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.602,
+          "text": "So, to summarise everything."
+        },
+        {
+          "start": 2.669,
+          "end": 5.057,
+          "text": "An update never changes a row."
+        },
+        {
+          "start": 5.125,
+          "end": 6.905,
+          "text": "It writes a new version,"
+        },
+        {
+          "start": 6.972,
+          "end": 8.884,
+          "text": "and stamps the old one."
+        },
+        {
+          "start": 8.952,
+          "end": 10.65,
+          "text": "Every query reads through"
+        },
+        {
+          "start": 10.718,
+          "end": 12.023,
+          "text": "its own snapshot,"
+        },
+        {
+          "start": 12.09,
+          "end": 13.585,
+          "text": "so readers and writers"
+        },
+        {
+          "start": 13.652,
+          "end": 15.768,
+          "text": "never wait for each other."
+        },
+        {
+          "start": 15.836,
+          "end": 17.684,
+          "text": "A delete is just a stamp,"
+        },
+        {
+          "start": 17.752,
+          "end": 19.382,
+          "text": "and vacuum is what turns"
+        },
+        {
+          "start": 19.45,
+          "end": 21.905,
+          "text": "dead rows back into free space."
+        },
+        {
+          "start": 21.973,
+          "end": 23.821,
+          "text": "Leave a transaction open,"
+        },
+        {
+          "start": 23.888,
+          "end": 25.804,
+          "text": "or let vacuum fall behind,"
+        },
+        {
+          "start": 25.872,
+          "end": 27.58,
+          "text": "and the table grows."
+        },
+        {
+          "start": 27.648,
+          "end": 29.492,
+          "text": "Postgres is a hoarder."
+        },
+        {
+          "start": 29.56,
+          "end": 30.657,
+          "text": "On purpose."
+        }
+      ]
+    },
+    "scene23": {
+      "duration": 15.933333333333334,
+      "offset": 718.783,
+      "cues": {
+        "like": 0.2,
+        "sub": 2.795,
+        "next": 3.963
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.912,
+          "text": "If you liked the video,"
+        },
+        {
+          "start": 1.98,
+          "end": 3.896,
+          "text": "drop a like and subscribe,"
+        },
+        {
+          "start": 3.963,
+          "end": 5.525,
+          "text": "and tell me what topics"
+        },
+        {
+          "start": 5.593,
+          "end": 7.37,
+          "text": "you want to see next."
+        }
+      ]
+    }
+  }
+}

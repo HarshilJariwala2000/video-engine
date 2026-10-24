@@ -1,0 +1,12 @@
+0:00 The Problem
+0:40 What An App Needs
+1:03 Attempt 1: Virtual Machines
+1:58 Attempt 2: The Trick
+2:34 Namespaces
+3:33 Control Groups
+3:56 One Shared Kernel
+4:38 Images
+5:38 Layers
+6:04 Build Cache
+6:28 The Big Idea
+6:46 Docker Run, Revisited

@@ -1,0 +1,1331 @@
+1
+00:00:00,200 --> 00:00:02,452
+Want to ruin your afternoon?
+
+2
+00:00:02,519 --> 00:00:04,013
+Take an accounts table
+
+3
+00:00:04,081 --> 00:00:05,858
+with 20 million rows.
+
+4
+00:00:05,925 --> 00:00:08,245
+It uses 10 gigabytes of disk.
+
+5
+00:00:08,313 --> 00:00:11,315
+You delete the 10 million closed accounts,
+
+6
+00:00:11,383 --> 00:00:14,314
+and the row count drops to 10 million.
+
+7
+00:00:14,382 --> 00:00:16,361
+Then you check the disk.
+
+8
+00:00:16,429 --> 00:00:17,662
+10 gigabytes.
+
+9
+00:00:17,730 --> 00:00:18,488
+Not 9.
+
+10
+00:00:18,556 --> 00:00:20,400
+Not even 9 and a half.
+
+11
+00:00:20,467 --> 00:00:23,266
+And Sam from infra leans over and says:
+
+12
+00:00:23,334 --> 00:00:24,974
+you need to vacuum.
+
+13
+00:00:25,042 --> 00:00:27,623
+Which sounds less like database advice
+
+14
+00:00:27,691 --> 00:00:30,961
+and more like something your mom would say.
+
+15
+00:00:31,717 --> 00:00:34,444
+The rows are gone from every query.
+
+16
+00:00:34,512 --> 00:00:36,967
+But their space is still taken.
+
+17
+00:00:37,035 --> 00:00:39,898
+Now try something even more innocent.
+
+18
+00:00:39,966 --> 00:00:42,221
+Change one column in every row,
+
+19
+00:00:42,289 --> 00:00:45,355
+and the table can almost double in size.
+
+20
+00:00:45,423 --> 00:00:47,814
+My favourite fact about Postgres:
+
+21
+00:00:47,882 --> 00:00:50,881
+it has never updated a row in its life.
+
+22
+00:00:50,949 --> 00:00:52,793
+Postgres is a hoarder.
+
+23
+00:00:52,861 --> 00:00:54,908
+A very organised hoarder.
+
+24
+00:00:54,976 --> 00:00:56,688
+By the end, you'll know
+
+25
+00:00:56,756 --> 00:00:58,400
+exactly what it keeps,
+
+26
+00:00:58,468 --> 00:01:00,098
+and why I think hoarding
+
+27
+00:01:00,166 --> 00:01:01,806
+was the right call.
+
+28
+00:01:09,567 --> 00:01:11,469
+Let's pretend we're building
+
+29
+00:01:11,536 --> 00:01:13,448
+the database ourselves.
+
+30
+00:01:13,516 --> 00:01:15,446
+Two rows: alice and bob,
+
+31
+00:01:15,514 --> 00:01:17,019
+100 dollars each.
+
+32
+00:01:17,087 --> 00:01:19,881
+A report is adding up all the money.
+
+33
+00:01:19,949 --> 00:01:21,797
+At the exact same moment,
+
+34
+00:01:21,865 --> 00:01:23,631
+a payment moves 50 dollars
+
+35
+00:01:23,699 --> 00:01:25,271
+from alice to bob.
+
+36
+00:01:25,339 --> 00:01:26,847
+To survive that, our
+
+37
+00:01:26,915 --> 00:01:29,099
+database needs four things.
+
+38
+00:01:29,167 --> 00:01:31,296
+One: readers never wait.
+
+39
+00:01:31,364 --> 00:01:34,309
+Two: writers never wait for readers.
+
+40
+00:01:34,377 --> 00:01:37,461
+Three: every query sees one clean moment,
+
+41
+00:01:37,529 --> 00:01:39,306
+never half a payment.
+
+42
+00:01:39,373 --> 00:01:41,779
+And four: if the payment fails,
+
+43
+00:01:41,847 --> 00:01:43,283
+undo is instant.
+
+44
+00:01:44,033 --> 00:01:45,473
+The obvious design:
+
+45
+00:01:45,541 --> 00:01:48,554
+when something changes, overwrite it.
+
+46
+00:01:48,622 --> 00:01:51,023
+The report reads alice: 100.
+
+47
+00:01:51,091 --> 00:01:52,585
+Then the payment lands
+
+48
+00:01:52,653 --> 00:01:54,701
+and overwrites both rows.
+
+49
+00:01:54,769 --> 00:01:56,491
+Alice 50, bob 150.
+
+50
+00:01:56,559 --> 00:01:59,165
+Then the report reads bob: 150.
+
+51
+00:01:59,232 --> 00:02:01,023
+Total: 250 dollars.
+
+52
+00:02:01,091 --> 00:02:02,313
+Fifty dollars just
+
+53
+00:02:02,381 --> 00:02:04,429
+appeared out of thin air.
+
+54
+00:02:04,497 --> 00:02:06,816
+Great news for alice and bob.
+
+55
+00:02:06,884 --> 00:02:08,932
+Terrible news for a bank.
+
+56
+00:02:09,000 --> 00:02:11,319
+So much for one clean moment.
+
+57
+00:02:12,083 --> 00:02:14,067
+The textbook fix is a lock:
+
+58
+00:02:14,135 --> 00:02:16,794
+a do not disturb sign on the rows.
+
+59
+00:02:16,861 --> 00:02:18,573
+While the report reads,
+
+60
+00:02:18,641 --> 00:02:20,214
+the payment waits.
+
+61
+00:02:20,282 --> 00:02:22,129
+While the payment writes,
+
+62
+00:02:22,197 --> 00:02:23,702
+the report waits.
+
+63
+00:02:23,770 --> 00:02:26,021
+Every total comes out clean.
+
+64
+00:02:26,089 --> 00:02:27,991
+But now everyone is politely
+
+65
+00:02:28,059 --> 00:02:30,174
+waiting for everyone else.
+
+66
+00:02:30,242 --> 00:02:32,848
+It's a four-way stop, for data.
+
+67
+00:02:32,915 --> 00:02:35,439
+So much for the first two boxes.
+
+68
+00:02:35,507 --> 00:02:36,933
+And undo means saving
+
+69
+00:02:37,001 --> 00:02:38,848
+the old values somewhere,
+
+70
+00:02:38,916 --> 00:02:40,628
+then copying them back,
+
+71
+00:02:40,696 --> 00:02:42,269
+one row at a time.
+
+72
+00:02:42,336 --> 00:02:43,709
+On a million rows,
+
+73
+00:02:43,777 --> 00:02:45,417
+that's not instant.
+
+74
+00:02:45,485 --> 00:02:47,329
+That's a coffee break.
+
+75
+00:02:48,083 --> 00:02:48,773
+Okay.
+
+76
+00:02:48,840 --> 00:02:51,232
+Let's look under the abstraction,
+
+77
+00:02:51,299 --> 00:02:53,415
+and ask a better question.
+
+78
+00:02:53,483 --> 00:02:54,991
+To undo anything, we
+
+79
+00:02:55,059 --> 00:02:57,243
+already need the old value.
+
+80
+00:02:57,311 --> 00:03:00,309
+So what if we just never threw it away?
+
+81
+00:03:00,377 --> 00:03:01,735
+What if nothing ever
+
+82
+00:03:01,803 --> 00:03:03,715
+got overwritten at all?
+
+83
+00:03:03,783 --> 00:03:06,782
+The report keeps reading the old alice.
+
+84
+00:03:06,850 --> 00:03:09,105
+The payment writes a new alice,
+
+85
+00:03:09,173 --> 00:03:10,745
+right next to her.
+
+86
+00:03:10,813 --> 00:03:12,046
+Nobody waits.
+
+87
+00:03:12,114 --> 00:03:14,705
+It's not a four-way stop anymore.
+
+88
+00:03:14,773 --> 00:03:16,142
+It's two lanes.
+
+89
+00:03:16,900 --> 00:03:19,899
+And that is exactly what Postgres does.
+
+90
+00:03:19,966 --> 00:03:21,611
+When you update alice,
+
+91
+00:03:21,678 --> 00:03:23,726
+it doesn't touch her row.
+
+92
+00:03:23,794 --> 00:03:25,778
+It writes a whole new copy,
+
+93
+00:03:25,846 --> 00:03:27,622
+with the new balance.
+
+94
+00:03:27,690 --> 00:03:30,420
+The old copy stays right where it was,
+
+95
+00:03:30,488 --> 00:03:33,569
+with a little note that says: expired.
+
+96
+00:03:33,637 --> 00:03:36,296
+Each copy is called a row version.
+
+97
+00:03:36,364 --> 00:03:38,755
+So an update is really an insert,
+
+98
+00:03:38,823 --> 00:03:40,599
+with extra paperwork.
+
+99
+00:03:40,667 --> 00:03:42,311
+You might be thinking:
+
+100
+00:03:42,379 --> 00:03:44,155
+that sounds wasteful.
+
+101
+00:03:44,223 --> 00:03:44,980
+It is.
+
+102
+00:03:45,048 --> 00:03:46,145
+On purpose.
+
+103
+00:03:46,900 --> 00:03:49,834
+But that note has to say who expired her,
+
+104
+00:03:49,902 --> 00:03:50,863
+and when.
+
+105
+00:03:50,931 --> 00:03:53,051
+Our payment changes two rows,
+
+106
+00:03:53,119 --> 00:03:55,510
+and they have to happen together,
+
+107
+00:03:55,578 --> 00:03:56,879
+or not at all.
+
+108
+00:03:56,946 --> 00:03:58,576
+A bundle of changes like
+
+109
+00:03:58,644 --> 00:04:00,964
+that is called a transaction.
+
+110
+00:04:01,032 --> 00:04:02,526
+Every transaction that
+
+111
+00:04:02,594 --> 00:04:04,713
+writes takes a ticket number,
+
+112
+00:04:04,781 --> 00:04:07,308
+like the machine at a deli counter,
+
+113
+00:04:07,376 --> 00:04:09,016
+always counting up.
+
+114
+00:04:09,084 --> 00:04:11,403
+Our payment pulled number 42.
+
+115
+00:04:12,167 --> 00:04:13,661
+This is the bit I find
+
+116
+00:04:13,729 --> 00:04:15,505
+genuinely delightful.
+
+117
+00:04:15,573 --> 00:04:17,271
+Postgres labels every row
+
+118
+00:04:17,339 --> 00:04:19,594
+version with two hidden stamps,
+
+119
+00:04:19,662 --> 00:04:21,292
+like a hoarder labelling
+
+120
+00:04:21,360 --> 00:04:23,340
+every box in the garage.
+
+121
+00:04:23,407 --> 00:04:26,420
+Created by: the ticket that wrote it.
+
+122
+00:04:26,488 --> 00:04:29,637
+Deleted by: the ticket that expired it.
+
+123
+00:04:29,705 --> 00:04:31,145
+The old alice says:
+
+124
+00:04:31,213 --> 00:04:33,614
+created by 7, deleted by 42.
+
+125
+00:04:33,682 --> 00:04:35,123
+The new alice says:
+
+126
+00:04:35,191 --> 00:04:38,421
+created by 42, deleted by nobody, yet.
+
+127
+00:04:38,489 --> 00:04:41,016
+Postgres calls these xmin and xmax,
+
+128
+00:04:41,084 --> 00:04:42,782
+which might be why you've
+
+129
+00:04:42,850 --> 00:04:44,558
+never heard of them.
+
+130
+00:04:45,317 --> 00:04:47,572
+So with two alices on the page,
+
+131
+00:04:47,640 --> 00:04:49,824
+which one does a query see?
+
+132
+00:04:49,892 --> 00:04:51,400
+When a query starts,
+
+133
+00:04:51,468 --> 00:04:53,587
+Postgres hands it a snapshot:
+
+134
+00:04:53,655 --> 00:04:55,760
+think of it as a photo of which
+
+135
+00:04:55,828 --> 00:04:58,623
+tickets had finished at that moment.
+
+136
+00:04:58,691 --> 00:05:01,282
+Then one rule decides everything.
+
+137
+00:05:01,350 --> 00:05:03,523
+You see a version if its creator
+
+138
+00:05:03,591 --> 00:05:05,575
+had finished in your photo,
+
+139
+00:05:05,643 --> 00:05:07,555
+and its deleter hadn't.
+
+140
+00:05:08,317 --> 00:05:09,957
+Back to our report.
+
+141
+00:05:10,025 --> 00:05:11,655
+It took its photo before
+
+142
+00:05:11,723 --> 00:05:13,363
+ticket 42 finished.
+
+143
+00:05:13,431 --> 00:05:15,279
+So it sees the old alice,
+
+144
+00:05:15,347 --> 00:05:17,763
+100, and the old bob, 100.
+
+145
+00:05:17,831 --> 00:05:19,078
+Total: 200.
+
+146
+00:05:19,146 --> 00:05:20,843
+Now a second query starts
+
+147
+00:05:20,911 --> 00:05:22,823
+just after 42 finishes.
+
+148
+00:05:22,891 --> 00:05:25,211
+It sees alice 50 and bob 150.
+
+149
+00:05:25,278 --> 00:05:26,240
+Also 200.
+
+150
+00:05:26,308 --> 00:05:28,305
+Same table, same instant,
+
+151
+00:05:28,373 --> 00:05:30,017
+two different answers,
+
+152
+00:05:30,085 --> 00:05:31,726
+and both are right.
+
+153
+00:05:31,793 --> 00:05:33,705
+That sounds like a bug.
+
+154
+00:05:33,773 --> 00:05:35,753
+It's the entire feature.
+
+155
+00:05:35,821 --> 00:05:38,209
+And nobody waited for anybody.
+
+156
+00:05:38,276 --> 00:05:39,649
+Three out of four,
+
+157
+00:05:39,717 --> 00:05:41,561
+without a single lock.
+
+158
+00:05:42,317 --> 00:05:43,607
+Now say the payment
+
+159
+00:05:43,675 --> 00:05:45,723
+blows up halfway through.
+
+160
+00:05:45,791 --> 00:05:47,295
+You roll it back.
+
+161
+00:05:47,363 --> 00:05:50,158
+And Postgres doesn't erase anything.
+
+162
+00:05:50,226 --> 00:05:51,448
+It writes one line
+
+163
+00:05:51,516 --> 00:05:53,296
+in a little status list:
+
+164
+00:05:53,364 --> 00:05:55,155
+ticket 42, aborted.
+
+165
+00:05:55,222 --> 00:05:56,649
+Everything 42 created
+
+166
+00:05:56,716 --> 00:05:58,561
+now counts for nobody.
+
+167
+00:05:58,628 --> 00:06:01,491
+Every deleted-by-42 stamp is ignored.
+
+168
+00:06:01,559 --> 00:06:03,679
+One line, whether the payment
+
+169
+00:06:03,746 --> 00:06:06,270
+touched two rows or two million.
+
+170
+00:06:06,338 --> 00:06:07,778
+Honestly, I wish my
+
+171
+00:06:07,846 --> 00:06:09,961
+mistakes worked like that.
+
+172
+00:06:10,029 --> 00:06:11,466
+That's all four.
+
+173
+00:06:12,217 --> 00:06:15,233
+All four boxes, from one hoarding habit:
+
+174
+00:06:15,301 --> 00:06:17,625
+keep many versions of every row,
+
+175
+00:06:17,692 --> 00:06:19,254
+and let each query pick
+
+176
+00:06:19,322 --> 00:06:21,370
+the one its photo allows.
+
+177
+00:06:21,438 --> 00:06:23,747
+The official name is multi-version
+
+178
+00:06:23,815 --> 00:06:25,323
+concurrency control,
+
+179
+00:06:25,391 --> 00:06:28,118
+a name only a committee could love.
+
+180
+00:06:28,186 --> 00:06:30,370
+Everyone just says M-V-C-C.
+
+181
+00:06:30,437 --> 00:06:31,810
+MySQL does it too,
+
+182
+00:06:31,878 --> 00:06:33,726
+but tidier: it overwrites
+
+183
+00:06:33,793 --> 00:06:35,627
+the row and stashes the old
+
+184
+00:06:35,695 --> 00:06:38,150
+version in a separate undo log.
+
+185
+00:06:38,218 --> 00:06:40,945
+Postgres keeps it all in the table.
+
+186
+00:06:41,013 --> 00:06:43,322
+So every one of those old versions
+
+187
+00:06:43,390 --> 00:06:45,777
+is still sitting on your disk.
+
+188
+00:06:46,533 --> 00:06:48,381
+Once the report finishes,
+
+189
+00:06:48,449 --> 00:06:51,515
+no photo anywhere can see the old alice.
+
+190
+00:06:51,583 --> 00:06:52,952
+Not ever again.
+
+191
+00:06:53,020 --> 00:06:54,524
+She's a dead row.
+
+192
+00:06:54,592 --> 00:06:56,086
+But she's still taking
+
+193
+00:06:56,154 --> 00:06:57,930
+up space on the page.
+
+194
+00:06:57,998 --> 00:07:00,589
+So why not delete her right away?
+
+195
+00:07:00,657 --> 00:07:03,524
+Because some photo might still need her,
+
+196
+00:07:03,591 --> 00:07:06,726
+so Postgres leaves the cleanup for later.
+
+197
+00:07:06,794 --> 00:07:07,891
+And delete?
+
+198
+00:07:07,959 --> 00:07:09,056
+Same trick.
+
+199
+00:07:09,124 --> 00:07:11,307
+It doesn't remove anything.
+
+200
+00:07:11,375 --> 00:07:14,306
+It just fills in the deleted-by stamp.
+
+201
+00:07:14,374 --> 00:07:17,304
+Those 10 million accounts you deleted?
+
+202
+00:07:17,372 --> 00:07:18,948
+10 million dead rows,
+
+203
+00:07:19,016 --> 00:07:21,743
+still sitting in your 10 gigabytes.
+
+204
+00:07:22,500 --> 00:07:24,616
+Which brings us to vacuum.
+
+205
+00:07:24,684 --> 00:07:26,667
+If Postgres is the hoarder,
+
+206
+00:07:26,735 --> 00:07:28,987
+vacuum is the cleaning crew.
+
+207
+00:07:29,055 --> 00:07:31,378
+It walks the table page by page,
+
+208
+00:07:31,446 --> 00:07:34,040
+finds rows no photo can see anymore,
+
+209
+00:07:34,108 --> 00:07:36,496
+and marks their space as free.
+
+210
+00:07:36,564 --> 00:07:39,019
+New rows move into those holes.
+
+211
+00:07:39,087 --> 00:07:40,649
+And this is where Sam's
+
+212
+00:07:40,717 --> 00:07:42,832
+advice disappoints people.
+
+213
+00:07:42,900 --> 00:07:44,880
+The file doesn't shrink.
+
+214
+00:07:44,948 --> 00:07:47,271
+You cleared out half the closet,
+
+215
+00:07:47,339 --> 00:07:50,270
+and the closet is still the same size.
+
+216
+00:07:50,338 --> 00:07:51,778
+Still 10 gigabytes,
+
+217
+00:07:51,846 --> 00:07:53,690
+just with room inside.
+
+218
+00:07:54,450 --> 00:07:56,909
+If you really want the space back,
+
+219
+00:07:56,977 --> 00:07:58,685
+there's vacuum full.
+
+220
+00:07:58,753 --> 00:08:01,620
+It builds a brand new copy of the table,
+
+221
+00:08:01,687 --> 00:08:03,467
+with only the live rows,
+
+222
+00:08:03,535 --> 00:08:05,923
+then throws the old file away.
+
+223
+00:08:05,990 --> 00:08:07,902
+10 gigabytes becomes 5.
+
+224
+00:08:07,970 --> 00:08:09,329
+But it's like moving
+
+225
+00:08:09,397 --> 00:08:11,308
+to a smaller apartment.
+
+226
+00:08:11,376 --> 00:08:12,953
+While you're packing,
+
+227
+00:08:13,020 --> 00:08:16,115
+nobody gets in: no reads, no writes.
+
+228
+00:08:16,183 --> 00:08:17,895
+And for a while, you're
+
+229
+00:08:17,963 --> 00:08:20,147
+paying rent on both places.
+
+230
+00:08:20,215 --> 00:08:22,334
+That's the bill for hoarding,
+
+231
+00:08:22,402 --> 00:08:24,857
+and I won't pretend it's small.
+
+232
+00:08:25,617 --> 00:08:27,057
+Luckily, you almost
+
+233
+00:08:27,125 --> 00:08:29,173
+never run vacuum by hand.
+
+234
+00:08:29,241 --> 00:08:30,939
+Postgres has a background
+
+235
+00:08:31,007 --> 00:08:33,054
+helper called autovacuum.
+
+236
+00:08:33,122 --> 00:08:34,956
+It wakes up whenever enough
+
+237
+00:08:35,024 --> 00:08:37,140
+rows in a table have died.
+
+238
+00:08:37,207 --> 00:08:38,987
+But it has one weakness,
+
+239
+00:08:39,055 --> 00:08:40,628
+and it's a person.
+
+240
+00:08:40,696 --> 00:08:42,475
+Somewhere, someone typed
+
+241
+00:08:42,543 --> 00:08:44,052
+BEGIN in a terminal,
+
+242
+00:08:44,120 --> 00:08:46,996
+went to lunch, and never came back.
+
+243
+00:08:47,064 --> 00:08:48,626
+That forgotten BEGIN is
+
+244
+00:08:48,694 --> 00:08:50,946
+still holding its old photo.
+
+245
+00:08:51,014 --> 00:08:53,119
+And vacuum won't clean anything
+
+246
+00:08:53,187 --> 00:08:55,370
+that photo might still see.
+
+247
+00:08:55,438 --> 00:08:57,079
+So the table grows.
+
+248
+00:08:57,147 --> 00:08:58,176
+And grows.
+
+249
+00:08:58,244 --> 00:08:59,273
+And grows.
+
+250
+00:08:59,341 --> 00:09:01,728
+Disk filling up for no reason?
+
+251
+00:09:01,796 --> 00:09:04,523
+Look for the forgotten BEGIN first.
+
+252
+00:09:05,283 --> 00:09:07,063
+Vacuum has one more job,
+
+253
+00:09:07,131 --> 00:09:09,043
+and it's the scary one.
+
+254
+00:09:09,111 --> 00:09:12,109
+Those deli tickets are a 32-bit number.
+
+255
+00:09:12,177 --> 00:09:13,821
+After about 4 billion,
+
+256
+00:09:13,889 --> 00:09:16,616
+they wrap back around to the start.
+
+257
+00:09:16,684 --> 00:09:19,479
+So Postgres reads them like a clock.
+
+258
+00:09:19,547 --> 00:09:22,138
+2 billion behind now is the past.
+
+259
+00:09:22,206 --> 00:09:24,593
+2 billion ahead is the future.
+
+260
+00:09:24,661 --> 00:09:26,848
+Leave a row alone long enough,
+
+261
+00:09:26,916 --> 00:09:28,614
+and its created-by ticket
+
+262
+00:09:28,682 --> 00:09:30,394
+drifts into the future,
+
+263
+00:09:30,462 --> 00:09:33,460
+and a row from the future is invisible.
+
+264
+00:09:33,528 --> 00:09:35,780
+Your data would just vanish.
+
+265
+00:09:35,848 --> 00:09:37,831
+So vacuum freezes old rows:
+
+266
+00:09:37,899 --> 00:09:40,630
+it stamps them as visible to everyone,
+
+267
+00:09:40,698 --> 00:09:41,591
+forever.
+
+268
+00:09:41,659 --> 00:09:44,186
+And if vacuum falls too far behind,
+
+269
+00:09:44,254 --> 00:09:46,577
+Postgres stops accepting writes,
+
+270
+00:09:46,645 --> 00:09:49,440
+rather than let your data disappear.
+
+271
+00:09:49,508 --> 00:09:51,487
+This isn't hypothetical.
+
+272
+00:09:51,555 --> 00:09:54,150
+In 2015, Sentry was down for most of
+
+273
+00:09:54,218 --> 00:09:57,149
+a working day because of exactly this.
+
+274
+00:09:57,217 --> 00:09:58,110
+Painful.
+
+275
+00:09:58,178 --> 00:09:59,740
+But I'd still rather my
+
+276
+00:09:59,808 --> 00:10:02,127
+database stop than lie to me.
+
+277
+00:10:02,883 --> 00:10:05,285
+So, putting it all together.
+
+278
+00:10:05,352 --> 00:10:07,808
+An update writes a new version.
+
+279
+00:10:07,876 --> 00:10:10,059
+A delete stamps an old one.
+
+280
+00:10:10,127 --> 00:10:13,194
+Every query reads through its own photo.
+
+281
+00:10:13,262 --> 00:10:14,620
+And vacuum sweeps up
+
+282
+00:10:14,688 --> 00:10:16,803
+whatever no photo can see.
+
+283
+00:10:16,871 --> 00:10:19,191
+Postgres never changes a row.
+
+284
+00:10:19,259 --> 00:10:20,767
+It writes a new one,
+
+285
+00:10:20,835 --> 00:10:23,769
+which is why readers never block writers,
+
+286
+00:10:23,837 --> 00:10:25,467
+and why your table grows
+
+287
+00:10:25,535 --> 00:10:27,447
+until vacuum cleans up.
+
+288
+00:10:28,200 --> 00:10:30,737
+So, back to your 10 gigabytes.
+
+289
+00:10:30,805 --> 00:10:32,096
+Your delete stamped
+
+290
+00:10:32,163 --> 00:10:34,143
+10 million rows as dead.
+
+291
+00:10:34,211 --> 00:10:37,074
+Autovacuum marks their space as free.
+
+292
+00:10:37,142 --> 00:10:39,043
+Your next 10 million inserts
+
+293
+00:10:39,111 --> 00:10:40,755
+move into those holes,
+
+294
+00:10:40,823 --> 00:10:43,414
+and the file doesn't grow at all.
+
+295
+00:10:43,482 --> 00:10:46,077
+And if you truly need the disk back,
+
+296
+00:10:46,145 --> 00:10:48,761
+run vacuum full at 3 a.m.,
+
+297
+00:10:48,829 --> 00:10:50,673
+when nobody's looking.
+
+298
+00:10:50,741 --> 00:10:53,006
+Sam was right, by the way.
+
+299
+00:10:53,074 --> 00:10:55,462
+Sam is annoyingly often right.
+
+300
+00:10:56,217 --> 00:10:58,876
+Want to catch Postgres in the act?
+
+301
+00:10:58,944 --> 00:11:00,738
+Run select xmin, xmax,
+
+302
+00:11:00,806 --> 00:11:02,446
+star from accounts.
+
+303
+00:11:02,514 --> 00:11:04,348
+Those are hidden columns on
+
+304
+00:11:04,416 --> 00:11:06,735
+every table you've ever made.
+
+305
+00:11:06,803 --> 00:11:08,937
+Update a row, run it again,
+
+306
+00:11:09,005 --> 00:11:11,935
+and the created-by number has changed.
+
+307
+00:11:12,003 --> 00:11:14,390
+It's not the same row anymore.
+
+308
+00:11:14,458 --> 00:11:16,302
+It's a brand new copy.
+
+309
+00:11:16,370 --> 00:11:18,282
+Postgres never forgets.
+
+310
+00:11:18,350 --> 00:11:20,534
+It just eventually lets go.
+
+311
+00:11:20,602 --> 00:11:22,300
+Have you ever been bitten
+
+312
+00:11:22,367 --> 00:11:24,144
+by a forgotten BEGIN?
+
+313
+00:11:24,211 --> 00:11:27,006
+How long did it take you to find it?
+
+314
+00:11:27,767 --> 00:11:30,169
+So, to summarise everything.
+
+315
+00:11:30,236 --> 00:11:32,624
+An update never changes a row.
+
+316
+00:11:32,692 --> 00:11:34,472
+It writes a new version,
+
+317
+00:11:34,539 --> 00:11:36,451
+and stamps the old one.
+
+318
+00:11:36,519 --> 00:11:38,217
+Every query reads through
+
+319
+00:11:38,285 --> 00:11:39,590
+its own snapshot,
+
+320
+00:11:39,657 --> 00:11:41,152
+so readers and writers
+
+321
+00:11:41,219 --> 00:11:43,335
+never wait for each other.
+
+322
+00:11:43,403 --> 00:11:45,251
+A delete is just a stamp,
+
+323
+00:11:45,319 --> 00:11:46,949
+and vacuum is what turns
+
+324
+00:11:47,017 --> 00:11:49,472
+dead rows back into free space.
+
+325
+00:11:49,540 --> 00:11:51,388
+Leave a transaction open,
+
+326
+00:11:51,455 --> 00:11:53,371
+or let vacuum fall behind,
+
+327
+00:11:53,439 --> 00:11:55,147
+and the table grows.
+
+328
+00:11:55,215 --> 00:11:57,059
+Postgres is a hoarder.
+
+329
+00:11:57,127 --> 00:11:58,224
+On purpose.
+
+330
+00:11:58,983 --> 00:12:00,695
+If you liked the video,
+
+331
+00:12:00,763 --> 00:12:02,679
+drop a like and subscribe,
+
+332
+00:12:02,746 --> 00:12:04,308
+and tell me what topics
+
+333
+00:12:04,376 --> 00:12:06,153
+you want to see next.

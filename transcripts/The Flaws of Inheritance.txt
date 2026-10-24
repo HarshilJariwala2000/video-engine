@@ -1,0 +1,304 @@
+00:01 You may have heard the saying prefer
+composition over inheritance.
+00:05 The advice is a little vague,
+so I'm going to break it down.
+00:08 What is composition, inheritance
+and why would you prefer one over
+00:11 the other?
+00:17 Both composition and inheritance
+are trying to solve the same problem.
+00:20 You have a piece of code that you're
+trying to reuse.
+00:24 Inheritance is when you have a class that
+contains functionality you want to reuse.
+00:28 So you create a subclass
+extending its functionality.
+00:32 If you simply extend a class, you've
+basically created a copy of the class
+00:36 with a new name, and then you can inject
+new methods to extend or override parts.
+00:41 We have a rudimentary image class here.
+00:44 It represents an RGB image and stores
+it as a double array of pixels.
+00:49 The image class hides
+how the image is stored in memory
+00:51 and provides a method for looking up
+pixel values.
+00:55 We also have some stuff we can do
+to the image.
+00:58 We have a resize method
+which resizes the image by a scale factor,
+01:01 and we have methods to flip the image
+horizontally or vertically.
+01:06 The library
+01:07 should support JPEG,
+PNG and bitmap images, but
+01:11 we also want to reuse all of these methods
+for the different types of images.
+01:16 So to support loading
+and saving these images,
+01:18 we add two abstract
+methods: save() and load(),
+01:23 and then we create the subclass JpgImage,
+01:26 PngImage and BmpImage.
+01:34 These subclasses implement
+their different versions of load()
+01:37 and save(),
+01:41 but also get all of the other methods
+for free.
+01:44 So when we load a JPEG image or PNG image
+01:47 we can call resize on it
+and then we save it.
+01:51 The resize method is reused
+for all of the image types.
+01:54 But when we call load or save
+the overriden version is called instead.
+01:59 This works well,
+01:60 but now we want to create
+a version of an image
+02:02 that doesn't come from a file at all,
+but instead has some methods
+02:05 that allow the user to draw on the image.
+02:08 So we create a DrawableImage class
+and inherit from our parent Image class.
+02:13 But this
+02:14 is where inheritance starts
+to have issues.
+02:17 The downsides of inheritance is
+that you've couple yourself to the parent
+02:20 class.
+02:21 The structure of the parent is thrust upon
+the child.
+02:24 We're forced to implement these to load
+and save methods
+02:27 in order to reuse our resize
+and flip code,
+02:31 even though they don't make sense
+for our subclass.
+02:33 All we can do is have these two methods
+throw an exception.
+02:37 To prevent this, we need to remove this
+method from our parent class
+02:40 and add a new parent class
+02:41 in between called FileImage
+that contains these two methods.
+02:45 But this also breaks
+02:46 anyone who currently expects
+the Image class to contain those methods.
+02:50 When new changes like this come,
+02:52 we're forced to edit all our classes,
+a very expensive refactor.
+02:58 This is the
+02:58 greatest downfall of inheritance.
+03:02 I find it similar
+to how the ideal cleanness database
+03:04 schema often causes problems
+when you scale.
+03:08 We've moved to NoSql databases
+with tons of dirty duplication.
+03:13 Inheritance breaks down
+when you need to change the code.
+03:15 Change is the enemy of perfect design
+and you often paint yourself
+03:19 into a corner
+early on with your inheritance design.
+03:23 This is because inheritance
+naturally asks you
+03:25 to bundle
+all common elements into a parent class.
+03:28 But the soon as you find an exception to
+the commonality, it requires big changes.
+03:33 So our alternative is to use composition.
+03:37 So what is composition?
+03:40 You've already been doing it.
+03:42 Composition is the pattern you're doing
+whenever you reuse code
+03:45 without inheritance.
+03:47 If we have two classes and they want to
+reuse code, they simply use the code.
+03:53 Let's
+03:53 change our image classes to be composed
+instead.
+03:56 First, we're going to remove our abstract
+methods from image.
+04:02 Now, this is no longer an abstract class.
+04:04 It's simply a class that represents
+an image in memory.
+04:09 In our JPEG, PNG and bitmap classes.
+04:12 We no longer inherit image,
+04:15 but we'll keep our save and load methods.
+04:17 They'll just now be stand alone,
+not overriding anything.
+04:20 The methods were accessing
+a bunch of stuff from the parent class.
+04:24 So what do we do about those?
+04:25 Well, instead of accessing them
+through “this” we’ll
+04:29 simply pass
+in the image in question instead.
+04:33 So now image represents an image
+04:36 and these other classes
+cleanly represent a specific file
+04:40 format.
+04:44 Now, if our new drawing requirement
+comes in,
+04:46 we create an image draw class
+that takes an image to draw to.
+04:49 And the methods do their thing.
+04:51 We're no longer
+bundled to the file related stuff.
+04:55 Because we didn't force all the common
+elements into a parent class
+04:58 we don't need to alter any of the other
+classes to add our ImageDraw class.
+05:03 Now the user no longer chooses
+the one class that suits their needs.
+05:06 They also combine classes together
+for their particular use case.
+05:10 So here we're loading a JPEG image
+drawing to it and then saving it.
+05:15 Another app could do something different,
+like load a bitmap
+05:17 image, flip it, resize it,
+and then save it out as a PNG.
+05:23 Inheritance is interesting
+because it actually combines
+05:25 two capabilities:
+the ability to reuse code,
+05:28 but also the ability
+to build an abstraction.
+05:31 Creating abstractions
+allow a piece of code to reuse
+05:34 another piece of code, but also not know
+which piece of code it's using.
+05:39 You define a contract that both sides
+of the abstraction agree to.
+05:42 This gives the code
+05:44 the rough shape of the other code,
+but it doesn't know exactly what it is.
+05:48 Inheritance does this by allowing
+a consumer to think it's taking a class,
+05:52 but it's actually given a subclass
+instead.
+05:55 Then the code can operate
+like it always does.
+05:57 Even if the system as a whole
+is doing something very different.
+06:00 If we go back to
+when our image code used inheritance,
+06:03 our application used the natural
+abstraction capability of inheritance
+06:07 by storing references to the parent class.
+06:10 When our app opens a file,
+06:12 we just figure out
+06:13 which subclass to create and then store a
+reference to it through the parent class.
+06:18 Then when the user clicks the save button,
+06:20 our save clicked method will get invoked
+and we'll just call the save method
+06:25 and we're abstracted from whether it's
+the JPEG, ping or bitmap.
+06:29 But with composition
+you don't have parent classes.
+06:32 You're just using the types you want.
+06:34 Inheritance allows you to abstract
+because the methods of the parent class
+06:37 forms a contract.
+06:39 A contract that says that every child
+class shall have at least these methods.
+06:44 So for our new classes
+without inheritance, we still want to be
+06:47 able to call our save and load methods
+without caring about which class it is.
+06:53 This is where interfaces come in.
+06:55 Instead of a full parent class
+with all its variables and methods,
+06:58 an interface simply describes
+the contract of what an object can do.
+07:03 In this case, we'll create
+an interface called Image File,
+07:06 which represents the operations
+an image file can do:
+07:09 load and save.
+07:16 Now, like
+07:16 before, we save a reference
+to one of our implementations.
+07:19 But now, through the interface
+07:22 and when the user click save,
+07:24 we call save on whatever type was created.
+07:27 Interfaces are a much more lightweight
+07:29 way to do this
+because our interfaces are minimal.
+07:32 Parent classes share everything
+by default, making them more difficult
+07:35 to change.
+07:37 But interfaces define
+only the critical parts of the contract
+07:40 and are easily
+tacked on to existing classes.
+07:44 Now that we have a nice abstraction
+for loading and saving files in our app,
+07:47 we can actually lift the creation of which
+image file out of our image app class.
+07:52 We’ll simply ask the user of the class
+to pass in the interface instead.
+07:57 That way
+this class can just focus on dealing
+07:59 with the UI commands
+and the file class can be elsewhere.
+08:04 There's a name for what we just did there.
+08:06 Dependency injection.
+08:08 I'll do a whole video
+on dependency injection,
+08:11 but if you've heard the term before
+and wondered what it was, that's it.
+08:15 Passing in an interface
+for what you're going to use.
+08:20 I won't say that inheritance is as evil
+as some would say,
+08:23 but I will say that I almost never use it
+in my code.
+08:28 Composition isn't perfect.
+08:30 You do end up with a lot of boilerplate
+08:32 needing to initialize
+all of your internal types.
+08:35 Many implementations
+will contain the same code repeated,
+08:39 and when you need expose information
+from reused code, you often need to create
+08:43 a lot of wrapper methods where you simply
+return a call to an inner type.
+08:47 But ultimately, composition
+reduces the surface area
+08:50 between objects, which gives you less
+friction as changes come in.
+08:55 Inheritance might be useful if you're
+working inside of an existing system
+08:59 that had highly repetitive code
+where you only needed to modify one thing.
+09:04 For example,
+if you had the need for 100 classes
+09:06 to conform to some specific interface
+09:09 which half of them need
+the same boilerplate over and over again.
+09:12 You might say that that means that each
+class has too much responsibility,
+09:16 and you'd be right.
+09:17 But changing the plugin model
+would cost the team months of work.
+09:20 You might not want to put your effort
+into that just yet.
+09:24 If you do use inheritance design
+the class to be inherited, I'd avoid
+09:28 protected variables with direct access,
+like we avoid making our variables public.
+09:34 For overriding: create
+an explicit protected
+09:36 API that you're supposed
+to override an access mark.
+09:39 Everything else
+is private, final or sealed.
+09:42 This prevents
+bugs when changing your parent classes
+09:45 because of not understanding
+what your child classes have done.

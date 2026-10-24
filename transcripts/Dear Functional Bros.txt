@@ -1,0 +1,513 @@
+00:00 Dear functional bros, I see you.
+00:04 I hear you.
+00:05 And I love you.
+00:07 Functional programing is awesome, but
+00:09 functional programmers are bad marketers
+00:12 talking about currying, your monads,
+binding, functors.
+00:16 So many words.
+00:18 I'm not sure anyone truly understands
+what all these things mean
+00:22 because they really lie on some spectrum
+between the math of category
+00:25 theory, lambda calculus,
+and their specific mapping
+00:29 to different language implementations
+00:32 But still,
+I do understand the beauty of it.
+00:36 The concept of a function is so pure.
+00:39 You have this elegant thing
+that takes an input
+00:41 and gives you an output,
+00:45 and no matter what, the same input
+00:47 always gives you the same output.
+00:52 The key thing
+that ensures that it gives you
+00:54 the same answer always for infinity
+is that there's no side effects.
+00:58 There's no state.
+01:05 No thing inside of the function
+01:07 that isn't directly derived by the input.
+01:14 Once you introduce state,
+the outcome of the function
+01:17 can vary based upon that state.
+01:30 Honestly, most programing
+01:31 paradigms are really just different
+takes on how you manage state.
+01:35 It's all about state.
+01:37 So let's talk about what functional
+programing is, why it kind of sucks,
+01:41 but why adding a little bit to your code
+is awesome.
+01:51 Functional programing
+01:52 takes one extreme side of the state
+opinion.
+01:55 It's about writing programs
+based upon one core concept.
+01:59 There shall be no state.
+02:02 You have inputs
+which are transformed into outputs
+02:05 in order to get stuff done
+02:07 you compose and connect functions
+to other functions,
+02:10 hooking up their inputs and outputs
+together into one big long chain
+02:14 that achieves the goal of the program.
+02:17 But you don't have objects or structures
+02:19 in memory that you mutate to track
+what's going on.
+02:23 In this absolute pure world where you want
+to write functions with no state.
+02:27 This also means that you're
+not allowed to mutate variables.
+02:30 So this means if you were to set a value,
+you cannot change it again.
+02:34 This means conventional iteration
+loops like for and while are impossible.
+02:39 if you think about a for loop or a loop,
+it requires you to mutate some state,
+02:44 at least some variable that's tracking
+how many times you've iterated
+02:49 So how do you do a loop in a pure
+functional way?
+02:52 The answer with functional programing
+is usually
+02:55 well, more functions.
+When all you have is a hammer...
+02:59 This is the part that we want
+to repeat over and over again.
+03:02 So we'll just pull
+that part out to a function.
+03:05 So now we need to replicate
+the three parts of the for loop.
+03:08 The key thing that the for loop does
+is increment the index variable
+03:12 so that the body gets a rerun
+with each index.
+03:15 So we need an equivalent of incrementing
+index
+03:17 and rerunning our body
+inside of processReceipt.
+03:21 Since we can't mutate index,
+you can imagine us creating
+03:24 a new variable, next index,
+which contains the next index
+03:28 we want to process.
+03:30 But now
+we want to repeat this section again.
+03:32 So we'll need to call process
+receipt again.
+03:36 So now if you were to call
+processReceipt, let's say
+03:38 with an index of 2
+03:41 It would print the merchant from index 2
+03:44 then recall process
+receipt with index 3
+03:47 then 4, etc.
+03:50 but as it is now, it'll keep calling
+the processReceipt() forever until it goes
+03:54 beyond the size of the receipt array
+causing an error to be thrown.
+03:60 And this is where the second part of the
+for loop comes into play.
+04:03 The condition.
+04:04 We only want to execute the body
+if the condition is met.
+04:08 Otherwise we do nothing and move on.
+04:11 So we'll move that condition down
+into our function
+04:13 where we only do anything
+if our index is still in range.
+04:17 You can see when we run the program
+04:18 it works like before.
+04:19 It increases
+the index beyond the size of the array
+04:22 and we still call our function.
+04:25 But in this
+04:26 case, it fails our condition
+and we do nothing.
+04:29 This breaks the recursive loop
+and all our functions return
+04:33 Recursion
+is just a fancier form of iteration.
+04:37 And finally,
+we have our last part of the for loop.
+04:40 which is where we set our starting point.
+04:42 This just represents
+our first call into our recursive loop.
+04:46 So now we've completely converted our loop
+to be done in the more functional way,
+04:50 We can also remove any unneeded variables
+to make our code more concise.
+04:53 If we wanted.
+04:55 Okay, this is pretty simple
+and just logs each item in the loop.
+04:60 But what if we wanted to do something
+useful, like
+05:02 finding all the receipts that belong
+to a particular user and return them
+05:05 so they can be displayed elsewhere?
+05:08 well, we
+can take the userId as a third parameter
+05:11 and then check if the user matches. This
+05:13 now only prints the receipt
+of the merchant if the userId.
+05:16 matches.
+05:18 But instead we want this function
+to return the list
+05:21 of matching receipts
+so that it can be displayed on the web app.
+05:24 We need to somehow return the results
+of the matching. At each recursive call
+05:28 we want to make an array
+with the current receipt at the front
+05:32 and the results from the deeper calls
+attached to the end.
+05:35 This way
+we can get back everything in order.
+05:38 But we only want to append the current
+item if it has the right user ID.
+05:43 Otherwise we just want to pass
+through the previous result
+05:48 So, in order to do this
+05:50 we’ll actually get the results
+of the deeper calls first.
+05:53 And then if the userId
+05:54 matches will return the current results
+appended to the later results.
+05:59 Otherwise
+just forward on the later results as is.
+06:02 And lastly,
+if we've processed the entire list,
+06:05 we'll just return empty results
+since there's no more results to be had.
+06:09 So now this function just returns
+all the receipts for a given userId
+06:14 and we'll give it a better name.
+06:16 Thing is that you can imagine this pattern
+happening over and over again
+06:19 whenever
+you wanted to find stuff in an array.
+06:22 The only difference between
+these functions is the condition in the
+06:25 if statement.
+06:27 We could replace all three functions
+06:29 with just one if we instead
+passed in a function that returned.
+06:32 Whether or not an item should be included.
+06:35 Let's pull out the condition
+and move it to its own function.
+06:39 And instead of taking the user idea as
+a parameter, we'll pass in that function
+06:43 instead. We can call it condition.
+06:46 Or if you want to be a classy fellow,
+you can call it predicate.
+06:49 Then we just call that function
+where the condition used to be.
+06:53 And that function tells us
+whether or not to include the item.
+06:56 Then we can pass our condition.
+06:58 The userIdEquals
+function into our filter.
+07:01 And of course, we can now
+07:02 rename our function
+to be a generic filter.
+07:08 Now we can run our beautiful program with
+our filter and userIdEquals function.
+07:12 and wait. We have a problem.
+07:15 Our userIdEquals
+function takes two parameters
+07:18 the receipt
+and the user idea to check against,
+07:21 but our filter function
+only checks against the receipt itself.
+07:25 We don't know
+the userId to check against.
+07:28 We could try passing in another value
+that we could relay into the function.
+07:32 But what if we need more than one?
+07:34 Like in the case we needed to check
+if the total was between
+07:37 a range, It gets a bit awkward.
+07:40 So instead we're going to get a bit
+fancy here.
+07:42 Instead of having our userIdEquals
+function, take both a receipt
+07:46 and a userId,
+07:48 we're going to have it take only the userId
+that we want to compare against
+07:52 and it will construct and return
+a new function that takes a receipt
+07:56 and returns whether it's 
+from the userId.
+07:59 We then pass in that new function
+that's been created into our filter.
+08:04 This is a little weird,
+but what's happening is that the userId
+08:07 is like a secret extra parameter
+which is bound to the function.
+08:12 And this
+08:12 function remembers that value
+and can use it.
+08:16 The name for this
+pattern is called currying.
+08:19 Instead of handling
+the entire operation at once,
+08:22 it returns a function that handles
+the next part of the operation
+08:26 The later part has the previous state
+bound to it.
+08:29 That new on the fly created
+function is what gets called
+08:33 when filter needs to check a condition.
+08:44 This is what's a bit funny to me
+because functional programing
+08:47 is supposed to be so different
+than object oriented programing.
+08:51 But by finding data like this,
+we're creating an instance of a function
+08:56 with some bound data to work with.
+08:58 Instead of creating an instance
+of a data object
+09:01 with its bound functions.
+09:05 Currying like this
+is a bit of an older way of doing this.
+09:09 You can automate
+09:10 this in JavaScript
+in many other languages by using Bind.
+09:13 I won't go into bind fully here
+because really the way
+09:17 we want to do this
+today is to use Lambda functions.
+09:20 This is where
+we'll move our equals check right
+09:22 into an inline function.
+09:25 Now this is finally where things start
+to get kind of nice.
+09:29 I'm filtering by user now, or
+I can filter by merchant just like this.
+09:33 or do a more complex
+check on the total here.
+09:36 We might want to get
+just a filtered merchant names
+09:39 instead of the entire object.
+09:41 If we devise a new function
+based upon our loop
+09:44 that doesn't filter
+based upon a condition,
+09:47 but instead takes a function that gives
+you the desired results for each element.
+09:52 we insert that new transformed element
+into the array
+09:54 instead. We'll call this function map
+09:58 because it maps each
+element to a different thing.
+10:02 Then we can change these together.
+10:05 So first we get our list of receipts.
+10:07 Find the ones with a total between
+14 and 20, and then just say: for each
+10:12 give us the merchant name.
+10:17 So now we get an array
+of the merchant strings
+10:19 instead of the full receipt objects.
+10:21 At the end.
+10:23 And if we only wanted to
+10:24 take the first five items,
+we could write a function called Take
+10:28 Take would give us up to the count
+elements from the array.
+10:31 We can chain that on as well.
+10:34 So now you can see that
+we basically created a data pipeline here
+10:38 Where we have an input state,
+we filter it down to what we want, map
+10:42 the types of the values to what we want,
+and then take the first five to display.
+10:48 Our code
+clearly declares what we want to happen,
+10:51 and all the complexity
+10:51 of how this is done is behind the scenes
+in our fundamental functions.
+10:56 So we've just derived these
+functional style fundamentals ourself,
+11:00 but these are also built
+directly into JavaScript.
+11:04 So let's take a look at how to use those
+to create data pipelines.
+11:09 But first,
+what's our goal with these receipts?
+11:12 We have this amazing new startup idea
+11:14 that solves a uniquely American problem
+in an American way.
+11:19 In the U.S.
+11:20 when you're in a restaurant,
+11:21 you need to fill a tip manually
+by writing the tip and total.
+11:25 This is effectively a mandatory fee
+11:27 on your meal enforced by social shaming.
+11:30 Your card is initially charged
+for the total without the tip.
+11:34 But several days later, the updated total
+with your hand scribbled tip will show
+11:37 up on your credit card.
+11:39 The problem here
+is that no one is really going to check
+11:42 whether their tip was accurately reported
+when their transaction was settled.
+11:46 So in theory, a company
+or a disgruntled service staff
+11:49 could simply enter a bigger number
+11:51 taking more of your money.
+11:52 Are you worried about losing your hard
+earned money to restaurant
+11:55 credit card fraud?
+11:57 Black Sky Financial finds
+these small family owned mom
+11:60 and pop restaurants
+and sues them for everything they have.
+12:04 The proceeds
+from the destruction of people's dreams
+12:07 are then equitably distributed to you:
+12:09 The user of the app based upon
+how many receipts you've submitted.
+12:13 Sign up today
+and start submitting receipts
+12:15 and know that you're helping prevent
+credit card fraud in your community!
+12:19 One lawsuit at a time.
+12:22 So, yeah, to pull this off,
+we basically need to grab each receipt,
+12:25 look up the transaction in the user's
+connected credit card accounts, filter out
+12:29 the transactions that haven't yet settled
+or whose totals match correctly.
+12:34 Sorting by the most egregious discrepancy
+and then take the top ten.
+12:38 Then we display them in a dashboard
+so our army of lawyers can get to work
+12:42 fighting the good fight.
+12:44 Here's
+that code written in a procedural way.
+12:47 Let's change this
+to the functional approach.
+12:50 In modern JavaScript
+12:51 all the methods that we need
+are already built in
+12:54 and are also methods directly on arrays.
+12:57 For each receipt.
+12:58 we eventually want this result object
+13:00 that contains all of the relevant
+information:
+13:03 the receipt, the final transaction,
+and the discrepancy.
+13:07 So we can just map our receipts to that.
+13:09 We can use the built in map
+method on our array
+13:12 to transform the array
+into our list of objects.
+13:15 The map method takes that lambda function
+for transforming our receipts
+13:18 into those result objects.
+13:24 This condition is skipping over
+the transactions that aren't yet settled
+13:27 or don't have a difference
+13:28 between the receipt total
+and the final total on the transaction.
+13:32 So we can just change this to a filter.
+13:35 We'll need to inverse the condition
+since it now describes
+13:37 what to keep instead of what to ignore.
+13:41 This code basically
+just ensures that the list is sorted from
+13:45 biggest to smallest, So we can replace this
+with a sort on our filter list.
+13:49 The sort takes a function
+that tells the sort function
+13:52 how two elements should be ordered.
+13:54 It gives you
+two items and asks for a negative number
+13:56 if A is less than B and a positive of A
+is greater than B.
+14:00 You typically get this by subtracting
+B from A, but since we want
+14:04 things ordered big first we’ll flip
+this and subtract A from B,
+14:09 and then we only want count
+number of elements
+14:12 which we can get with the slice method,
+which we were already doing here.
+14:16 So we'll just add that into our pipeline
+And voila.
+14:20 After we make the formatting
+a bit more pretty,
+14:23 all of that is written only in 12 lines.
+14:26 Functional programing
+14:27 lets you rewrite things
+into a beautiful pipeline for your data.
+14:31 And honestly, most of the programing jobs
+are really just taking data from Source
+14:34 A, doing some transformation, filtering,
+and sorting and then putting it in place
+14:39 B. A lot of the time
+we're just sophisticated plumbers.
+14:43 if you'd like to try
+out some functional programing like this,
+14:46 I put some experiments on my website
+accessible through my Patreon.
+14:50 I give you some procedural code
+and ask you to change it
+14:52 so it doesn't use
+any for loops or a while loops.
+14:55 If you’re curious, check them out at CodeAesthetic.io
+15:00 Dear Functional Bros,
+15:02 Sometimes I feel like you focus
+on the complexity
+15:05 and mathematical elegance
+of functional programing.
+15:08 Instead of explaining
+15:09 why it's awesome and help others
+see how useful parts of it can be.
+15:13 Maybe we need a special F bro signal
+15:16 to let others know
+that you're also a secret F Bro.
+15:20 Then you could talk about F Bro
+things like monads.
+15:23 But if you don't get the signal,
+we can play it
+15:25 chill and talk about how nice
+it is to delete for loops.
+15:30 Pure functional programing
+15:32 where you cannot mutate any state
+or have any side effects
+15:35 is kind of awful.
+15:37 The issue is its fake.
+15:39 Computers fundamentally have state.
+15:41 I mean, literally the whole von
+15:42 Neumann architecture is where you have
+one giant state in memory
+15:46 and then little instructions
+which mutate that state to get stuff done.
+15:50 Input is non deterministic and any output
+is forcing some side effect.
+15:55 Pure functional programing
+is still mostly academic,
+15:58 But what has been happening
+is the best parts of functional programing
+16:01 have been extracted and injected
+into our most popular languages.
+16:06 Like always balance is key.
+16:07 And adopting some of the principles
+like reducing state and formulating data
+16:11 pipelines in your programs where it makes
+sense can bring huge benefit.
+16:15 But without all the crazy restrictiveness.
+16:17 And I'd expect more of these patterns
+to become more common.
+16:20 Massively parallel systems don't rely
+on using one big state of memory.
+16:25 The more cores you throw at something,
+the more tracking your state of memory
+16:29 and elsewhere becomes bottleneck.
+16:31 So who knows?
+16:32 Maybe pure functional programing
+will have a new renaissance.

@@ -1,0 +1,20 @@
+0:00 The Problem
+1:16 The Mystery
+1:55 What We Need
+2:39 Attempt 1: A Script
+3:29 The Better Question
+4:02 The Loop
+4:32 The Notebook
+5:10 The Replica Loop
+6:00 The Scheduler
+6:42 The Kubelet
+7:18 The Notebook
+7:54 The Control Plane
+8:43 Healing
+9:22 Services
+10:04 The Bill
+10:44 The Big Idea
+11:06 The Problem, Revisited
+12:00 Proof
+12:38 To Summarise
+13:12 End

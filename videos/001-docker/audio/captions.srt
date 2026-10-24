@@ -1,0 +1,891 @@
+1
+00:00:00,200 --> 00:00:02,522
+Your app works perfectly on your laptop.
+
+2
+00:00:02,801 --> 00:00:03,996
+You put it on a server,
+
+3
+00:00:04,031 --> 00:00:05,134
+and it crashes.
+
+4
+00:00:05,413 --> 00:00:07,433
+The server has a different Node version.
+
+5
+00:00:07,758 --> 00:00:09,163
+A library is missing.
+
+6
+00:00:09,488 --> 00:00:10,765
+A setting is different.
+
+7
+00:00:11,148 --> 00:00:12,739
+Docker's promise is simple:
+
+8
+00:00:13,064 --> 00:00:14,062
+pack the app together
+
+9
+00:00:14,120 --> 00:00:15,536
+with everything it needs,
+
+10
+00:00:15,711 --> 00:00:17,893
+so it runs the same everywhere.
+
+11
+00:00:18,650 --> 00:00:20,914
+Docker calls that package a container.
+
+12
+00:00:21,123 --> 00:00:22,458
+And here's the strange part.
+
+13
+00:00:22,737 --> 00:00:23,933
+A container acts like
+
+14
+00:00:23,967 --> 00:00:25,384
+its own little computer,
+
+15
+00:00:25,465 --> 00:00:27,752
+with its own files and its own network.
+
+16
+00:00:27,996 --> 00:00:29,703
+Yet it starts in about a second,
+
+17
+00:00:29,796 --> 00:00:32,037
+and your laptop can run dozens of them.
+
+18
+00:00:32,478 --> 00:00:34,069
+How can something act like a whole
+
+19
+00:00:34,103 --> 00:00:36,205
+computer and cost almost nothing?
+
+20
+00:00:36,646 --> 00:00:37,888
+By the end of this video,
+
+21
+00:00:38,004 --> 00:00:39,781
+you'll know exactly how.
+
+22
+00:00:40,533 --> 00:00:41,357
+Let's pretend we're
+
+23
+00:00:41,381 --> 00:00:42,948
+building Docker ourselves.
+
+24
+00:00:43,273 --> 00:00:45,340
+To run safely next to other apps,
+
+25
+00:00:45,456 --> 00:00:47,209
+our app needs four things.
+
+26
+00:00:47,650 --> 00:00:49,508
+One: its own files,
+
+27
+00:00:49,542 --> 00:00:51,597
+in the exact versions it was built with.
+
+28
+00:00:51,980 --> 00:00:55,289
+Two: it can't see or bump into other apps.
+
+29
+00:00:55,672 --> 00:00:58,343
+Three: it can't hog the whole machine.
+
+30
+00:00:58,668 --> 00:01:00,398
+And four: it has to be
+
+31
+00:01:00,456 --> 00:01:02,592
+cheap and quick to start.
+
+32
+00:01:03,350 --> 00:01:05,800
+The obvious answer is a virtual machine.
+
+33
+00:01:06,125 --> 00:01:07,646
+That's a pretend computer,
+
+34
+00:01:07,797 --> 00:01:08,946
+made out of software,
+
+35
+00:01:09,120 --> 00:01:10,571
+running inside your real one.
+
+36
+00:01:10,896 --> 00:01:13,218
+Give every app its own pretend computer,
+
+37
+00:01:13,277 --> 00:01:15,436
+with a full operating system inside,
+
+38
+00:01:15,610 --> 00:01:16,608
+and the apps can't
+
+39
+00:01:16,655 --> 00:01:18,257
+get in each other's way.
+
+40
+00:01:19,017 --> 00:01:19,934
+One word matters for
+
+41
+00:01:19,981 --> 00:01:21,084
+the rest of this video,
+
+42
+00:01:21,153 --> 00:01:22,500
+so let's zoom in.
+
+43
+00:01:22,825 --> 00:01:24,485
+At the center of every operating
+
+44
+00:01:24,543 --> 00:01:26,831
+system is a program called the kernel.
+
+45
+00:01:27,074 --> 00:01:29,013
+Think of it as the computer's manager.
+
+46
+00:01:29,257 --> 00:01:30,883
+It starts every program,
+
+47
+00:01:31,057 --> 00:01:32,717
+hands out memory, and decides
+
+48
+00:01:32,752 --> 00:01:34,331
+who can touch which files.
+
+49
+00:01:34,609 --> 00:01:35,492
+And a program that's
+
+50
+00:01:35,538 --> 00:01:36,931
+running has a name too:
+
+51
+00:01:37,256 --> 00:01:38,615
+a process.
+
+52
+00:01:39,367 --> 00:01:40,934
+So with virtual machines,
+
+53
+00:01:41,108 --> 00:01:43,001
+every app gets its own operating
+
+54
+00:01:43,059 --> 00:01:44,870
+system and its own kernel.
+
+55
+00:01:45,253 --> 00:01:47,389
+That checks the first three boxes.
+
+56
+00:01:47,633 --> 00:01:49,154
+But three apps means three
+
+57
+00:01:49,235 --> 00:01:50,710
+full operating systems,
+
+58
+00:01:50,884 --> 00:01:52,590
+each one booting from scratch,
+
+59
+00:01:52,741 --> 00:01:54,750
+each one using gigabytes of memory.
+
+60
+00:01:55,191 --> 00:01:58,407
+Box four, cheap and quick, fails.
+
+61
+00:01:59,167 --> 00:02:00,816
+So let's ask a better question.
+
+62
+00:02:01,141 --> 00:02:03,532
+Does our app really need its own computer?
+
+63
+00:02:03,741 --> 00:02:04,926
+Or does it only need
+
+64
+00:02:04,960 --> 00:02:06,214
+to believe it has one?
+
+65
+00:02:06,539 --> 00:02:08,943
+Remember: the kernel is the manager.
+
+66
+00:02:09,152 --> 00:02:10,231
+It already decides
+
+67
+00:02:10,255 --> 00:02:11,914
+what every process gets.
+
+68
+00:02:12,123 --> 00:02:13,551
+So what if the kernel simply
+
+69
+00:02:13,609 --> 00:02:15,838
+showed our app a smaller world?
+
+70
+00:02:16,600 --> 00:02:18,829
+Here's what a normal process sees today.
+
+71
+00:02:19,270 --> 00:02:20,989
+Every other program on the machine,
+
+72
+00:02:21,163 --> 00:02:22,161
+each one with an ID
+
+73
+00:02:22,312 --> 00:02:23,578
+number the kernel gave it.
+
+74
+00:02:23,903 --> 00:02:25,818
+That number is called a PID,
+
+75
+00:02:25,900 --> 00:02:27,420
+short for process ID.
+
+76
+00:02:27,746 --> 00:02:29,952
+It also sees every file on the disk,
+
+77
+00:02:29,975 --> 00:02:31,775
+and every network connection.
+
+78
+00:02:32,158 --> 00:02:33,458
+Nothing is hidden.
+
+79
+00:02:34,217 --> 00:02:36,493
+Linux has a feature for exactly this,
+
+80
+00:02:36,585 --> 00:02:38,211
+called namespaces.
+
+81
+00:02:38,594 --> 00:02:40,684
+Think of a namespace as blinders.
+
+82
+00:02:41,009 --> 00:02:42,983
+It changes what a process can see,
+
+83
+00:02:43,064 --> 00:02:44,039
+and nothing else.
+
+84
+00:02:44,422 --> 00:02:45,839
+Put blinders on our app,
+
+85
+00:02:45,885 --> 00:02:47,684
+and the other programs vanish.
+
+86
+00:02:47,928 --> 00:02:50,320
+It even believes it's process number one,
+
+87
+00:02:50,494 --> 00:02:52,862
+the very first program on the machine.
+
+88
+00:02:53,245 --> 00:02:54,081
+That's a lie.
+
+89
+00:02:54,465 --> 00:02:55,811
+From the outside, it's
+
+90
+00:02:55,858 --> 00:02:58,691
+still process 48213.
+
+91
+00:02:59,450 --> 00:03:01,389
+The same blinders work for files.
+
+92
+00:03:01,830 --> 00:03:03,490
+Point the app at one ordinary
+
+93
+00:03:03,572 --> 00:03:04,674
+folder on the server,
+
+94
+00:03:04,825 --> 00:03:07,066
+and that folder becomes its whole world.
+
+95
+00:03:07,449 --> 00:03:08,262
+When the app looks at
+
+96
+00:03:08,297 --> 00:03:09,783
+the top of its file system,
+
+97
+00:03:09,957 --> 00:03:12,337
+all it finds is what's inside that folder.
+
+98
+00:03:12,580 --> 00:03:15,007
+Everything else on the disk is invisible.
+
+99
+00:03:15,767 --> 00:03:17,114
+And the same for the network.
+
+100
+00:03:17,358 --> 00:03:19,563
+The app gets its own network address.
+
+101
+00:03:19,842 --> 00:03:22,257
+So two apps can both use port 80,
+
+102
+00:03:22,431 --> 00:03:24,115
+the standard port for websites,
+
+103
+00:03:24,173 --> 00:03:25,426
+and they never collide.
+
+104
+00:03:25,868 --> 00:03:27,726
+Each one thinks it's the only one.
+
+105
+00:03:28,109 --> 00:03:30,315
+That's box two: our app can't
+
+106
+00:03:30,384 --> 00:03:32,532
+see or bump into anything else.
+
+107
+00:03:33,283 --> 00:03:35,199
+But blinders only hide things.
+
+108
+00:03:35,477 --> 00:03:37,230
+A hidden app can still eat all
+
+109
+00:03:37,288 --> 00:03:39,239
+the memory and slow everyone down.
+
+110
+00:03:39,622 --> 00:03:41,340
+So Linux has a second feature,
+
+111
+00:03:41,433 --> 00:03:43,953
+called control groups, or cgroups.
+
+112
+00:03:44,231 --> 00:03:45,903
+A cgroup is a budget.
+
+113
+00:03:46,147 --> 00:03:47,970
+Half of one CPU core.
+
+114
+00:03:48,295 --> 00:03:50,384
+512 megabytes of memory.
+
+115
+00:03:50,709 --> 00:03:52,706
+If the app goes over its memory budget,
+
+116
+00:03:52,788 --> 00:03:54,204
+the kernel shuts it down.
+
+117
+00:03:54,587 --> 00:03:56,178
+That's box three.
+
+118
+00:03:56,933 --> 00:03:58,616
+Now look at what we've built.
+
+119
+00:03:59,000 --> 00:03:59,870
+One machine.
+
+120
+00:04:00,149 --> 00:04:01,020
+One kernel.
+
+121
+00:04:01,345 --> 00:04:03,446
+And a few ordinary processes,
+
+122
+00:04:03,574 --> 00:04:05,362
+each with blinders and a budget.
+
+123
+00:04:05,687 --> 00:04:07,127
+There's no second operating
+
+124
+00:04:07,185 --> 00:04:08,160
+system to boot.
+
+125
+00:04:08,543 --> 00:04:09,587
+Starting a container
+
+126
+00:04:09,680 --> 00:04:11,457
+is just starting a process,
+
+127
+00:04:11,608 --> 00:04:13,523
+and that's why it takes about a second.
+
+128
+00:04:13,964 --> 00:04:14,928
+Box four.
+
+129
+00:04:15,253 --> 00:04:17,053
+Three boxes done, and they
+
+130
+00:04:17,122 --> 00:04:18,899
+all came from the same trick:
+
+131
+00:04:19,224 --> 00:04:20,211
+the kernel showing a
+
+132
+00:04:20,280 --> 00:04:22,521
+process a smaller world.
+
+133
+00:04:23,283 --> 00:04:24,223
+One catch.
+
+134
+00:04:24,607 --> 00:04:25,965
+These blinders and budgets
+
+135
+00:04:26,023 --> 00:04:27,706
+are Linux kernel features.
+
+136
+00:04:27,950 --> 00:04:29,506
+So on a Mac or Windows,
+
+137
+00:04:29,634 --> 00:04:32,258
+Docker Desktop quietly runs one small
+
+138
+00:04:32,339 --> 00:04:34,394
+Linux virtual machine in the background.
+
+139
+00:04:34,603 --> 00:04:37,540
+Just one, shared by all your containers.
+
+140
+00:04:38,300 --> 00:04:40,889
+That leaves box one: the files.
+
+141
+00:04:41,330 --> 00:04:43,037
+Remember the crash from the beginning?
+
+142
+00:04:43,420 --> 00:04:45,370
+The server had the wrong files.
+
+143
+00:04:45,812 --> 00:04:46,984
+So the fix is to ship
+
+144
+00:04:47,042 --> 00:04:48,285
+the files with the app.
+
+145
+00:04:48,668 --> 00:04:50,537
+That bundle is called an image.
+
+146
+00:04:50,862 --> 00:04:53,126
+It holds a small set of Linux tools,
+
+147
+00:04:53,219 --> 00:04:54,380
+the right Node version,
+
+148
+00:04:54,530 --> 00:04:56,272
+your libraries, and your code.
+
+149
+00:04:56,655 --> 00:04:57,944
+When the container starts,
+
+150
+00:04:58,037 --> 00:04:59,360
+the image's files fill
+
+151
+00:04:59,441 --> 00:05:00,544
+that private folder.
+
+152
+00:05:00,986 --> 00:05:02,263
+Box one.
+
+153
+00:05:03,017 --> 00:05:05,594
+Now notice what an image does not contain:
+
+154
+00:05:05,919 --> 00:05:06,697
+a kernel.
+
+155
+00:05:07,139 --> 00:05:08,903
+The image brings the files.
+
+156
+00:05:09,228 --> 00:05:11,063
+The server brings the kernel.
+
+157
+00:05:11,504 --> 00:05:12,560
+That's why an image is
+
+158
+00:05:12,642 --> 00:05:14,267
+often tens of megabytes,
+
+159
+00:05:14,383 --> 00:05:15,533
+while a virtual machine's
+
+160
+00:05:15,649 --> 00:05:18,017
+disk is usually gigabytes.
+
+161
+00:05:18,783 --> 00:05:20,095
+You describe an image with a
+
+162
+00:05:20,165 --> 00:05:22,370
+short recipe called a Dockerfile.
+
+163
+00:05:22,754 --> 00:05:24,228
+Each step adds a layer:
+
+164
+00:05:24,507 --> 00:05:25,784
+a set of files stacked
+
+165
+00:05:25,819 --> 00:05:27,270
+on top of the step before.
+
+166
+00:05:27,653 --> 00:05:28,698
+Start from a base with
+
+167
+00:05:28,768 --> 00:05:30,265
+Linux tools and Node.
+
+168
+00:05:30,590 --> 00:05:32,541
+Copy in your list of dependencies.
+
+169
+00:05:32,785 --> 00:05:33,644
+Install them.
+
+170
+00:05:33,969 --> 00:05:35,594
+Then copy in your code.
+
+171
+00:05:35,919 --> 00:05:38,334
+Four steps, four layers.
+
+172
+00:05:39,100 --> 00:05:40,888
+Here's what most people don't know.
+
+173
+00:05:41,271 --> 00:05:43,291
+Image layers are read-only.
+
+174
+00:05:43,570 --> 00:05:44,742
+They never change.
+
+175
+00:05:45,126 --> 00:05:46,484
+When a container runs,
+
+176
+00:05:46,600 --> 00:05:48,887
+Docker adds one thin layer on top,
+
+177
+00:05:49,061 --> 00:05:50,315
+just for that container.
+
+178
+00:05:50,756 --> 00:05:52,950
+Any file the app changes is copied
+
+179
+00:05:52,985 --> 00:05:54,808
+up into that top layer first.
+
+180
+00:05:55,133 --> 00:05:57,350
+This trick is called copy-on-write.
+
+181
+00:05:57,734 --> 00:05:59,011
+It's why ten containers
+
+182
+00:05:59,069 --> 00:06:00,334
+can share one image,
+
+183
+00:06:00,450 --> 00:06:01,727
+and why a fresh container
+
+184
+00:06:01,820 --> 00:06:04,223
+always starts perfectly clean.
+
+185
+00:06:04,983 --> 00:06:07,177
+Layers also make rebuilds fast.
+
+186
+00:06:07,502 --> 00:06:09,766
+Docker keeps every layer it has built.
+
+187
+00:06:10,091 --> 00:06:11,775
+Change one line of your code,
+
+188
+00:06:11,926 --> 00:06:13,621
+and every step before copying
+
+189
+00:06:13,667 --> 00:06:15,978
+your code is reused as-is.
+
+190
+00:06:16,361 --> 00:06:18,242
+Only the last steps run again.
+
+191
+00:06:18,567 --> 00:06:20,506
+That's why good Dockerfiles install
+
+192
+00:06:20,575 --> 00:06:22,816
+dependencies before copying the code.
+
+193
+00:06:23,060 --> 00:06:24,395
+Do it the other way around,
+
+194
+00:06:24,453 --> 00:06:27,692
+and every tiny edit reinstalls everything.
+
+195
+00:06:28,450 --> 00:06:29,901
+So let's put it all together.
+
+196
+00:06:30,226 --> 00:06:32,595
+A container is a normal process.
+
+197
+00:06:32,920 --> 00:06:35,091
+Namespaces decide what it can see.
+
+198
+00:06:35,370 --> 00:06:37,645
+Cgroups decide how much it can use.
+
+199
+00:06:37,889 --> 00:06:40,164
+And an image gives it its own files.
+
+200
+00:06:40,443 --> 00:06:42,057
+It isn't a tiny computer.
+
+201
+00:06:42,266 --> 00:06:43,740
+It's an ordinary process
+
+202
+00:06:43,775 --> 00:06:45,632
+that the kernel is lying to.
+
+203
+00:06:46,383 --> 00:06:48,275
+Now watch docker run again.
+
+204
+00:06:48,601 --> 00:06:50,133
+Docker downloads any image
+
+205
+00:06:50,191 --> 00:06:51,561
+layers you don't have yet.
+
+206
+00:06:51,840 --> 00:06:53,233
+It stacks them and adds
+
+207
+00:06:53,268 --> 00:06:54,580
+a thin writable layer.
+
+208
+00:06:54,858 --> 00:06:56,008
+It puts on the blinders
+
+209
+00:06:56,054 --> 00:06:57,227
+and sets the budget.
+
+210
+00:06:57,505 --> 00:06:58,736
+Then it starts your app
+
+211
+00:06:58,806 --> 00:07:00,826
+as one ordinary process.
+
+212
+00:07:01,104 --> 00:07:02,115
+The same files on your
+
+213
+00:07:02,161 --> 00:07:03,566
+laptop and on the server,
+
+214
+00:07:03,635 --> 00:07:05,493
+so no more works on my machine.
+
+215
+00:07:05,702 --> 00:07:07,490
+And no extra operating system,
+
+216
+00:07:07,548 --> 00:07:09,557
+so it starts in about a second.
+
+217
+00:07:10,317 --> 00:07:11,130
+Want proof?
+
+218
+00:07:11,513 --> 00:07:12,627
+On a Linux server,
+
+219
+00:07:12,802 --> 00:07:14,752
+run ps, the command that
+
+220
+00:07:14,810 --> 00:07:16,621
+lists every running program.
+
+221
+00:07:16,946 --> 00:07:19,187
+Your container is right there in the list.
+
+222
+00:07:19,466 --> 00:07:20,905
+Just a normal process,
+
+223
+00:07:20,998 --> 00:07:22,856
+with a very convincing view.

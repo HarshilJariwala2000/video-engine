@@ -1,0 +1,25 @@
+node_modules
+dist
+.env
+
+# per-video generated media (re-creatable from narration/script.mjs)
+videos/*/output
+videos/*/shorts
+videos/*/thumbnails
+videos/*/audio/cache
+videos/*/audio/scenes
+videos/*/audio/*.wav
+
+# local TTS
+tts/.venv
+tts/__pycache__
+tts/models
+voice/tests
+
+# studio job logs
+studio/.logs
+
+# channel-kit showcase renders (re-creatable: npm run showcase)
+showcase/demo-*
+showcase/output
+showcase/.cache

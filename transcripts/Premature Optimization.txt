@@ -1,0 +1,391 @@
+00:00 I truly do believe that
+premature optimization is the root of all
+00:04 evil.
+00:18 Most conversations about performance
+00:20 are a total waste of time,
+not because performance isn’t important,
+00:24 but because people feel very,
+very strongly about performance.
+00:29 I tend to think of performance
+as an element of this tradeoff triangle.
+00:32 Velocity, here, is how quickly one adds
+new features and adaptability
+00:36 is how well the system
+can change to new requirements.
+00:40 You might think that velocity and
+adaptation go hand in hand, and they do.
+00:45 But sometimes one can hurt the other.
+00:47 Focusing on pure velocity means hacking
+together something as fast as possible.
+00:51 Taking the shortest path to the feature.
+00:53 Future maintainers be damned,
+and at the beginning
+00:56 you'll gain a lot of immediate velocity
+as you hack things together.
+01:00 But as you do this,
+you're creating a bunch of technical debt
+01:03 which will weigh you down to a halt.
+01:06 Adaptability is about writing
+01:07 the code in a way to enable changes
+as new requirements come in.
+01:11 Think creating reusable
+extensible components,
+01:14 beautifully crafted interfaces
+and configurability.
+01:17 With the right designs,
+you can increase velocity by reducing
+01:20 the size of changes
+needed to add new features.
+01:24 But if you make things too adaptable,
+you also hurt velocity.
+01:27 If you had a crystal ball
+and could see the future,
+01:29 you'd be able to know exactly
+which use cases you'd need to design for
+01:33 and also
+which ones you don't need to design for.
+01:35 But when you
+01:36 build a highly adaptable system
+that can adapt to a whole bunch of cases
+01:39 that never happen, then all of that
+just ends up being a big waste of time.
+01:44 With highly extensible systems,
+you also hurt performance.
+01:48 Adding lots of adaptability naturally adds
+more abstraction and indirection
+01:52 in your code, which usually has
+a negative impact on performance.
+01:56 But this trade off is usually worth it
+because of the adaptability it allows.
+02:01 You might think you always
+want something in the middle,
+02:04 but I actually believe this
+depends on the stage of your project.
+02:08 A feature complete game
+02:09 pushing final ship
+date would focus on performance.
+02:13 You might be okay
+with reducing the velocity of new changes
+02:15 and adaptability in order to squeeze out
+the last little bit of performance.
+02:20 But when a game is at earlier
+in development,
+02:22 you might focus on
+getting more features out quickly or
+02:25 building up an extensible system
+that lets you tweak the game freely.
+02:30 When Mark Zuckerberg wrote Facebook,
+he did it in. PHP.
+02:33 PHP is an awkward language,
+to say the least,
+02:37 and it gave Facebook a whole slew
+of scaling issues as Facebook grew.
+02:41 They ended up making a PHP to C++
+compiler.
+02:44 And later,
+when that had a performance plateau,
+02:46 they basically created
+a dialect of PHP called Hack.
+02:50 But would Zuckerberg be better off
+if he wrote it in highly optimized
+02:53 code to start? No, I don't think so.
+02:56 I think writing in the inconsistent,
+inefficient
+02:59 PHP was the right move because it meant
+that he could build Facebook quickly.
+03:04 Once performance
+03:05 became a real problem
+Engineers went to solve it.
+03:09 If he focused on choosing performance over
+velocity, it's not clear
+03:13 that Facebook would have taken off and
+Zuckerberg wouldn't have had the privilege
+03:16 to visit Congress as much as he has.
+03:20 So the key with the triangle is
+03:22 that performance is a problem,
+but it's not usually the first problem.
+03:27 And you should be deliberate
+about which way you're leaning.
+03:30 It's useful to differentiate
+performance issues into two camps:
+03:34 macro performance,
+which I think of as design
+03:37 level performance - these are system
+wide performance considerations;
+03:41 and micro performance,
+which is fine tuned performance.
+03:45 This could be looking at the perf
+of a single module or function.
+03:49 Premature optimization
+usually occurs for micro performance.
+03:53 This is typically where someone comments
+in a code review that you should do X
+03:56 instead of Y because x is faster than y,
+but computers are really fast.
+04:01 I have some python code
+that helps me generate the code animations
+04:04 for this series, and that python code
+do some horrific stuff.
+04:08 Each character,
+04:08 my code is basically in a big array
+and on every frame
+04:11 I just linear search through it
+to find the relevant characters,
+04:14 and it still renders
+04:15 me out of video fast enough
+that it's not worth making it any faster.
+04:19 At the end of the day, you're writing code
+to solve a real world problem
+04:23 and typically getting to the solution
+of that real world problem faster
+04:27 is better than solving the problem
+slower with faster code.
+04:31 Let's look at a few examples
+of premature optimization.
+04:36 In C++, there's two operators that both
+let you increment a variable by one.
+04:41 Proponents of ++i.
+04:42 will say it's faster
+because technically i++ needs
+04:46 to make a copy of the value since when
+it's part of a larger expression,
+04:49 the incrementation needs to happen
+after the expression is evaluated.
+04:56 Oh man, this one gets me.
+04:58 You might say, but CodeAesthetic
+if it's faster.
+05:02 Well, then why don't you just do it?
+05:04 Why don't you just always do ++i?
+05:07 Because sir/madame.
+05:10 Think of the precedence.
+05:12 I don't know for a fact
+that it is indeed faster.
+05:14 And so should I blindly trust Daryl
+because he thinks it's faster?
+05:19 No, of course not.
+05:20 So now I need to go through and do a
+thorough and lengthy investigation
+05:23 into the distinction between i++ and ++i.
+05:27 Now, I've got to go and disassemble it.
+05:29 I write a for loop with the pre increment
+operator and look at what it does.
+05:34 Okay.
+05:34 Here it loads the value from
+i into a register, EAX, then
+05:39 adds one to it and then puts the result
+back into the memory for i.
+05:44 Okay. Seems straightforward.
+05:45 So let's look at post increment
+and it's identical.
+05:49 You get the same code for both. Okay.
+05:52 But this is just an int.
+05:53 What if it's an iterator?
+05:55 We have a vector
+which is just C++ versions of a list
+05:58 and you can access the elements
+of the vector through an object
+06:02 that overrides the two ++ operators.
+06:05 The post one would need to make a copy,
+right?
+06:08 Well, let's look.
+06:10 Aha. Gotcha.
+06:11 Look at the difference
+between these two long functions.
+06:14 You'll notice that this one calls
+the function for the post
+06:17 and this one calls the function
+for the pre.
+06:19 And the post version of this
+has four extra assembly lines
+06:23 to make a copy of the iterator
+and it calls into the other operator.
+06:27 So you got me.
+06:28 It does cost a little bit more to do i++.
+06:32 Except when you turn on optimization,
+those function calls completely disappear
+06:37 and you end up with identical code
+for both cases.
+06:40 So now the answer is a thorough
+06:42 and totally satisfying: maybe.
+06:46 We must measure.
+06:48 After measuring the difference
+on my MacBook
+06:50 the speed of the slowest increment
+is 3.4 nanoseconds.
+06:55 If you notice a little counter below,
+this is how many worst
+06:58 case increments have occurred
+since I started talking about this.
+07:04 Is my increment
+really going to execute this
+07:06 many times?
+07:09 Is my code going to even ship?
+07:13 Will my startup fail?
+07:17 I spent 3 hours on this investigation.
+07:20 Could have spent 3 hours building the best
+07:22 dog walking app known to humanity.
+07:27 Does anything really matter?
+07:32 So my point with this
+is that you should ask
+07:34 yourself,
+is this conversation even worth it?
+07:37 If it brings you joy to figure out
+which is technically faster, go for it.
+07:41 But I don't think this should end up on
+a code review because it doesn't matter.
+07:46 Otherwise, I have to go through
+this whole thing again.
+07:48 I like i++
+because I think it looks prettier.
+07:51 And until someone tells me that
+we can't ship because our app is too slow
+07:54 and we've measured that the solution
+is to change all of our i++s
+07:57 to ++is, I'm sticking with it.
+08:01 This also applies to functions.
+08:03 In many of my previous videos,
+08:04 I've argued about using extraction
+to help readability.
+08:08 Some have argued
+that functions are expensive,
+08:10 but rarely has the cost of a function
+been so significant
+08:13 that removing the function
+is the solution to a performance problem.
+08:17 And in the rare instance
+that it was a solution, it doesn't mean
+08:20 that it's proof that it's worth
+the readability loss by default.
+08:26 A big issue
+with making performance rules to follow
+08:28 is that often
+the rules have a lot of exceptions.
+08:32 Here we have a class that keeps track
+of the currently logged in users.
+08:37 Our first implementation just has an array
+which contains a list of users.
+08:40 Then we have this loggedIn() method
+which returns
+08:42 whether or not the user's logged in.
+08:45 It has a simple for loop
+08:46 which looks through the list
+searching for the current user.
+08:49 During a code review
+Someone says, “Hey, this thing is slow.
+08:52 You shouldn't
+just search the list of users like that.
+08:55 It's slow, and you should use a set
+instead” - a data structure
+08:58 that lets
+you look up unique elements much faster.
+09:01 But when you measure the difference,
+you actually find that set is slower
+09:05 when you only have a few users log in,
+which is normal for your system.
+09:09 I’d speculate
+this is because our integers in the area
+09:11 right beside each other in memory
+and the implementation of set likely
+09:14 allocates objects in lots of different
+places in memory - reducing cache hits.
+09:19 But like I said before, until you've shown
+that this function specifically
+09:23 is the leading cause of your performance
+issues, go with what's more readable.
+09:28 So I do think that
+09:28 set creates cleaner,
+more readable and less bug prone code.
+09:33 So I'd go with that.
+09:35 There's so many factors to performance
+that there's only one way
+09:37 to properly optimize: measure.,
+try something, measure again.
+09:43 Measuring is critical because like we just
+showed your assumptions
+09:46 of what will make things
+faster, can make things slower.
+09:50 You can help form a hypothesis of how to
+make things better by doing an analysis.
+09:54 Data structure selection
+by far is the most important,
+09:56 and that's because choosing the right data
+structure can give dramatically
+09:59 better results
+over the wrong data structure. When
+10:03 dealing with performance issues.
+10:04 I tend to think in terms of 80% moves
+first.
+10:07 What are changes
+that could have an 80% reduction?
+10:09 And often the only thing that can get you
+that far are data structure changes.
+10:14 Once you've implemented
+them and measured the difference
+10:16 and still see it's not good enough, then
+you have to look at the smaller things.
+10:21 You might not know where to start,
+and that's
+10:23 where you'd want to look at the profiler.
+10:25 A profiler can tell you
+what are the hotspots of your code.
+10:28 It can point out functions
+that are the most expensive.
+10:31 There was kind of a funny story
+about Grand Theft Auto V online.
+10:35 It was so slow to launch that one player
+who goes by t0st wanted to figure out why.
+10:40 Even though they didn't have
+the source code
+10:41 t0st used a profiler
+figure out why it was so slow.
+10:45 It turned out
+10:45 pretty much all of the time was spent
+parsing and processing a JSON file.
+10:49 A patch to fix just that one part
+improved the load time by 70%.
+10:53 That's the funny thing with performance
+is that sometimes when things are slow,
+10:57 it's just one silly thing
+slowing everything down.
+10:60 For GTA V all someone had to do is look.
+11:04 After data structures and profiling
+11:06 then you just have to start
+making educated guesses,
+11:09 thinking about how your code
+11:10 could be working underneath the hood
+and find ways to simplify stuff.
+11:14 A lot of performance comes
+from how your code uses memory.
+11:18 Allocating memory, which is done
+whenever you make a new object or array,
+11:21 can slow things down in critical sections
+because the system has to find
+11:25 free chunks to put stuff.
+11:27 You'll get a lot of speed for having
+critical elements close by in memory
+11:30 because things are much, much faster
+when they're in the CPU's cache.
+11:34 But again,
+I wouldn't worry about these things
+11:36 until you know you have a performance
+problem and have tried other things first.
+11:41 So when you optimize:
+11:42 first, have a real performance problem,
+then measure it.
+11:46 Try to make 80% moves
+by swapping data structures
+11:49 or moving to a well-known
+faster algorithm.
+11:52 Profile and find hotspots.
+11:55 Then, worst case, start thinking about
+what your code is doing under the hood.
+12:01 What are some interesting cases
+you've hit while
+12:03 trying to make code faster?
+12:08 When a video of mine is getting long,
+I sometimes cut sections and post them
+12:11 as deleted scenes on my Patreon. For this
+video, we talked about micro optimization,
+12:15 but there's a section on my Patreon
+about macro optimization strategies.
+12:19 If you're curious.

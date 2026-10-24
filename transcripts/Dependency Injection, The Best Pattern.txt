@@ -1,0 +1,349 @@
+00:00 dependency injection is a term I don't
+00:02 love because it sounds a lot more fancy
+00:04 than it is
+00:06 dependency injection is simply when you
+00:07 have a piece of code
+00:09 which uses another piece of code and
+00:11 instead of using that code directly it's
+00:13 passed in instead
+00:15 when you pass something in to be used we
+00:17 call it injection we inject the
+00:19 dependent code into the code that uses
+00:21 it while this part is quite simple it
+00:23 unlocks some very powerful side effects
+00:25 that we're going to cover
+00:27 we have a business app where users can
+00:29 chat with their co-workers
+00:31 they can also send pictures and files to
+00:33 each other when a user sends something
+00:35 the file gets uploaded to our attachment
+00:37 service
+00:38 the attachment service is responsible
+00:39 for storing retrieving and processing
+00:41 all attachments
+00:43 we're going to build up this whole
+00:45 service using dependency injection and
+00:47 we'll see what it enables us to do
+00:58 when a user sends a message with an
+00:60 attachment the message text gets sent to
+01:02 our standard chat service
+01:04 we want people to receive their messages
+01:06 almost real time so this service is all
+01:08 about speed the attachment on the other
+01:11 hand gets uploaded to our attachment
+01:12 service there's an endpoint in our node
+01:14 service attachment slash upload that the
+01:16 app connects to and uploads a file the
+01:19 attachment gets stored on the disk
+01:20 temporarily process in a few ways we'll
+01:22 talk about and then upload it to its
+01:24 final destination
+01:27 the default storage location is an S3 a
+01:30 part of Amazon's web services it's a
+01:32 simple storage service that lets you put
+01:34 up files and pull them down
+01:36 we have some code here that takes the
+01:38 uploaded file and then uploads it to S3
+01:41 unfortunately simple and elegant doesn't
+01:43 always like to co-exist with business
+01:44 while S3 is nice and straightforward and
+01:47 most of our clients are okay with it we
+01:49 have a few firms that don't want us to
+01:51 permanently store their data this means
+01:53 we actually need our service to handle
+01:55 multiple storage locations then
+01:57 depending on which company a user is
+01:59 from we need to put their attachments in
+02:01 the right place
+02:02 most of these picky clients just give us
+02:04 an SFTP server to connect to but one
+02:06 really wanted us to use webdev
+02:09 our first thought might be to Simply
+02:11 extend our upload code with some if
+02:13 statements
+02:20 and then have the caller of the upload
+02:22 method pass in where to upload the file
+02:24 this is awkward for a few reasons first
+02:27 this one class has a ton of
+02:28 responsibility making the code pretty
+02:30 ugly
+02:31 the code for SFTP is intermingled with
+02:33 the code from AWS and web dev even
+02:36 though they're pretty different
+02:37 there's a lot of paths the code can take
+02:39 and that makes the code harder to
+02:41 understand
+02:44 second using the class isn't very simple
+02:48 we have this one upload function which
+02:50 needs a bunch of info for where we're
+02:52 going to upload the attachment
+02:54 but what info it needs is very different
+02:55 depending on where it's going if it's
+02:57 AWS we need the AWS keys if it's SFTP we
+03:01 need the address and private key and
+03:03 webdav needs a URL in auth key so we're
+03:06 kind of forced to have a bunch of these
+03:07 optional variables that need to be
+03:08 filled out in certain cases and then
+03:11 comments to tell you which ones to fill
+03:12 out this makes it pretty easy for the
+03:14 caller to make a mistake
+03:16 and finally the part of the code that
+03:18 actually calls upload over here needs to
+03:20 have all of this destination specific
+03:22 context to perform the upload
+03:24 but really at this phase it just wants
+03:26 to upload
+03:27 the part of the code that knows best
+03:29 which company a user is from and can
+03:31 deduce where the file should go is up
+03:33 here at the beginning of the request but
+03:35 right now we're forced to pass all of
+03:36 this information around
+03:38 let's see what happens if we use
+03:40 dependency injection instead let's
+03:42 create an interface that represents our
+03:43 attachment storage which contains a key
+03:46 upload method that does what the request
+03:47 Handler wants to do upload an attachment
+03:51 then we create three different
+03:53 implementations of the storage interface
+03:55 the configuration for each is passed
+03:57 into their Constructor
+03:59 there's no more optional variables that
+04:01 sometimes need to be set
+04:03 we require exactly these values and you
+04:05 get an error if you forget one
+04:08 so now once the user is authenticated
+04:10 and we know which company they're from
+04:12 we create the storage that the request
+04:14 Handler should use
+04:16 instead of the configuration needing to
+04:17 be passed all the way to the request
+04:19 Handler only the storage is passed to or
+04:21 injected into the request Handler
+04:24 it's not aware of which storage is
+04:26 passed in or where the file is going it
+04:28 just knows that it can call upload
+04:31 that said this construction code is
+04:33 still a little too complex to put here
+04:35 so let's see if we can clean this up
+04:38 if we look at the input here it's really
+04:39 just this company configuration
+04:42 and the output is the storage which
+04:44 conforms to the storage interface so we
+04:47 can just move this out to a factory
+04:52 great but saving to the final storage
+04:55 destination is the last step of the
+04:57 process
+04:58 we have all these other stages that the
+04:60 upload goes through
+05:02 foreign
+05:04 each upload through a virus scanner
+05:08 this checks the files for signatures of
+05:10 obvious viruses
+05:11 then if the file is an image we scale it
+05:14 down to a Max width of 2500 pixels
+05:17 this is what we display to the user when
+05:19 they click on an image because it uses
+05:21 less bandwidth and loads faster
+05:24 then the file goes through preview
+05:26 generation this is basically the
+05:28 thumbnail that pops up underneath an
+05:29 attachment in the chat so the user can
+05:31 see what the attachment is without fully
+05:33 downloading it
+05:35 then the last step is encryption
+05:38 if we're storing the files on Amazon's
+05:40 S3 we pre-encrypt the files before
+05:42 setting them up that way if there's a
+05:44 security breach at Amazon we can say
+05:46 they're encrypted when we have to send
+05:47 it one of those we were hacked by the
+05:49 way emails
+05:51 so let's see how we can make each of
+05:52 these requirements fit cleanly into our
+05:54 service
+05:55 for the virus scanner we currently use a
+05:57 scanner called threat protect however
+05:60 Synergy security scanner has much better
+06:02 detection kpis and our plan is to switch
+06:04 to it but sadly we haven't finalized the
+06:07 deal with Synergy we're only allowed to
+06:09 test with it in our development
+06:11 environment not in production no worries
+06:14 we can create a shared interface for our
+06:16 two scanners
+06:20 and on initialization we pick one
+06:26 and inject that one into the request
+06:29 Handler
+06:33 when we launch in development mode
+06:34 Synergy security is initialized and in
+06:37 production the old threat protect
+06:39 scanner is created our request Handler
+06:42 just scans the files but doesn't know
+06:44 which scanner is doing it
+06:45 for image scaling we use the sharp
+06:47 Library
+06:49 in order to inject that we simply wrap
+06:51 it up in an image scalar interface
+06:54 the interface also contains a method
+06:56 which tells us if an attachment supports
+06:59 scaling
+07:01 we injected into our upload request and
+07:04 only scale if the attachment supports it
+07:08 preview generation is the most complex
+07:10 given how many types of attachments
+07:12 there could be
+07:13 we have an interface that represents the
+07:15 different preview generators it takes
+07:17 the input file and then Returns the
+07:19 preview image we have one implementation
+07:21 that handles document files like word
+07:22 docs slides Etc
+07:24 one for videos which extracts the
+07:26 thumbnail from the video and one for
+07:28 images but the image one can thankfully
+07:31 just reuse our image scaler
+07:33 we just inject the same image scaler
+07:35 from before into the image preview
+07:37 generator
+07:38 so we have all these preview generator
+07:40 classes but we only need one at a time
+07:43 depending on which file type is being
+07:45 uploaded the upload request shouldn't
+07:47 need to worry about these details
+07:49 we'll inject a factory which takes on
+07:51 the burden of deciding which preview
+07:53 generator to create
+08:07 the factory takes in the mime type of
+08:10 the upload and then Returns the right
+08:11 preview generator to use
+08:15 so now the upload can simply just ask
+08:17 the factory for the preview generator
+08:19 and then use it
+08:23 and lastly we have encryption
+08:25 we only have one implementation of
+08:27 encryption we use AES
+08:30 but the key is per user and comes from
+08:32 our key service
+08:33 so we inject our key service into the
+08:36 AES encryption
+08:37 and then the AES encryption into the
+08:39 storage Factory
+08:45 then whenever we get a request for a
+08:47 company that's configured to use AWS the
+08:50 storage Factory injects the AES
+08:52 encryption into the new instance of AES
+08:54 storage
+08:56 then the upload request gets this final
+08:58 constructed AWS storage and simply calls
+09:01 upload without knowing that there's this
+09:03 whole chain of connected functionality
+09:08 and now we have our complete
+09:10 architecture
+09:13 you can see that our service is
+09:14 configurable from this one spot which
+09:17 makes it super easy to change
+09:20 once our deal with Synergy security goes
+09:22 through it's just these two lines to
+09:24 change our service want to add preview
+09:26 support for a new file type it just
+09:29 slots in like this no access to the key
+09:32 server when running the attachment
+09:33 service on your local development box no
+09:36 worries we can just use a fixed key when
+09:38 running locally
+09:39 injection basically just lets us pick
+09:42 and choose from our compatible puzzle
+09:43 pieces and then slot them in when we
+09:45 need them
+09:47 you'll notice that the time in which
+09:48 dependencies are injected varies a bit a
+09:51 few dependencies are resolved and
+09:53 injected right at startup
+09:55 this is often the most common scenario
+09:57 in dependency injection
+09:59 but some dependencies are chosen and
+10:01 injected when a request comes in
+10:03 either case their process is mostly the
+10:06 same we have some code that accomplishes
+10:08 something it lists the dependencies it
+10:10 needs and so we fulfill those needs
+10:14 you might wonder why go through the
+10:16 hassle of creating interfaces and
+10:17 injecting things when we only have one
+10:19 implementation like we only have one
+10:22 implementation of encryption
+10:24 well there's one big thing we haven't
+10:26 talked about
+10:32 if you look at our architecture here
+10:34 most of our components talk to each
+10:36 other through these interfaces which are
+10:38 injected in this means that each of
+10:40 these connection points we can control
+10:42 what is being used we've been using this
+10:44 to choose which implementation to use in
+10:46 our production service but we can also
+10:48 make them use no implementation we can
+10:51 use injection to inject fake or mock
+10:53 implementations instead which basically
+10:55 means we can slice and dice up our
+10:57 architecture to isolate sections of code
+10:59 during testing
+11:00 let's say we want to write a test for
+11:02 our AWS storage class
+11:05 we can use a fake S3 which we run
+11:07 locally that pretends to be the cloud
+11:09 service then our task can call upload
+11:12 and we can verify that a file got
+11:14 uploaded to S3
+11:16 but because of the encryption we can't
+11:18 actually check the content of the file
+11:19 and verify that it's correct and didn't
+11:21 get corrupted
+11:23 not to worry let's inject a mock
+11:25 encryption that basically just disables
+11:27 encryption when the AWS storage class
+11:29 asks us to encrypt a file we'll just
+11:32 hand back a file that isn't actually
+11:34 encrypted
+11:35 now our test is able to verify fully
+11:38 that uploading and only uploading works
+11:40 because we've isolated it away from our
+11:42 dependencies
+11:44 what if we wanted to test encryption
+11:46 well we could mock out the key store to
+11:48 return a key that we control instead of
+11:50 going all the way to the key service
+11:52 or if we wanted to integration test both
+11:55 our AWS code and encryption code
+11:57 together we could do that by injecting
+11:59 our fake keystore into the real
+12:01 encryption
+12:03 and then inject the real encryption into
+12:05 the AWS storage
+12:07 a key thing here is that this is easy to
+12:09 do
+12:10 a natural side effect of having nice
+12:12 code is that it's easy to test without
+12:14 needing to hack around the code
+12:16 structure if you find yourself asking
+12:17 how can I test a private method or I
+12:20 need to set some internal variable in
+12:22 order to test that's a signal that you
+12:24 maybe need to pull some stuff out that
+12:26 you need to isolate some part of it by
+12:28 separating it and injecting it instead
+12:30 foreign
+12:40 I truly think you only learned stuff by
+12:42 trying stuff so for those subscribe to
+12:45 my patreon I'm going to start including
+12:47 some light experiments with videos
+12:49 for this one you can download the
+12:51 attachment service I wrote and I want
+12:53 you to reconfigure the service by
+12:55 changing the dependency injection
+12:57 and then you get to win some aesthetic
+12:59 points if you enter the results on the
+13:00 site

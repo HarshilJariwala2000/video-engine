@@ -1,0 +1,117 @@
+{
+  "slug": "002-postgresql-mvcc-and-vacuum",
+  "title": "Postgres never updates a row. Here's what it does instead",
+  "created": "2026-10-17",
+  "stage": "publish",
+  "voice": "elevenlabs",
+  "idea": {
+    "id": "postgres-mvcc",
+    "batch": "2026-10-17 general",
+    "title": "Postgres never updates a row. Here's what it does instead",
+    "format": "under-the-hood",
+    "topic": "PostgreSQL MVCC and VACUUM",
+    "aha": "An UPDATE in Postgres writes a brand-new copy of the row and marks the old one dead, which is how readers never block writers and why the table grows.",
+    "pain": "You deleted half a table and the disk usage didn't go down, or someone said 'you need to vacuum'.",
+    "didntKnow": [
+      "UPDATE is effectively INSERT a new version + mark the old one expired",
+      "Each row version carries the transaction IDs that created and expired it",
+      "DELETE doesn't free disk space; VACUUM marks the space reusable, and only VACUUM FULL shrinks the file",
+      "Two queries running at the same moment can see different versions of the same row",
+      "Transaction IDs are 32-bit, and if they wrap without vacuuming Postgres stops accepting writes"
+    ],
+    "visual": "A table page with stacked row versions stamped with xmin/xmax numbers; two reader boxes with snapshot glasses seeing different rows",
+    "device": "Row version stamps: CREATED BY tx / DELETED BY tx",
+    "score": 7,
+    "why": "Contrarian title on the most-loved database, with a concrete disk-usage pain",
+    "status": "picked"
+  },
+  "scriptVersion": 4,
+  "reviews": [
+    {
+      "version": 3,
+      "at": "2026-10-17T17:48:17.863Z",
+      "decision": "approved",
+      "general": "",
+      "comments": []
+    }
+  ],
+  "selectedThumbnail": "thumb-3.png",
+  "history": [
+    {
+      "at": "2026-10-17T12:22:22.688Z",
+      "event": "Created"
+    },
+    {
+      "at": "2026-10-17T12:26:28.713Z",
+      "event": "Script v1 written"
+    },
+    {
+      "at": "2026-10-17T15:43:51.077Z",
+      "event": "Script v2: personality/voice pass (VIDEO_BRIEF §3.6)"
+    },
+    {
+      "at": "2026-10-17T16:53:39.607Z",
+      "event": "Script v3: channel intro A after the hook (scene 02)"
+    },
+    {
+      "at": "2026-10-17T17:48:17.865Z",
+      "event": "Script v3 approved"
+    },
+    {
+      "at": "2026-10-17T18:28:13.662Z",
+      "event": "Voiceover generated with ElevenLabs"
+    },
+    {
+      "at": "2026-10-17T18:33:35.223Z",
+      "event": "Voiceover generated with ElevenLabs"
+    },
+    {
+      "at": "2026-10-17T18:35:54.681Z",
+      "event": "Voiceover approved"
+    },
+    {
+      "at": "2026-10-17T19:07:59.266Z",
+      "event": "Animation code written, check passed"
+    },
+    {
+      "at": "2026-10-17T19:27:32.423Z",
+      "event": "Thumbnails v1 rendered"
+    },
+    {
+      "at": "2026-10-17T19:29:04.927Z",
+      "event": "Thumbnail thumb-2.png selected"
+    },
+    {
+      "at": "2026-10-17T19:29:48.330Z",
+      "event": "Thumbnails v2 rendered"
+    },
+    {
+      "at": "2026-10-17T19:30:11.033Z",
+      "event": "Thumbnail thumb-2.png selected"
+    },
+    {
+      "at": "2026-10-17T19:32:22.765Z",
+      "event": "Thumbnails v2 rendered (thumb-2: added Postgres elephant)"
+    },
+    {
+      "at": "2026-10-17T19:51:13.326Z",
+      "event": "Thumbnail thumb-2.png selected"
+    },
+    {
+      "at": "2026-10-17T19:53:09.573Z",
+      "event": "Thumbnails v2 rendered (elephant removed from thumbs 1-2)"
+    },
+    {
+      "at": "2026-10-17T19:53:49.018Z",
+      "event": "Thumbnail thumb-3.png selected"
+    },
+    {
+      "at": "2026-10-17T19:55:53.732Z",
+      "event": "Voiceover generated with ElevenLabs"
+    },
+    {
+      "at": "2026-10-17T19:56:23.688Z",
+      "event": "Script v4: standard ending added (scene 22 summary, scene 23 end card); voiced with ElevenLabs"
+    }
+  ]
+}

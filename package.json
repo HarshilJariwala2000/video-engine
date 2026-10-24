@@ -1,0 +1,38 @@
+{
+  "name": "under-the-abstraction",
+  "private": true,
+  "version": "2.0.0",
+  "description": "Production studio for the Under the Abstraction YouTube channel",
+  "type": "module",
+  "scripts": {
+    "studio": "node studio/server.mjs",
+    "new": "node tools/new-video.mjs",
+    "edit": "node tools/edit.mjs",
+    "voice": "node tools/voiceover.mjs",
+    "voice:estimate": "node tools/voiceover.mjs --estimate",
+    "script": "node tools/script-md.mjs",
+    "thumbs": "node tools/thumbnails.mjs",
+    "shorts": "node tools/shorts.mjs",
+    "check": "node tools/check-video.mjs",
+    "stage": "node tools/stage.mjs",
+    "tts": "node tools/tts-server.mjs",
+    "voice:test": "node tools/voice-test.mjs",
+    "typecheck": "node tools/typecheck.mjs",
+    "music": "tts/.venv/Scripts/python.exe tools/music/compose.py",
+    "showcase": "node tools/showcase.mjs"
+  },
+  "dependencies": {
+    "@fontsource/inter": "5.2.8",
+    "@fontsource/jetbrains-mono": "5.2.8",
+    "@motion-canvas/2d": "3.17.2",
+    "@motion-canvas/core": "3.17.2"
+  },
+  "devDependencies": {
+    "@motion-canvas/ffmpeg": "3.17.2",
+    "@motion-canvas/ui": "3.17.2",
+    "@motion-canvas/vite-plugin": "3.17.2",
+    "playwright-core": "1.56.1",
+    "typescript": "5.9.3",
+    "vite": "5.4.21"
+  }
+}

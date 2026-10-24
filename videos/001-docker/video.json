@@ -1,0 +1,12 @@
+{
+  "slug": "001-docker",
+  "title": "Docker will finally make sense after this video",
+  "created": "2026-09-01",
+  "stage": "publish",
+  "voice": "elevenlabs",
+  "reviews": [],
+  "selectedThumbnail": null,
+  "history": [
+    {"at": "2026-10-17T00:00:00.000Z", "event": "Imported pilot video (made in Claude chat, ElevenLabs voice)"}
+  ]
+}

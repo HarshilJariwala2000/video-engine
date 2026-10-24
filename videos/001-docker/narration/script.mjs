@@ -1,0 +1,111 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// SINGLE SOURCE OF TRUTH for the voiceover (Script v2).
+//
+// • `text` is exactly what ElevenLabs speaks. `{cue}` markers are stripped
+//   before TTS; the voiceover tool records the second each marked word starts
+//   and scenes animate on it with `yield* s.at('cue')`.
+// • Edit words → `npm run voice` → everything re-syncs. Moving a marker is free.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const meta = {
+  title: 'Docker will finally make sense after this video',
+  aha: "A container isn't a tiny computer. It's an ordinary process the kernel is lying to.",
+  audience: 'beginner + intermediate',
+  hook: 'Your app works on your laptop and crashes on the server.',
+  device: 'Requirements checklist: we design Docker ourselves',
+  checklist: ['own files', "can't see others", "can't hog the machine", 'cheap + quick to start'],
+  verify: [
+    'Scenes 02, 13, 21: "starts in about a second" holds for small images that are already downloaded. The first download takes longer.',
+    'Scene 06: "gigabytes of memory" per VM is typical but depends on how each VM is configured.',
+    "Scene 12: \"the kernel shuts it down\". The kernel's out-of-memory killer ends a process in the group when memory over the limit can't be freed.",
+    'Scene 14: on Windows, Docker Desktop uses WSL 2 (a lightweight Linux VM). Native Windows containers are not covered.',
+    'Scene 16: "often tens of megabytes" is true for Alpine-based images; Debian-based images such as plain node:22 are several hundred megabytes.',
+    'Scenes 01, 10, 22: the error chips, "/containers/app1" and PID 48213 are illustrative, not real Docker output.',
+  ],
+  titles: [
+    'Docker will finally make sense after this video',
+    'A container is NOT a lightweight VM',
+    'Docker under the hood: the process the kernel lies to',
+    "\"Works on my machine\" is solved by a lie. Here's how Docker works",
+    'What actually happens when you type docker run',
+  ],
+  thumbnails: ['NOT A VM', "IT'S JUST A PROCESS", 'THE KERNEL LIES', 'WHAT IS IT REALLY?', 'NO VM INSIDE'],
+  thumbnailLayout:
+    'Docker whale logo left-of-center with a soft accent (#8b7cf6) glow on #141414 with a faint grid. ' +
+    'Right side: "NOT A VM" in heavy uppercase sans, "VM" struck through in red (#ef4444). Nothing else.',
+  description:
+    'Your app works on your laptop and crashes on the server. Docker fixes that, and it does it without a virtual machine. ' +
+    'We design Docker ourselves from a 4-item checklist: blinders (namespaces), a budget (cgroups), and a bundle of files (images).\\n\\n' +
+    'Key terms: container, process, kernel, PID, namespaces, cgroups, image, Dockerfile, layers, copy-on-write, build cache.',
+  tags: ['docker', 'docker tutorial', 'docker for beginners', 'containers', 'docker explained', 'docker vs virtual machine',
+    'linux namespaces', 'cgroups', 'docker image layers', 'how docker works'],
+};
+
+export const scenes = [
+  {id: 'scene01', label: 'THE PROBLEM', title: 'Works on my machine',
+    text: "{laptop}Your app works perfectly on your laptop. {server}You put it on a server, and it crashes. {node}The server has a different Node version. {lib}A library is missing. {cfg}A setting is different. {promise}Docker's promise is simple: {pack}pack the app together with everything it needs, {same}so it runs the same everywhere.",
+    visual: ['LAPTOP frame with my-app and a green check', 'Arrow to SERVER frame; my-app inside, red cross', 'Three red chips under the server: node 18 ≠ 22, libssl missing, PORT unset', 'Dashed accent package wraps my-app + "node 22 + libs + config"; it moves to the server; both green']},
+  {id: 'scene02', label: 'THE PROBLEM', title: 'The mystery',
+    text: "{named}Docker calls that package a container. {strange}And here's the strange part. {computer}A container acts like its own little computer, {files}with its own files {net}and its own network. {fast}Yet it starts in about a second, {dozens}and your laptop can run dozens of them. {how}How can something act like a whole computer and cost almost nothing? {promise}By the end of this video, you'll know exactly how.",
+    visual: ['Dashed box titled CONTAINER', 'A file tree and a network chip appear inside', '"starts in ~1 s" in accent', 'Box multiplies into a 6×4 grid inside a LAPTOP frame', 'Big "?" over the dimmed grid']},
+  {id: 'scene03', label: 'WHAT AN APP NEEDS', title: 'The checklist', term: 'none (introduces the checklist device)',
+    text: "{build}Let's pretend we're building Docker ourselves. {four}To run safely next to other apps, our app needs four things. {one}One: its own files, in the exact versions it was built with. {two}Two: it can't see or bump into other apps. {three}Three: it can't hog the whole machine. {fourth}And four: it has to be cheap and quick to start.",
+    visual: ['"let\'s build Docker ourselves" appears', 'Checklist panel center; four empty rows appear one per item', 'Panel shrinks into the top-right corner and stays']},
+  {id: 'scene04', label: 'ATTEMPT 1: VIRTUAL MACHINES', title: 'Attempt one: a virtual machine', term: 'virtual machine = a pretend computer made of software',
+    text: "{vm}The obvious answer is a virtual machine. {pretend}That's a pretend computer, made out of software, running inside your real one. {each}Give every app its own pretend computer, {os}with a full operating system inside, {apart}and the apps can't get in each other's way.",
+    visual: ['REAL COMPUTER frame', 'Dashed VM 1 appears inside; then VM 2, VM 3', 'APP + OPERATING SYSTEM boxes inside each VM', 'VM outlines turn accent']},
+  {id: 'scene05', label: 'ATTEMPT 1: VIRTUAL MACHINES', title: 'What a kernel is', term: "kernel = the computer's manager; process = a running program",
+    text: "{zoom}One word matters for the rest of this video, so let's zoom in. {kernel}At the center of every operating system is a program called the kernel. {manager}Think of it as the computer's manager. {starts}It starts every program, {memory}hands out memory, {files}and decides who can touch which files. {process}And a program that's running has a name too: a process.",
+    visual: ['Zoom into VM 1\'s OPERATING SYSTEM box', 'KERNEL box in accent at its center', 'Term card "kernel = the computer\'s manager"', 'Arrows from KERNEL to my-app, MEMORY, FILES as each job is spoken', 'my-app gets "running = process"']},
+  {id: 'scene06', label: 'ATTEMPT 1: VIRTUAL MACHINES', title: 'Why VMs are heavy',
+    text: "{back}So with virtual machines, every app gets its own operating system {kernels}and its own kernel. {three}That checks the first three boxes. {but}But three apps means three full operating systems, {boot}each one booting from scratch, {gb}each one using gigabytes of memory. {fail}Box four, cheap and quick, fails.",
+    visual: ['Zoom back out to the three VMs', 'KERNEL appears in each VM', 'Checklist boxes 1–3 green', 'Boot bars fill above each VM; "GBs of RAM" under each', 'Checklist box 4 red cross']},
+  {id: 'scene07', label: 'ATTEMPT 2: THE TRICK', title: 'A better question',
+    text: "{better}So let's ask a better question. {need}Does our app really need its own computer? {believe}Or does it only need to believe it has one? {manager}Remember: the kernel is the manager. {decides}It already decides what every process gets. {smaller}So what if the kernel simply showed our app a smaller world?",
+    visual: ['Checklist resets; VMs fade, one KERNEL bar remains with my-app on top', '"needs its own computer?" (dim) then "believes it has one?" (accent)', 'Kernel labeled "the manager"; arrow up to my-app', 'Dashed accent outline previews around my-app']},
+  {id: 'scene08', label: 'ATTEMPT 2: THE TRICK', title: 'What a process sees', term: 'PID = process ID',
+    text: "{normal}Here's what a normal process sees today. {others}Every other program on the machine, {ids}each one with an ID number the kernel gave it. {pid}That number is called a PID, short for process ID. {files}It also sees every file on the disk, {net}and every network connection. {nothing}Nothing is hidden.",
+    visual: ['my-app / PID 48213 center', 'Left: list of other processes; their ID numbers highlight', 'Term card "PID = process ID"', 'File tree top-right; network bottom-right; arrows to all three']},
+  {id: 'scene09', label: 'NAMESPACES', title: 'Blinders: namespaces', term: 'namespace = blinders',
+    text: "{feature}Linux has a feature for exactly this, called namespaces. {blinders}Think of a namespace as blinders. {sees}It changes what a process can see, and nothing else. {put}Put blinders on our app, {vanish}and the other programs vanish. {one}It even believes it's process number one, the very first program on the machine. {lie}That's a lie. {outside}From the outside, it's still process 48213.",
+    visual: ['Term card "namespace = blinders"', 'Dashed accent wall draws around my-app', 'Process list fades almost to nothing', 'PID 48213 → PID 1', '"from outside: PID 48213"']},
+  {id: 'scene10', label: 'NAMESPACES', title: 'Its own files',
+    text: "{same}The same blinders work for files. {point}Point the app at one ordinary folder on the server, {world}and that folder becomes its whole world. {top}When the app looks at the top of its file system, {inside}all it finds is what's inside that folder. {invisible}Everything else on the disk is invisible.",
+    visual: ['Host tree highlights /containers/app1', 'Wall widens; the folder slides inside and becomes "/"', '"$ ls /" → "bin etc app"', 'Rest of the host tree fades away']},
+  {id: 'scene11', label: 'NAMESPACES', title: 'Its own network', term: 'port 80 = the standard port for websites',
+    text: "{net}And the same for the network. {addr}The app gets its own network address. {two}So two apps can both use port 80, {std}the standard port for websites, {collide}and they never collide. {only}Each one thinks it's the only one. {box}That's box two: our app can't see or bump into anything else.",
+    visual: ['Network chip with its own address inside the wall', 'Second wall with other-app', ':80 badges on both; "no collision" in green', 'Checklist box 2 green']},
+  {id: 'scene12', label: 'CONTROL GROUPS', title: 'A budget: cgroups', term: 'cgroup = a budget',
+    text: "{hide}But blinders only hide things. {eat}A hidden app can still eat all the memory {slow}and slow everyone down. {cg}So Linux has a second feature, called control groups, or cgroups. {budget}A cgroup is a budget. {cpu}Half of one CPU core. {mem}512 megabytes of memory. {over}If the app goes over its memory budget, {kill}the kernel shuts it down. {box}That's box three.",
+    visual: ['Shared memory bar: my-app grows and squeezes other-app', 'Term card "cgroup = a budget"', 'CPU meter to 0.5 core; MEMORY meter with 512 MB limit', 'Memory overflows, red; my-app "shut down"', 'Checklist box 3 green']},
+  {id: 'scene13', label: 'ONE SHARED KERNEL', title: "Why it's fast",
+    text: "{look}Now look at what we've built. {machine}One machine. {kernel}One kernel. {procs}And a few ordinary processes, each with blinders and a budget. {noos}There's no second operating system to boot. {start}Starting a container is just starting a process, {sec}and that's why it takes about a second. {box}Box four. {done}Three boxes done, and they all came from the same trick: {trick}the kernel showing a process a smaller world.",
+    visual: ['Dimmed three-VM figure on the left', 'Right: HARDWARE, ONE KERNEL, three walled processes', '"0 extra operating systems", then "starts in ~1 s"', 'Checklist box 4 green; box 1 pulses as still open']},
+  {id: 'scene14', label: 'ONE SHARED KERNEL', title: 'What about Mac and Windows?',
+    text: "{catch}One catch. {linux}These blinders and budgets are Linux kernel features. {mac}So on a Mac or Windows, Docker Desktop quietly runs one small Linux virtual machine in the background. {one}Just one, shared by all your containers.",
+    visual: ['Kernel becomes LINUX KERNEL', 'Bottom bar becomes MAC / WINDOWS', 'Dashed "1 small Linux VM" box wraps kernel + containers']},
+  {id: 'scene15', label: 'IMAGES', title: 'Images: the last box', term: 'image = the bundle of files shipped with the app',
+    text: "{left}That leaves box one: the files. {crash}Remember the crash from the beginning? {wrong}The server had the wrong files. {ship}So the fix is to ship the files with the app. {image}That bundle is called an image. {holds}It holds a small set of Linux tools, {node}the right Node version, {libs}your libraries, {code}and your code. {fill}When the container starts, the image's files fill that private folder. {box}Box one.",
+    visual: ['Checklist box 1 pulses', 'Callback: the red SERVER from scene 01 with its chips', 'IMAGE box; linux tools, node 22, libraries, your code stack inside', 'Arrow into the walled "/" folder; files fill it', 'Checklist box 1 green: all four done']},
+  {id: 'scene16', label: 'IMAGES', title: 'No kernel inside',
+    text: "{notice}Now notice what an image does not contain: {kernel}a kernel. {files}The image brings the files. {server}The server brings the kernel. {size}That's why an image is often tens of megabytes, {vm}while a virtual machine's disk is usually gigabytes.",
+    visual: ['Dashed "kernel?" slot in the IMAGE, then a red cross', 'IMAGE = files + SERVER = kernel', 'Size bars: image tens of MB vs VM disk GBs']},
+  {id: 'scene17', label: 'IMAGES', title: 'A recipe: the Dockerfile', term: 'Dockerfile = a recipe; layer = one step\'s files',
+    text: "{recipe}You describe an image with a short recipe called a Dockerfile. {layer}Each step adds a layer: a set of files stacked on top of the step before. {base}Start from a base with Linux tools and Node. {deps}Copy in your list of dependencies. {install}Install them. {code}Then copy in your code. {four}Four steps, four layers.",
+    visual: ['Dockerfile panel left', 'Each line highlights and its layer stacks up on the right', '"4 steps → 4 layers"']},
+  {id: 'scene18', label: 'LAYERS', title: 'Layers never change', term: 'copy-on-write',
+    text: "{know}Here's what most people don't know. {ro}Image layers are read-only. They never change. {thin}When a container runs, Docker adds one thin layer on top, just for that container. {copy}Any file the app changes is copied up into that top layer first. {cow}This trick is called copy-on-write. {share}It's why ten containers can share one image, {clean}and why a fresh container always starts perfectly clean.",
+    visual: ['read-only tags beside each layer', 'Thin dashed accent "container\'s own layer" on top', 'config.json copies up and gets edited', 'Top bar splits into container 1/2/3 on one image', 'One top bar is deleted and replaced by a fresh one']},
+  {id: 'scene19', label: 'BUILD CACHE', title: 'Why step order matters',
+    text: "{fast}Layers also make rebuilds fast. {keeps}Docker keeps every layer it has built. {change}Change one line of your code, {reused}and every step before copying your code is reused as-is. {last}Only the last steps run again. {good}That's why good Dockerfiles install dependencies before copying the code. {other}Do it the other way around, {every}and every tiny edit reinstalls everything.",
+    visual: ['Dockerfile panel; "server.js: 1 line changed" points at COPY . .', 'REUSED tags on earlier lines; RUN on the last', 'Bracket "dependencies first"', 'Swapped order in red; "any edit → reinstall everything"']},
+  {id: 'scene20', label: 'THE BIG IDEA', title: 'The big idea',
+    text: "{together}So let's put it all together. {proc}A container is a normal process. {ns}Namespaces decide what it can see. {cg}Cgroups decide how much it can use. {img}And an image gives it its own files. {not}It isn't a tiny computer. {lie}It's an ordinary process that the kernel is lying to.",
+    visual: ['"container =" top-left', 'Rows appear; matching checklist box pulses', '"not a tiny computer" struck through', '"an ordinary process the kernel is lying to." big in accent']},
+  {id: 'scene21', label: 'DOCKER RUN, REVISITED', title: 'docker run, revisited',
+    text: "{watch}Now watch docker run again. {pull}Docker downloads any image layers you don't have yet. {stack}It stacks them and adds a thin writable layer. {blind}It puts on the blinders {budget}and sets the budget. {start}Then it starts your app as one ordinary process. {same}The same files on your laptop and on the server, {works}so no more works on my machine. {fast}And no extra operating system, so it starts in about a second.",
+    visual: ['Terminal types "docker run my-app"', 'Layers slide in from REGISTRY; writable layer on top', 'Wall draws; budget tag', 'my-app / PID 1 inside', 'Callback: laptop + server, same container in both, both green', '"starts in ~1 s"']},
+  {id: 'scene22', label: 'DOCKER RUN, REVISITED', title: 'Proof', term: 'ps = lists running programs',
+    text: "{proof}Want proof? {ps}On a Linux server, run ps, {lists}the command that lists every running program. {there}Your container is right there in the list. {just}Just a normal process, {view}with a very convincing view.",
+    visual: ['Host terminal types "ps -e"; process list appears', '48213 my-app row highlights', 'The wall un-draws; "just a process." in accent']},
+];

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Studio · Under the Abstraction</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%23141414'/><rect x='6' y='3' width='4' height='10' fill='%238b7cf6'/></svg>">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <aside id="sidebar">
+    <a class="brand" href="#/">
+      <span class="brand-mark">▍</span>
+      <span><b>Under the</b><br>Abstraction</span>
+    </a>
+    <nav>
+      <a href="#/" data-nav="home">Overview</a>
+      <a href="#/ideas" data-nav="ideas">Ideas</a>
+      <a href="#/voice" data-nav="voice">Voice</a>
+    </nav>
+    <div class="side-section">
+      <div class="side-head">Videos <button class="icon-btn" id="new-video-btn" title="New video">+</button></div>
+      <div id="video-list"></div>
+    </div>
+    <div class="side-section services" id="services"></div>
+  </aside>
+
+  <main id="main"></main>
+
+  <section id="drawer" class="collapsed">
+    <header id="drawer-head">
+      <span id="drawer-title">Jobs</span>
+      <span id="drawer-status"></span>
+      <span class="spacer"></span>
+      <button class="ghost" id="drawer-toggle">▲</button>
+    </header>
+    <div id="drawer-body">
+      <div id="job-list"></div>
+      <div id="job-view">
+        <div id="job-log"></div>
+        <form id="followup" hidden>
+          <input name="message" placeholder="Reply to Claude in this session (e.g. “make scene 4 shorter”)" autocomplete="off">
+          <button>Send</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div id="modal" hidden></div>
+  <div id="toast" hidden></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

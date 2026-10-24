@@ -1,0 +1,2491 @@
+{
+  "fps": 60,
+  "estimated": false,
+  "provider": "elevenlabs",
+  "generated": "2026-10-20T17:19:29.769Z",
+  "scenes": {
+    "scene01": {
+      "duration": 43.15,
+      "offset": 0,
+      "cues": {
+        "one": 0.2,
+        "run": 1.825,
+        "grow": 5.854,
+        "three": 8.176,
+        "ssh": 10.916,
+        "crash": 13.911,
+        "room": 19.415,
+        "addr": 25.057,
+        "you": 30.421,
+        "name": 38.49
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.651,
+          "text": "One container is easy."
+        },
+        {
+          "start": 1.825,
+          "end": 3.102,
+          "text": "You type docker run,"
+        },
+        {
+          "start": 3.219,
+          "end": 4.356,
+          "text": "your web app starts,"
+        },
+        {
+          "start": 4.391,
+          "end": 5.529,
+          "text": "and life is good."
+        },
+        {
+          "start": 5.854,
+          "end": 7.851,
+          "text": "Then people actually start using it."
+        },
+        {
+          "start": 8.176,
+          "end": 9.697,
+          "text": "Now you need three copies,"
+        },
+        {
+          "start": 9.743,
+          "end": 11.589,
+          "text": "on three servers, so you log in"
+        },
+        {
+          "start": 11.636,
+          "end": 13.586,
+          "text": "to each one and start it by hand."
+        },
+        {
+          "start": 13.911,
+          "end": 15.061,
+          "text": "At 3 a.m."
+        },
+        {
+          "start": 15.212,
+          "end": 16.535,
+          "text": "one of them crashes,"
+        },
+        {
+          "start": 16.744,
+          "end": 18.973,
+          "text": "and guess who gets woken up to restart it."
+        },
+        {
+          "start": 19.415,
+          "end": 20.924,
+          "text": "A new copy needs a home,"
+        },
+        {
+          "start": 21.098,
+          "end": 22.445,
+          "text": "and you're the one who remembers"
+        },
+        {
+          "start": 22.515,
+          "end": 24.674,
+          "text": "which server still has memory free."
+        },
+        {
+          "start": 25.057,
+          "end": 26.508,
+          "text": "Every time a copy moves,"
+        },
+        {
+          "start": 26.59,
+          "end": 27.774,
+          "text": "its address changes,"
+        },
+        {
+          "start": 27.925,
+          "end": 30.038,
+          "text": "and you go and fix the config."
+        },
+        {
+          "start": 30.421,
+          "end": 33.114,
+          "text": "Without noticing, you've become a program."
+        },
+        {
+          "start": 33.44,
+          "end": 35.158,
+          "text": "A slow, tired one,"
+        },
+        {
+          "start": 35.239,
+          "end": 36.702,
+          "text": "whose whole job is checking"
+        },
+        {
+          "start": 36.748,
+          "end": 38.165,
+          "text": "that things are still running."
+        },
+        {
+          "start": 38.49,
+          "end": 40.615,
+          "text": "That job is exactly what Kubernetes"
+        },
+        {
+          "start": 40.649,
+          "end": 42.6,
+          "text": "was built to take off your hands."
+        }
+      ]
+    },
+    "scene02": {
+      "duration": 26.533333333333335,
+      "offset": 43.15,
+      "cues": {
+        "install": 0.2,
+        "apply": 5.947,
+        "created": 8.362,
+        "pods": 10.115,
+        "two": 11.485,
+        "pending": 12.635,
+        "later": 14.597,
+        "noerr": 16.872,
+        "jordan": 19.926
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.524,
+          "text": "So your team installs it,"
+        },
+        {
+          "start": 1.605,
+          "end": 3.822,
+          "text": "and Jordan from the platform team promises"
+        },
+        {
+          "start": 3.869,
+          "end": 5.622,
+          "text": "you'll finally sleep through the night."
+        },
+        {
+          "start": 5.947,
+          "end": 8.188,
+          "text": "You apply your web app, three copies."
+        },
+        {
+          "start": 8.362,
+          "end": 9.836,
+          "text": "It says: created."
+        },
+        {
+          "start": 10.115,
+          "end": 11.242,
+          "text": "You check the pods."
+        },
+        {
+          "start": 11.485,
+          "end": 12.391,
+          "text": "Two are running."
+        },
+        {
+          "start": 12.635,
+          "end": 14.318,
+          "text": "The third one says Pending."
+        },
+        {
+          "start": 14.597,
+          "end": 15.537,
+          "text": "Ten minutes later,"
+        },
+        {
+          "start": 15.711,
+          "end": 16.629,
+          "text": "still Pending."
+        },
+        {
+          "start": 16.872,
+          "end": 17.581,
+          "text": "No error."
+        },
+        {
+          "start": 17.79,
+          "end": 18.66,
+          "text": "No crash."
+        },
+        {
+          "start": 18.939,
+          "end": 19.485,
+          "text": "Nothing."
+        },
+        {
+          "start": 19.926,
+          "end": 21.447,
+          "text": "Jordan rolls their chair over,"
+        },
+        {
+          "start": 21.621,
+          "end": 22.677,
+          "text": "squints at your screen,"
+        },
+        {
+          "start": 22.712,
+          "end": 24.721,
+          "text": "and says: it's not stuck."
+        },
+        {
+          "start": 24.965,
+          "end": 25.975,
+          "text": "It's waiting."
+        }
+      ]
+    },
+    "intro": {
+      "duration": 7,
+      "offset": 69.683,
+      "cues": {},
+      "captions": [],
+      "intro": "A"
+    },
+    "scene03": {
+      "duration": 38.93333333333333,
+      "offset": 76.683,
+      "cues": {
+        "what": 0.2,
+        "log": 1.605,
+        "confess": 6.794,
+        "wrong": 19.008,
+        "haunted": 24.639,
+        "promise": 30.908,
+        "fight": 35.111
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.28,
+          "text": "Waiting for what?"
+        },
+        {
+          "start": 1.605,
+          "end": 3.01,
+          "text": "You go looking for logs,"
+        },
+        {
+          "start": 3.033,
+          "end": 4.008,
+          "text": "and there are none,"
+        },
+        {
+          "start": 4.124,
+          "end": 6.411,
+          "text": "because that copy never started anywhere."
+        },
+        {
+          "start": 6.794,
+          "end": 8.64,
+          "text": "For my first year with Kubernetes,"
+        },
+        {
+          "start": 8.757,
+          "end": 10.649,
+          "text": "I treated it like a very expensive"
+        },
+        {
+          "start": 10.684,
+          "end": 12.332,
+          "text": "remote control for docker run."
+        },
+        {
+          "start": 12.658,
+          "end": 14.538,
+          "text": "The same thing I used to do by hand,"
+        },
+        {
+          "start": 14.712,
+          "end": 16.466,
+          "text": "just on every server at once."
+        },
+        {
+          "start": 16.791,
+          "end": 18.73,
+          "text": "Press apply, things start."
+        },
+        {
+          "start": 19.008,
+          "end": 20.03,
+          "text": "If that were true,"
+        },
+        {
+          "start": 20.204,
+          "end": 21.655,
+          "text": "created would mean running,"
+        },
+        {
+          "start": 21.806,
+          "end": 22.979,
+          "text": "and anything that didn't"
+        },
+        {
+          "start": 23.037,
+          "end": 24.36,
+          "text": "run would come with an error."
+        },
+        {
+          "start": 24.639,
+          "end": 25.974,
+          "text": "That picture is wrong,"
+        },
+        {
+          "start": 26.102,
+          "end": 28.134,
+          "text": "and it's why Kubernetes feels like magic"
+        },
+        {
+          "start": 28.203,
+          "end": 30.583,
+          "text": "on good days and haunted on bad ones."
+        },
+        {
+          "start": 30.908,
+          "end": 32.162,
+          "text": "By the end of this video,"
+        },
+        {
+          "start": 32.278,
+          "end": 33.521,
+          "text": "you'll know exactly what"
+        },
+        {
+          "start": 33.555,
+          "end": 34.902,
+          "text": "that pod is waiting for,"
+        },
+        {
+          "start": 35.111,
+          "end": 36.481,
+          "text": "and why it's the same thing"
+        },
+        {
+          "start": 36.528,
+          "end": 38.374,
+          "text": "that finally lets you sleep."
+        }
+      ]
+    },
+    "scene04": {
+      "duration": 43.766666666666666,
+      "offset": 115.617,
+      "cues": {
+        "build": 0.2,
+        "app": 5.134,
+        "cluster": 7.851,
+        "four": 19.228,
+        "r1": 22.525,
+        "r2": 26.345,
+        "r3": 31.837,
+        "r4": 36.771
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.442,
+          "text": "So let's pretend we're building"
+        },
+        {
+          "start": 1.489,
+          "end": 2.754,
+          "text": "Kubernetes ourselves,"
+        },
+        {
+          "start": 2.835,
+          "end": 4.252,
+          "text": "to take over your 3 a.m."
+        },
+        {
+          "start": 4.275,
+          "end": 4.751,
+          "text": "job."
+        },
+        {
+          "start": 5.134,
+          "end": 7.41,
+          "text": "Same web app, same three servers."
+        },
+        {
+          "start": 7.851,
+          "end": 9.418,
+          "text": "Except we stop thinking of them as"
+        },
+        {
+          "start": 9.511,
+          "end": 11.635,
+          "text": "three separate machines you log in to."
+        },
+        {
+          "start": 11.96,
+          "end": 12.982,
+          "text": "They're one group,"
+        },
+        {
+          "start": 13.156,
+          "end": 14.399,
+          "text": "managed together, and"
+        },
+        {
+          "start": 14.457,
+          "end": 15.699,
+          "text": "that group has a name:"
+        },
+        {
+          "start": 15.943,
+          "end": 16.732,
+          "text": "a cluster."
+        },
+        {
+          "start": 17.057,
+          "end": 18.903,
+          "text": "Ours is three servers."
+        },
+        {
+          "start": 19.228,
+          "end": 20.354,
+          "text": "Every chore you did by"
+        },
+        {
+          "start": 20.436,
+          "end": 22.084,
+          "text": "hand becomes a requirement."
+        },
+        {
+          "start": 22.525,
+          "end": 25.231,
+          "text": "One: keep three copies of the app running,"
+        },
+        {
+          "start": 25.254,
+          "end": 26.02,
+          "text": "always."
+        },
+        {
+          "start": 26.345,
+          "end": 27.82,
+          "text": "Two: pick a server"
+        },
+        {
+          "start": 27.878,
+          "end": 29.352,
+          "text": "with room for each copy,"
+        },
+        {
+          "start": 29.376,
+          "end": 31.326,
+          "text": "without anyone choosing by hand."
+        },
+        {
+          "start": 31.837,
+          "end": 33.915,
+          "text": "Three: heal on its own,"
+        },
+        {
+          "start": 34.066,
+          "end": 36.388,
+          "text": "even when a server dies at 3 a.m."
+        },
+        {
+          "start": 36.771,
+          "end": 38.907,
+          "text": "And four: one address that reaches"
+        },
+        {
+          "start": 38.942,
+          "end": 40.44,
+          "text": "whichever copies are alive,"
+        },
+        {
+          "start": 40.556,
+          "end": 43.203,
+          "text": "so nobody edits config when they move."
+        }
+      ]
+    },
+    "scene05": {
+      "duration": 31.966666666666665,
+      "offset": 159.383,
+      "cues": {
+        "obvious": 0.2,
+        "each": 4.821,
+        "run": 8.014,
+        "picks": 9.349,
+        "dies": 16.895,
+        "finished": 19.774,
+        "home": 21.899,
+        "two": 24.105,
+        "addr": 26.636
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.709,
+          "text": "The obvious first try is"
+        },
+        {
+          "start": 1.756,
+          "end": 3.323,
+          "text": "to automate your own hands:"
+        },
+        {
+          "start": 3.648,
+          "end": 4.438,
+          "text": "a script."
+        },
+        {
+          "start": 4.821,
+          "end": 6.516,
+          "text": "For each server, connect,"
+        },
+        {
+          "start": 6.562,
+          "end": 7.688,
+          "text": "and start the app."
+        },
+        {
+          "start": 8.014,
+          "end": 9.024,
+          "text": "Three copies."
+        },
+        {
+          "start": 9.349,
+          "end": 10.695,
+          "text": "It even picks the servers,"
+        },
+        {
+          "start": 10.777,
+          "end": 13.296,
+          "text": "sort of: we typed their names in by hand,"
+        },
+        {
+          "start": 13.331,
+          "end": 15.339,
+          "text": "and it never checked if they had room."
+        },
+        {
+          "start": 15.583,
+          "end": 16.57,
+          "text": "That doesn't count."
+        },
+        {
+          "start": 16.895,
+          "end": 19.496,
+          "text": "Now server two dies at 3 a.m."
+        },
+        {
+          "start": 19.774,
+          "end": 21.655,
+          "text": "The script finished hours ago."
+        },
+        {
+          "start": 21.899,
+          "end": 23.826,
+          "text": "It printed done, and went home."
+        },
+        {
+          "start": 24.105,
+          "end": 25.231,
+          "text": "You have two copies,"
+        },
+        {
+          "start": 25.266,
+          "end": 26.462,
+          "text": "and nobody knows."
+        },
+        {
+          "start": 26.636,
+          "end": 28.319,
+          "text": "And there's no single address,"
+        },
+        {
+          "start": 28.412,
+          "end": 29.643,
+          "text": "just three server names"
+        },
+        {
+          "start": 29.677,
+          "end": 31.407,
+          "text": "you hand out and hope."
+        }
+      ]
+    },
+    "scene06": {
+      "duration": 18.5,
+      "offset": 191.35,
+      "cues": {
+        "think": 0.2,
+        "restart": 3.637,
+        "same": 6.76,
+        "machine": 8.269,
+        "once": 14.317,
+        "after": 16.012
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.315,
+          "text": "You might be thinking:"
+        },
+        {
+          "start": 1.64,
+          "end": 3.311,
+          "text": "just add a restart policy."
+        },
+        {
+          "start": 3.637,
+          "end": 4.159,
+          "text": "Sure."
+        },
+        {
+          "start": 4.542,
+          "end": 6.702,
+          "text": "Docker will restart a crashed container,"
+        },
+        {
+          "start": 6.76,
+          "end": 7.886,
+          "text": "on the same machine."
+        },
+        {
+          "start": 8.269,
+          "end": 10.161,
+          "text": "But at 3 a.m., the machine"
+        },
+        {
+          "start": 10.208,
+          "end": 11.497,
+          "text": "is the thing that died,"
+        },
+        {
+          "start": 11.671,
+          "end": 13.934,
+          "text": "and its restart policy died with it."
+        },
+        {
+          "start": 14.317,
+          "end": 15.931,
+          "text": "Both fixes act once,"
+        },
+        {
+          "start": 16.012,
+          "end": 17.94,
+          "text": "and then nothing is watching."
+        }
+      ]
+    },
+    "scene07": {
+      "duration": 32.8,
+      "offset": 209.85,
+      "cues": {
+        "reset": 0.2,
+        "old": 4.763,
+        "new": 8.315,
+        "once": 12.402,
+        "always": 14.248,
+        "thermo": 20.181,
+        "want": 21.911,
+        "have": 24.93,
+        "act": 27.762
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 0.862,
+          "text": "Okay."
+        },
+        {
+          "start": 1.245,
+          "end": 2.87,
+          "text": "Let's look under the abstraction,"
+        },
+        {
+          "start": 2.928,
+          "end": 4.484,
+          "text": "and ask a better question."
+        },
+        {
+          "start": 4.763,
+          "end": 5.993,
+          "text": "The script answers:"
+        },
+        {
+          "start": 6.202,
+          "end": 7.932,
+          "text": "how do I start three copies?"
+        },
+        {
+          "start": 8.315,
+          "end": 9.592,
+          "text": "The better question is:"
+        },
+        {
+          "start": 9.767,
+          "end": 12.019,
+          "text": "how do I make sure there are always three?"
+        },
+        {
+          "start": 12.402,
+          "end": 13.97,
+          "text": "Starting happens once."
+        },
+        {
+          "start": 14.248,
+          "end": 16.559,
+          "text": "Always means someone keeps checking."
+        },
+        {
+          "start": 17.07,
+          "end": 18.416,
+          "text": "At the start of this video,"
+        },
+        {
+          "start": 18.474,
+          "end": 19.798,
+          "text": "that someone was you."
+        },
+        {
+          "start": 20.181,
+          "end": 21.528,
+          "text": "We need a thermostat."
+        },
+        {
+          "start": 21.911,
+          "end": 24.604,
+          "text": "You set what you want: 21 degrees."
+        },
+        {
+          "start": 24.93,
+          "end": 27.484,
+          "text": "It measures what you have: 19."
+        },
+        {
+          "start": 27.762,
+          "end": 29.388,
+          "text": "And it acts on the difference."
+        },
+        {
+          "start": 29.713,
+          "end": 30.618,
+          "text": "Not once."
+        },
+        {
+          "start": 31.002,
+          "end": 32.244,
+          "text": "Forever."
+        }
+      ]
+    },
+    "scene08": {
+      "duration": 29.916666666666668,
+      "offset": 242.65,
+      "cues": {
+        "built": 0.2,
+        "name": 2.952,
+        "read": 7.99,
+        "compare": 9.221,
+        "fix": 11.09,
+        "again": 12.53,
+        "stamp": 14.922,
+        "stubborn": 24.871
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.626,
+          "text": "Kubernetes is built out of thermostats."
+        },
+        {
+          "start": 2.952,
+          "end": 4.565,
+          "text": "Each one is a small program"
+        },
+        {
+          "start": 4.635,
+          "end": 5.784,
+          "text": "called a controller,"
+        },
+        {
+          "start": 5.959,
+          "end": 7.607,
+          "text": "running three steps in a loop."
+        },
+        {
+          "start": 7.99,
+          "end": 8.942,
+          "text": "Read what you want."
+        },
+        {
+          "start": 9.221,
+          "end": 10.765,
+          "text": "Compare it with what you have."
+        },
+        {
+          "start": 11.09,
+          "end": 12.205,
+          "text": "Fix the difference."
+        },
+        {
+          "start": 12.53,
+          "end": 13.273,
+          "text": "Then again."
+        },
+        {
+          "start": 13.598,
+          "end": 14.538,
+          "text": "And again."
+        },
+        {
+          "start": 14.922,
+          "end": 16.814,
+          "text": "Want three, have two?"
+        },
+        {
+          "start": 17.139,
+          "end": 18.741,
+          "text": "Act: plus one."
+        },
+        {
+          "start": 19.066,
+          "end": 21.145,
+          "text": "I call it want versus have,"
+        },
+        {
+          "start": 21.319,
+          "end": 22.689,
+          "text": "and honestly, it's the"
+        },
+        {
+          "start": 22.805,
+          "end": 24.546,
+          "text": "only idea in this video."
+        },
+        {
+          "start": 24.871,
+          "end": 26.52,
+          "text": "A controller never finishes,"
+        },
+        {
+          "start": 26.59,
+          "end": 27.623,
+          "text": "and it never trusts"
+        },
+        {
+          "start": 27.669,
+          "end": 29.364,
+          "text": "that things stayed fixed."
+        }
+      ]
+    },
+    "scene09": {
+      "duration": 38,
+      "offset": 272.567,
+      "cues": {
+        "where": 0.2,
+        "file": 2.174,
+        "apply": 6.493,
+        "fav": 8.733,
+        "nothing": 11.682,
+        "sends": 13.888,
+        "db": 17.313,
+        "ok": 18.811,
+        "zero": 20.947,
+        "wish": 22.805,
+        "created": 25.08,
+        "objection": 31.361
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.849,
+          "text": "So where does the want live?"
+        },
+        {
+          "start": 2.174,
+          "end": 4.774,
+          "text": "In a file: a deployment called web,"
+        },
+        {
+          "start": 4.856,
+          "end": 6.168,
+          "text": "with three replicas."
+        },
+        {
+          "start": 6.493,
+          "end": 8.35,
+          "text": "You run kube control apply."
+        },
+        {
+          "start": 8.733,
+          "end": 9.848,
+          "text": "And now my favourite"
+        },
+        {
+          "start": 9.883,
+          "end": 11.241,
+          "text": "fact about Kubernetes."
+        },
+        {
+          "start": 11.682,
+          "end": 13.61,
+          "text": "Apply doesn't start anything."
+        },
+        {
+          "start": 13.888,
+          "end": 15.885,
+          "text": "It sends your file to one program,"
+        },
+        {
+          "start": 15.943,
+          "end": 17.847,
+          "text": "the API server, which saves"
+        },
+        {
+          "start": 17.894,
+          "end": 19.67,
+          "text": "it in a database and replies:"
+        },
+        {
+          "start": 19.995,
+          "end": 20.622,
+          "text": "OK."
+        },
+        {
+          "start": 20.947,
+          "end": 22.48,
+          "text": "Zero containers are running."
+        },
+        {
+          "start": 22.805,
+          "end": 24.755,
+          "text": "All you've done is write down a wish."
+        },
+        {
+          "start": 25.08,
+          "end": 26.032,
+          "text": "So that created from"
+        },
+        {
+          "start": 26.079,
+          "end": 27.205,
+          "text": "the start of the video?"
+        },
+        {
+          "start": 27.588,
+          "end": 29.713,
+          "text": "It means the wish was written down."
+        },
+        {
+          "start": 30.096,
+          "end": 30.92,
+          "text": "Nothing more."
+        },
+        {
+          "start": 31.361,
+          "end": 33.788,
+          "text": "But two of my pods did start, you say."
+        },
+        {
+          "start": 34.113,
+          "end": 34.856,
+          "text": "They did."
+        },
+        {
+          "start": 35.239,
+          "end": 37.445,
+          "text": "Just not because of apply."
+        }
+      ]
+    },
+    "scene10": {
+      "duration": 49.43333333333333,
+      "offset": 310.567,
+      "cues": {
+        "wakes": 0.2,
+        "reads": 4.298,
+        "want": 5.854,
+        "have": 8.431,
+        "act": 10.301,
+        "pod": 12.437,
+        "ours": 27.216,
+        "closer": 32.138,
+        "records": 33.485,
+        "paper": 38.083,
+        "hook": 41.043
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.464,
+          "text": "The wish wakes up the first thermostat:"
+        },
+        {
+          "start": 2.615,
+          "end": 3.915,
+          "text": "the replica controller."
+        },
+        {
+          "start": 4.298,
+          "end": 5.529,
+          "text": "It reads the notebook."
+        },
+        {
+          "start": 5.854,
+          "end": 8.048,
+          "text": "Want: three copies of web."
+        },
+        {
+          "start": 8.431,
+          "end": 9.976,
+          "text": "Have: zero."
+        },
+        {
+          "start": 10.301,
+          "end": 12.054,
+          "text": "So it creates three pods."
+        },
+        {
+          "start": 12.437,
+          "end": 13.946,
+          "text": "Pod is Kubernetes' word"
+        },
+        {
+          "start": 14.004,
+          "end": 15.618,
+          "text": "for one copy of your app."
+        },
+        {
+          "start": 16.001,
+          "end": 17.928,
+          "text": "It never handles a bare container."
+        },
+        {
+          "start": 18.311,
+          "end": 19.681,
+          "text": "It wraps it in a pod,"
+        },
+        {
+          "start": 19.855,
+          "end": 21.492,
+          "text": "usually just one container,"
+        },
+        {
+          "start": 21.701,
+          "end": 23.176,
+          "text": "sometimes with a small helper"
+        },
+        {
+          "start": 23.222,
+          "end": 24.859,
+          "text": "that has to live and die with it,"
+        },
+        {
+          "start": 25.068,
+          "end": 26.891,
+          "text": "and the pod gets its own address."
+        },
+        {
+          "start": 27.216,
+          "end": 30.478,
+          "text": "So for us, one pod is one copy of web,"
+        },
+        {
+          "start": 30.629,
+          "end": 31.755,
+          "text": "and we want three."
+        },
+        {
+          "start": 32.138,
+          "end": 33.16,
+          "text": "But look closer."
+        },
+        {
+          "start": 33.485,
+          "end": 34.948,
+          "text": "It didn't run anything either."
+        },
+        {
+          "start": 35.331,
+          "end": 36.376,
+          "text": "It wrote three more"
+        },
+        {
+          "start": 36.434,
+          "end": 37.7,
+          "text": "entries in the notebook."
+        },
+        {
+          "start": 38.083,
+          "end": 40.799,
+          "text": "Kubernetes is extremely good at paperwork."
+        },
+        {
+          "start": 41.043,
+          "end": 42.587,
+          "text": "And remember our Pending pod?"
+        },
+        {
+          "start": 42.796,
+          "end": 43.818,
+          "text": "It exists."
+        },
+        {
+          "start": 44.143,
+          "end": 45.223,
+          "text": "It's a perfectly good"
+        },
+        {
+          "start": 45.281,
+          "end": 46.524,
+          "text": "entry in this notebook."
+        },
+        {
+          "start": 46.767,
+          "end": 48.869,
+          "text": "It's just missing one thing."
+        }
+      ]
+    },
+    "scene11": {
+      "duration": 42.733333333333334,
+      "offset": 360,
+      "cues": {
+        "empty": 0.2,
+        "field": 2.429,
+        "kinds": 8.873,
+        "sched": 16.64,
+        "looks": 21.272,
+        "picks": 25.614,
+        "writes": 26.903,
+        "whole": 29.434,
+        "not": 31.722,
+        "blank": 33.3,
+        "room": 35.123,
+        "hand": 38.432
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.255,
+          "text": "Each new pod has an empty field,"
+        },
+        {
+          "start": 2.429,
+          "end": 3.544,
+          "text": "called node."
+        },
+        {
+          "start": 3.927,
+          "end": 6.109,
+          "text": "A node is Kubernetes' word for one"
+        },
+        {
+          "start": 6.156,
+          "end": 8.548,
+          "text": "machine in the cluster that can run pods."
+        },
+        {
+          "start": 8.873,
+          "end": 10.614,
+          "text": "A physical server in a rack,"
+        },
+        {
+          "start": 10.73,
+          "end": 12.298,
+          "text": "or far more often a virtual"
+        },
+        {
+          "start": 12.379,
+          "end": 13.737,
+          "text": "one you rent from a cloud."
+        },
+        {
+          "start": 14.12,
+          "end": 16.199,
+          "text": "Our three servers are three nodes."
+        },
+        {
+          "start": 16.64,
+          "end": 17.731,
+          "text": "The next thermostat,"
+        },
+        {
+          "start": 17.778,
+          "end": 19.264,
+          "text": "the scheduler, watches for"
+        },
+        {
+          "start": 19.345,
+          "end": 20.947,
+          "text": "pods with that field blank."
+        },
+        {
+          "start": 21.272,
+          "end": 23.165,
+          "text": "It checks how much room each server has"
+        },
+        {
+          "start": 23.246,
+          "end": 25.463,
+          "text": "left against how much the pod asks for,"
+        },
+        {
+          "start": 25.614,
+          "end": 26.694,
+          "text": "picks the best fit,"
+        },
+        {
+          "start": 26.903,
+          "end": 27.995,
+          "text": "and writes that server's"
+        },
+        {
+          "start": 28.041,
+          "end": 29.191,
+          "text": "name into the blank."
+        },
+        {
+          "start": 29.434,
+          "end": 31.443,
+          "text": "That's the scheduler's entire job."
+        },
+        {
+          "start": 31.722,
+          "end": 32.975,
+          "text": "It doesn't start anything."
+        },
+        {
+          "start": 33.3,
+          "end": 34.798,
+          "text": "It fills in one blank."
+        },
+        {
+          "start": 35.123,
+          "end": 36.888,
+          "text": "As long as some server has room."
+        },
+        {
+          "start": 37.271,
+          "end": 38.107,
+          "text": "Hold that thought."
+        },
+        {
+          "start": 38.432,
+          "end": 40.661,
+          "text": "And nobody typed a server name by hand,"
+        },
+        {
+          "start": 40.835,
+          "end": 42.182,
+          "text": "least of all you."
+        }
+      ]
+    },
+    "scene12": {
+      "duration": 35.4,
+      "offset": 402.733,
+      "cues": {
+        "who": 0.2,
+        "agent": 2.534,
+        "own": 5.866,
+        "want": 9.43,
+        "have": 12.089,
+        "act": 15.026,
+        "docker": 20.018,
+        "three": 26.229,
+        "finally": 28.853
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.209,
+          "text": "So who actually runs anything?"
+        },
+        {
+          "start": 2.534,
+          "end": 3.88,
+          "text": "Every server has a small"
+        },
+        {
+          "start": 3.95,
+          "end": 5.541,
+          "text": "agent called the kube-let."
+        },
+        {
+          "start": 5.866,
+          "end": 6.969,
+          "text": "Another thermostat,"
+        },
+        {
+          "start": 7.085,
+          "end": 9.105,
+          "text": "but it only cares about its own server."
+        },
+        {
+          "start": 9.43,
+          "end": 11.845,
+          "text": "Want: every pod with my name on it."
+        },
+        {
+          "start": 12.089,
+          "end": 14.643,
+          "text": "Have: what's running on me right now."
+        },
+        {
+          "start": 15.026,
+          "end": 16.802,
+          "text": "Want one, have zero,"
+        },
+        {
+          "start": 17.046,
+          "end": 18.195,
+          "text": "so it tells the container"
+        },
+        {
+          "start": 18.265,
+          "end": 19.635,
+          "text": "engine to start one."
+        },
+        {
+          "start": 20.018,
+          "end": 21.446,
+          "text": "That container is the same"
+        },
+        {
+          "start": 21.492,
+          "end": 23.048,
+          "text": "thing from our Docker video:"
+        },
+        {
+          "start": 23.373,
+          "end": 24.79,
+          "text": "an ordinary process,"
+        },
+        {
+          "start": 24.836,
+          "end": 25.904,
+          "text": "with blinders on."
+        },
+        {
+          "start": 26.229,
+          "end": 28.342,
+          "text": "Three servers, three copies."
+        },
+        {
+          "start": 28.853,
+          "end": 30.652,
+          "text": "After a file, a notebook"
+        },
+        {
+          "start": 30.722,
+          "end": 32.197,
+          "text": "and three thermostats,"
+        },
+        {
+          "start": 32.522,
+          "end": 34.844,
+          "text": "something has finally started."
+        }
+      ]
+    },
+    "scene13": {
+      "duration": 36.15,
+      "offset": 438.133,
+      "cues": {
+        "notice": 0.2,
+        "sched": 2.336,
+        "repl": 4.983,
+        "nobody": 7.874,
+        "all": 9.511,
+        "story": 13.598,
+        "chor": 21.841,
+        "conductor": 25.429,
+        "dancers": 27.53,
+        "kill": 30.572,
+        "resume": 32.848
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.953,
+          "text": "Now notice who talked to whom."
+        },
+        {
+          "start": 2.336,
+          "end": 4.6,
+          "text": "The scheduler never called a kube-let."
+        },
+        {
+          "start": 4.983,
+          "end": 6.144,
+          "text": "The replica controller"
+        },
+        {
+          "start": 6.26,
+          "end": 7.596,
+          "text": "never called the scheduler."
+        },
+        {
+          "start": 7.874,
+          "end": 9.233,
+          "text": "Nobody calls anybody."
+        },
+        {
+          "start": 9.511,
+          "end": 11.485,
+          "text": "They only read and write the notebook,"
+        },
+        {
+          "start": 11.601,
+          "end": 13.273,
+          "text": "and react to what changes."
+        },
+        {
+          "start": 13.598,
+          "end": 14.805,
+          "text": "That's deliberate."
+        },
+        {
+          "start": 15.247,
+          "end": 18.555,
+          "text": "In 2016, the Google engineers behind Borg,"
+        },
+        {
+          "start": 18.672,
+          "end": 20.088,
+          "text": "Kubernetes' ancestor,"
+        },
+        {
+          "start": 20.204,
+          "end": 21.458,
+          "text": "wrote a paper about it."
+        },
+        {
+          "start": 21.841,
+          "end": 23.85,
+          "text": "They called the design choreography,"
+        },
+        {
+          "start": 23.931,
+          "end": 25.045,
+          "text": "not orchestration."
+        },
+        {
+          "start": 25.429,
+          "end": 27.205,
+          "text": "No conductor shouting cues."
+        },
+        {
+          "start": 27.53,
+          "end": 30.328,
+          "text": "Just dancers, all watching the same floor."
+        },
+        {
+          "start": 30.572,
+          "end": 31.814,
+          "text": "Kill any one of them,"
+        },
+        {
+          "start": 32.023,
+          "end": 33.475,
+          "text": "restart it, and it reads"
+        },
+        {
+          "start": 33.521,
+          "end": 35.588,
+          "text": "the notebook and carries on."
+        }
+      ]
+    },
+    "scene14": {
+      "duration": 49.05,
+      "offset": 474.283,
+      "cues": {
+        "where": 0.2,
+        "split": 3.114,
+        "office": 6.887,
+        "think": 19.368,
+        "floor": 24.059,
+        "cluster": 30.584,
+        "cloud": 34.241,
+        "quiet": 41.718
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.117,
+          "text": "So where do all these"
+        },
+        {
+          "start": 1.152,
+          "end": 2.789,
+          "text": "thermostats actually live?"
+        },
+        {
+          "start": 3.114,
+          "end": 4.287,
+          "text": "Look at the hub again,"
+        },
+        {
+          "start": 4.531,
+          "end": 6.504,
+          "text": "because it splits cleanly in two."
+        },
+        {
+          "start": 6.887,
+          "end": 8.838,
+          "text": "The notebook, the replica controller"
+        },
+        {
+          "start": 8.896,
+          "end": 10.997,
+          "text": "and the scheduler never run your app."
+        },
+        {
+          "start": 11.241,
+          "end": 12.634,
+          "text": "They only do paperwork."
+        },
+        {
+          "start": 12.913,
+          "end": 14.724,
+          "text": "Kubernetes keeps them together,"
+        },
+        {
+          "start": 14.875,
+          "end": 16.559,
+          "text": "usually on machines of their own,"
+        },
+        {
+          "start": 16.675,
+          "end": 18.927,
+          "text": "and calls that group the control plane."
+        },
+        {
+          "start": 19.368,
+          "end": 20.994,
+          "text": "I think of it as the office."
+        },
+        {
+          "start": 21.272,
+          "end": 23.618,
+          "text": "It decides what should exist and where."
+        },
+        {
+          "start": 24.059,
+          "end": 25.905,
+          "text": "The nodes are the workshop floor:"
+        },
+        {
+          "start": 26.114,
+          "end": 27.716,
+          "text": "each one has its kube-let,"
+        },
+        {
+          "start": 27.89,
+          "end": 28.61,
+          "text": "and that's where your"
+        },
+        {
+          "start": 28.645,
+          "end": 30.073,
+          "text": "containers actually run."
+        },
+        {
+          "start": 30.584,
+          "end": 32.093,
+          "text": "Office plus floor."
+        },
+        {
+          "start": 32.418,
+          "end": 33.858,
+          "text": "That's the whole cluster."
+        },
+        {
+          "start": 34.241,
+          "end": 35.971,
+          "text": "And on a managed cloud cluster,"
+        },
+        {
+          "start": 36.087,
+          "end": 38.211,
+          "text": "you often never see the office at all."
+        },
+        {
+          "start": 38.595,
+          "end": 39.767,
+          "text": "The provider runs it,"
+        },
+        {
+          "start": 39.895,
+          "end": 41.439,
+          "text": "and you only get the floor."
+        },
+        {
+          "start": 41.718,
+          "end": 44.168,
+          "text": "Which is why, when a node goes quiet,"
+        },
+        {
+          "start": 44.342,
+          "end": 46.095,
+          "text": "the floor can't fix itself."
+        },
+        {
+          "start": 46.478,
+          "end": 48.498,
+          "text": "The office has to notice."
+        }
+      ]
+    },
+    "scene15": {
+      "duration": 39.3,
+      "offset": 523.333,
+      "cues": {
+        "back": 0.2,
+        "dies": 2.696,
+        "silent": 4.461,
+        "node": 6.887,
+        "marks": 11.171,
+        "wait": 13.61,
+        "evict": 18.916,
+        "replica": 21.969,
+        "plus": 26.439,
+        "sched": 27.704,
+        "kubelet": 29.689,
+        "sleep": 31.582
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.255,
+          "text": "Which brings us back to 3 a.m."
+        },
+        {
+          "start": 2.696,
+          "end": 4.078,
+          "text": "Server two dies."
+        },
+        {
+          "start": 4.461,
+          "end": 6.504,
+          "text": "Its kube-let stops checking in."
+        },
+        {
+          "start": 6.887,
+          "end": 8.71,
+          "text": "Another thermostat in the office,"
+        },
+        {
+          "start": 8.826,
+          "end": 9.871,
+          "text": "the node controller,"
+        },
+        {
+          "start": 10.045,
+          "end": 11.311,
+          "text": "notices the silence and"
+        },
+        {
+          "start": 11.38,
+          "end": 13.285,
+          "text": "marks server two unreachable."
+        },
+        {
+          "start": 13.61,
+          "end": 15.177,
+          "text": "Then it waits, about"
+        },
+        {
+          "start": 15.259,
+          "end": 16.687,
+          "text": "five minutes by default,"
+        },
+        {
+          "start": 16.838,
+          "end": 18.591,
+          "text": "in case it's only a bad moment."
+        },
+        {
+          "start": 18.916,
+          "end": 20.355,
+          "text": "After that, its pods"
+        },
+        {
+          "start": 20.379,
+          "end": 21.725,
+          "text": "are struck from the books."
+        },
+        {
+          "start": 21.969,
+          "end": 24.082,
+          "text": "And the replica controller does its thing."
+        },
+        {
+          "start": 24.326,
+          "end": 26.056,
+          "text": "Want three, have two."
+        },
+        {
+          "start": 26.439,
+          "end": 27.321,
+          "text": "Plus one."
+        },
+        {
+          "start": 27.704,
+          "end": 29.538,
+          "text": "The scheduler fills in a server,"
+        },
+        {
+          "start": 29.689,
+          "end": 31.199,
+          "text": "a kube-let starts it."
+        },
+        {
+          "start": 31.582,
+          "end": 32.569,
+          "text": "Nobody woke up."
+        },
+        {
+          "start": 32.847,
+          "end": 34.809,
+          "text": "Not you, not even Jordan."
+        },
+        {
+          "start": 35.192,
+          "end": 36.516,
+          "text": "A dead server is just"
+        },
+        {
+          "start": 36.562,
+          "end": 38.745,
+          "text": "a very large bug report."
+        }
+      ]
+    },
+    "scene16": {
+      "duration": 41.9,
+      "offset": 562.633,
+      "cues": {
+        "left": 0.2,
+        "come": 2.766,
+        "service": 9.349,
+        "expect": 15.908,
+        "nope": 20.169,
+        "rules": 21.145,
+        "kernel": 31.268,
+        "name": 33.3,
+        "rewrite": 37.886
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.441,
+          "text": "One box left: one address."
+        },
+        {
+          "start": 2.766,
+          "end": 4.542,
+          "text": "Pods come and go, and each"
+        },
+        {
+          "start": 4.635,
+          "end": 6.342,
+          "text": "new one gets a new address."
+        },
+        {
+          "start": 6.667,
+          "end": 9.024,
+          "text": "That's the config you used to fix by hand."
+        },
+        {
+          "start": 9.349,
+          "end": 10.661,
+          "text": "So you add a Service:"
+        },
+        {
+          "start": 10.904,
+          "end": 12.808,
+          "text": "one stable name, web,"
+        },
+        {
+          "start": 13.052,
+          "end": 14.132,
+          "text": "meaning whichever web"
+        },
+        {
+          "start": 14.19,
+          "end": 15.665,
+          "text": "pods are alive right now."
+        },
+        {
+          "start": 15.908,
+          "end": 17.104,
+          "text": "You'd expect a program"
+        },
+        {
+          "start": 17.197,
+          "end": 18.405,
+          "text": "sitting at that address,"
+        },
+        {
+          "start": 18.497,
+          "end": 19.844,
+          "text": "passing traffic along."
+        },
+        {
+          "start": 20.169,
+          "end": 20.634,
+          "text": "Nope."
+        },
+        {
+          "start": 21.145,
+          "end": 23.617,
+          "text": "On every server, one more thermostat,"
+        },
+        {
+          "start": 23.734,
+          "end": 26.265,
+          "text": "kube proxy, reads the notebook and writes"
+        },
+        {
+          "start": 26.334,
+          "end": 28.378,
+          "text": "packet rules into the Linux kernel:"
+        },
+        {
+          "start": 28.587,
+          "end": 31.059,
+          "text": "traffic for web goes to one of these pods."
+        },
+        {
+          "start": 31.268,
+          "end": 33.056,
+          "text": "The kernel forwards it itself."
+        },
+        {
+          "start": 33.3,
+          "end": 34.612,
+          "text": "So despite the name,"
+        },
+        {
+          "start": 34.856,
+          "end": 37.561,
+          "text": "kube proxy usually proxies nothing."
+        },
+        {
+          "start": 37.886,
+          "end": 39.221,
+          "text": "When a pod is replaced,"
+        },
+        {
+          "start": 39.314,
+          "end": 41.346,
+          "text": "it just rewrites the rules."
+        }
+      ]
+    },
+    "scene17": {
+      "duration": 39.9,
+      "offset": 604.533,
+      "cues": {
+        "free": 0.2,
+        "charge": 3.474,
+        "spread": 8.803,
+        "slow": 13.958,
+        "room": 17.719,
+        "small": 25.428,
+        "still": 32.231
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.872,
+          "text": "This design isn't free."
+        },
+        {
+          "start": 2.197,
+          "end": 3.091,
+          "text": "Here's the bill."
+        },
+        {
+          "start": 3.474,
+          "end": 4.832,
+          "text": "Nobody is in charge,"
+        },
+        {
+          "start": 5.007,
+          "end": 6.423,
+          "text": "so when something breaks,"
+        },
+        {
+          "start": 6.597,
+          "end": 8.42,
+          "text": "no single place says why."
+        },
+        {
+          "start": 8.803,
+          "end": 9.883,
+          "text": "The answer is scattered"
+        },
+        {
+          "start": 9.906,
+          "end": 11.299,
+          "text": "across a dozen loops,"
+        },
+        {
+          "start": 11.45,
+          "end": 13.574,
+          "text": "each doing exactly what it was told."
+        },
+        {
+          "start": 13.958,
+          "end": 15.641,
+          "text": "Healing isn't instant either:"
+        },
+        {
+          "start": 15.815,
+          "end": 17.51,
+          "text": "we just waited five minutes."
+        },
+        {
+          "start": 17.719,
+          "end": 19.159,
+          "text": "And it needs spare room."
+        },
+        {
+          "start": 19.542,
+          "end": 20.9,
+          "text": "If no server has space"
+        },
+        {
+          "start": 20.935,
+          "end": 21.864,
+          "text": "for the replacement,"
+        },
+        {
+          "start": 21.957,
+          "end": 23.733,
+          "text": "it just waits, Pending,"
+        },
+        {
+          "start": 23.791,
+          "end": 25.103,
+          "text": "like the pod from our hook."
+        },
+        {
+          "start": 25.428,
+          "end": 27.216,
+          "text": "And for one app on one server,"
+        },
+        {
+          "start": 27.332,
+          "end": 28.702,
+          "text": "it's a lot of machinery."
+        },
+        {
+          "start": 29.027,
+          "end": 30.327,
+          "text": "A script and a restart"
+        },
+        {
+          "start": 30.374,
+          "end": 31.906,
+          "text": "policy would honestly do."
+        },
+        {
+          "start": 32.231,
+          "end": 34.67,
+          "text": "But across many servers at 3 a.m.,"
+        },
+        {
+          "start": 34.786,
+          "end": 37.351,
+          "text": "I'll take a room full of stubborn thermostats"
+        },
+        {
+          "start": 37.41,
+          "end": 39.348,
+          "text": "over a script that went home."
+        }
+      ]
+    },
+    "scene18": {
+      "duration": 22.166666666666668,
+      "offset": 644.433,
+      "cues": {
+        "together": 0.2,
+        "apply": 1.779,
+        "ctrl": 4.449,
+        "sched": 6.945,
+        "kubelet": 8.919,
+        "proxy": 10.823,
+        "aha": 13.83,
+        "loops": 15.722,
+        "fix": 19.681
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.535,
+          "text": "Let's put it all together."
+        },
+        {
+          "start": 1.779,
+          "end": 2.928,
+          "text": "Apply writes what you"
+        },
+        {
+          "start": 2.998,
+          "end": 4.24,
+          "text": "want into the notebook."
+        },
+        {
+          "start": 4.449,
+          "end": 6.702,
+          "text": "Controllers compare it with what you have."
+        },
+        {
+          "start": 6.945,
+          "end": 8.71,
+          "text": "The scheduler fills in a server."
+        },
+        {
+          "start": 8.919,
+          "end": 10.498,
+          "text": "The kube-let makes it real."
+        },
+        {
+          "start": 10.823,
+          "end": 13.505,
+          "text": "And kube proxy points the address at it."
+        },
+        {
+          "start": 13.83,
+          "end": 15.548,
+          "text": "Kubernetes isn't a launcher."
+        },
+        {
+          "start": 15.722,
+          "end": 16.93,
+          "text": "It's a set of loops,"
+        },
+        {
+          "start": 16.976,
+          "end": 18.091,
+          "text": "comparing what you asked"
+        },
+        {
+          "start": 18.137,
+          "end": 19.53,
+          "text": "for with what exists,"
+        },
+        {
+          "start": 19.681,
+          "end": 21.608,
+          "text": "and fixing the difference."
+        }
+      ]
+    },
+    "scene19": {
+      "duration": 53.6,
+      "offset": 666.6,
+      "cues": {
+        "back": 0.2,
+        "replica": 3.23,
+        "ask": 6.945,
+        "two": 11.74,
+        "full": 14.167,
+        "blank": 19.159,
+        "note": 21.203,
+        "fix": 26.648,
+        "add": 29.434,
+        "starts": 30.676,
+        "auto": 37.039,
+        "jordan": 46.93
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 2.905,
+          "text": "Now, back to the pod that said Pending."
+        },
+        {
+          "start": 3.23,
+          "end": 5.297,
+          "text": "The replica controller did its part:"
+        },
+        {
+          "start": 5.622,
+          "end": 6.667,
+          "text": "three entries."
+        },
+        {
+          "start": 6.945,
+          "end": 8.408,
+          "text": "Then the scheduler looked."
+        },
+        {
+          "start": 8.733,
+          "end": 9.883,
+          "text": "Each copy asks for"
+        },
+        {
+          "start": 9.952,
+          "end": 11.497,
+          "text": "two gigabytes of memory."
+        },
+        {
+          "start": 11.74,
+          "end": 13.923,
+          "text": "Two copies found a server with room."
+        },
+        {
+          "start": 14.167,
+          "end": 16.512,
+          "text": "For the third, every server was already"
+        },
+        {
+          "start": 16.582,
+          "end": 18.916,
+          "text": "filled past that by other teams' apps."
+        },
+        {
+          "start": 19.159,
+          "end": 20.878,
+          "text": "So its blank stayed blank."
+        },
+        {
+          "start": 21.203,
+          "end": 23.223,
+          "text": "No error, because nothing failed."
+        },
+        {
+          "start": 23.548,
+          "end": 25.371,
+          "text": "The scheduler wrote a note on the pod,"
+        },
+        {
+          "start": 25.405,
+          "end": 26.404,
+          "text": "and kept trying."
+        },
+        {
+          "start": 26.648,
+          "end": 29.109,
+          "text": "So change the want, or the have."
+        },
+        {
+          "start": 29.434,
+          "end": 30.63,
+          "text": "Add a fourth server,"
+        },
+        {
+          "start": 30.676,
+          "end": 31.814,
+          "text": "and once it joins,"
+        },
+        {
+          "start": 31.93,
+          "end": 33.521,
+          "text": "the scheduler fills in the blank,"
+        },
+        {
+          "start": 33.544,
+          "end": 34.856,
+          "text": "and the pod starts."
+        },
+        {
+          "start": 35.181,
+          "end": 36.714,
+          "text": "You didn't apply anything."
+        },
+        {
+          "start": 37.039,
+          "end": 38.374,
+          "text": "On a cloud, there's even"
+        },
+        {
+          "start": 38.42,
+          "end": 39.628,
+          "text": "a thermostat for that:"
+        },
+        {
+          "start": 39.953,
+          "end": 41.799,
+          "text": "a cluster autoscaler watches for"
+        },
+        {
+          "start": 41.868,
+          "end": 44.051,
+          "text": "Pending pods and rents another server."
+        },
+        {
+          "start": 44.434,
+          "end": 46.547,
+          "text": "Finding room used to be your job too."
+        },
+        {
+          "start": 46.93,
+          "end": 48.347,
+          "text": "Jordan was right, by the way."
+        },
+        {
+          "start": 48.672,
+          "end": 49.728,
+          "text": "It wasn't stuck."
+        },
+        {
+          "start": 50.053,
+          "end": 51.377,
+          "text": "It was waiting for a want"
+        },
+        {
+          "start": 51.423,
+          "end": 53.049,
+          "text": "it could actually have."
+        }
+      ]
+    },
+    "scene20": {
+      "duration": 38.65,
+      "offset": 720.2,
+      "cues": {
+        "proof": 0.2,
+        "describe": 2.185,
+        "events": 7.189,
+        "watch": 14.329,
+        "delete": 19.682,
+        "see": 21.969,
+        "aphorism": 27.1,
+        "question": 32.035
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.744,
+          "text": "Want to see that note yourself?"
+        },
+        {
+          "start": 2.185,
+          "end": 3.741,
+          "text": "Run kube control describe"
+        },
+        {
+          "start": 3.787,
+          "end": 5.541,
+          "text": "pod on any Pending pod,"
+        },
+        {
+          "start": 5.599,
+          "end": 6.945,
+          "text": "and scroll to the bottom."
+        },
+        {
+          "start": 7.189,
+          "end": 9.314,
+          "text": "The scheduler tells you exactly why:"
+        },
+        {
+          "start": 9.592,
+          "end": 11.125,
+          "text": "something like, zero of"
+        },
+        {
+          "start": 11.206,
+          "end": 12.623,
+          "text": "three nodes are available,"
+        },
+        {
+          "start": 12.867,
+          "end": 14.086,
+          "text": "insufficient memory."
+        },
+        {
+          "start": 14.329,
+          "end": 15.816,
+          "text": "And to watch the loop at work,"
+        },
+        {
+          "start": 15.99,
+          "end": 17.917,
+          "text": "run kube control get pods,"
+        },
+        {
+          "start": 18.033,
+          "end": 19.566,
+          "text": "dash w, for watch,"
+        },
+        {
+          "start": 19.682,
+          "end": 21.725,
+          "text": "and delete a pod from a second terminal."
+        },
+        {
+          "start": 21.969,
+          "end": 23.246,
+          "text": "A new name appears before"
+        },
+        {
+          "start": 23.281,
+          "end": 24.593,
+          "text": "the old one is even gone."
+        },
+        {
+          "start": 24.802,
+          "end": 26.891,
+          "text": "You just filed a bug report to a loop."
+        },
+        {
+          "start": 27.1,
+          "end": 29.19,
+          "text": "Kubernetes never does what you say."
+        },
+        {
+          "start": 29.341,
+          "end": 30.49,
+          "text": "It does what you want,"
+        },
+        {
+          "start": 30.607,
+          "end": 31.86,
+          "text": "as soon as it can."
+        },
+        {
+          "start": 32.035,
+          "end": 34.136,
+          "text": "Have you ever stared at a Pending pod,"
+        },
+        {
+          "start": 34.287,
+          "end": 36.203,
+          "text": "waiting for an error that never came?"
+        },
+        {
+          "start": 36.446,
+          "end": 38.095,
+          "text": "What turned out to be missing?"
+        }
+      ]
+    },
+    "scene21": {
+      "duration": 33.86666666666667,
+      "offset": 758.85,
+      "cues": {
+        "sum": 0.2,
+        "p1": 2.185,
+        "p2": 8.49,
+        "p3": 13.238,
+        "p4": 18.265,
+        "aha": 25.684
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.86,
+          "text": "To summarise everything."
+        },
+        {
+          "start": 2.185,
+          "end": 4.031,
+          "text": "Apply doesn't start anything."
+        },
+        {
+          "start": 4.356,
+          "end": 6.887,
+          "text": "It writes the want into the API server,"
+        },
+        {
+          "start": 6.98,
+          "end": 8.106,
+          "text": "the shared notebook."
+        },
+        {
+          "start": 8.49,
+          "end": 10.591,
+          "text": "Controllers compare want with have,"
+        },
+        {
+          "start": 10.661,
+          "end": 12.797,
+          "text": "and fix the difference, forever."
+        },
+        {
+          "start": 13.238,
+          "end": 15.328,
+          "text": "The scheduler fills in a server name,"
+        },
+        {
+          "start": 15.421,
+          "end": 17.882,
+          "text": "and that server's kube-let makes it real."
+        },
+        {
+          "start": 18.265,
+          "end": 20.378,
+          "text": "A Pending pod isn't an error."
+        },
+        {
+          "start": 20.703,
+          "end": 22.863,
+          "text": "It's a want that nothing can have yet,"
+        },
+        {
+          "start": 23.072,
+          "end": 25.301,
+          "text": "so change the want, or the have."
+        },
+        {
+          "start": 25.684,
+          "end": 27.472,
+          "text": "Kubernetes isn't a launcher."
+        },
+        {
+          "start": 27.797,
+          "end": 30.49,
+          "text": "It's a room full of stubborn thermostats,"
+        },
+        {
+          "start": 30.641,
+          "end": 33.312,
+          "text": "doing the job you used to do at 3 a.m."
+        }
+      ]
+    },
+    "scene22": {
+      "duration": 14.15,
+      "offset": 792.717,
+      "cues": {
+        "like": 0.2,
+        "sub": 2.139,
+        "next": 3.102
+      },
+      "captions": [
+        {
+          "start": 0.2,
+          "end": 1.396,
+          "text": "If you liked the video,"
+        },
+        {
+          "start": 1.512,
+          "end": 2.986,
+          "text": "drop a like and subscribe,"
+        },
+        {
+          "start": 3.102,
+          "end": 4.24,
+          "text": "and tell me what topics"
+        },
+        {
+          "start": 4.275,
+          "end": 5.587,
+          "text": "you want to see next."
+        }
+      ]
+    }
+  }
+}
