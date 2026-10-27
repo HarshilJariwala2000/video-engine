@@ -5,12 +5,12 @@
 > when it writes the script and you can correct it during review.
 
 - **Topic:** {{TOPIC}}
-- **Target length (minutes):** 7–9
+- **Target length (minutes):** 5–9 (the problem chain decides)
 - **Target audience level:** beginner + intermediate
-- **The ONE "aha" insight viewers should leave with:** {{AHA}}
-- **The real-world pain that opens the video:** {{PAIN}}
-- **What viewers probably already know:**
-- **3–5 things they probably don't know yet:**
-- **My take (the opinion this video argues):**
+- **The core idea:** {{AHA}}
+- **The opening scenario:** {{PAIN}}
+- **The running example:**
+- **Problem chain draft (problem → fix):**
+- **My take (when to use it, when not to):**
 - **Title format:** {{FORMAT}}
 - **Notes / things to include or avoid:** {{NOTES}}

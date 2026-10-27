@@ -1,0 +1,736 @@
+00:00 Let's say we have a web application
+00:02 
+
+00:02 which is used by 20 users daily. One day
+00:05 
+
+00:05 10,000 users want to use your app at the
+00:07 
+
+00:07 same time. But your server can't handle
+00:08 
+
+00:08 that much traffic and starts responding
+00:10 
+
+00:10 with errors. The problem here is not in
+00:13 
+
+00:13 the hardware or network. It is caused by
+00:15 
+
+00:15 how software handles connections. But
+00:17 
+
+00:17 what exactly is a connection? When a
+00:19 
+
+00:19 browser wants something from the server,
+00:21 
+
+00:21 it first opens a channel. That open
+00:23 
+
+00:23 channel is the connection. The browser
+00:25 
+
+00:25 sends requests through it like for a
+00:27 
+
+00:27 JavaScript file and the server uses that
+00:29 
+
+00:29 same channel to send the data back. One
+00:32 
+
+00:32 connection can carry many requests one
+00:34 
+
+00:34 after another. So it isn't the same
+00:36 
+
+00:36 thing as a single request and it stays
+00:38 
+
+00:38 open the whole time even when nothing is
+00:40 
+
+00:40 being sent. In the late 90s and early
+00:43 
+
+00:43 2000s, web servers used a thread per
+00:45 
+
+00:45 connection model. So when a user
+00:47 
+
+00:47 connects, the server spawns a new thread
+00:49 
+
+00:49 or process to handle them. that thread
+00:51 
+
+00:51 stays alive as long as the connection
+00:53 
+
+00:53 remains open. If you have 100 visitors,
+00:56 
+
+00:56 you have a 100 threads. If you have
+00:57 
+
+00:57 10,000 visitors, you need 10,000
+00:59 
+
+00:59 threads. Every thread requires its own
+01:02 
+
+01:02 stack memory. Even if you shrink the
+01:04 
+
+01:04 stack size aggressively, a thread might
+01:06 
+
+01:06 still take a megabyte of RAM. 10,000
+01:08 
+
+01:08 threads mean 10 GB of memory consumed
+01:10 
+
+01:10 just to keep the connections open before
+01:12 
+
+01:12 the application even does any work.
+01:15 
+
+01:15 Another problem comes down to CPU
+01:17 
+
+01:17 limitations. A processor can only
+01:19 
+
+01:19 execute one thing at a time per core. To
+01:22 
+
+01:22 fake parallel execution, the operating
+01:24 
+
+01:24 system rapidly switches between threads,
+01:26 
+
+01:26 saving the state of one thread and
+01:28 
+
+01:28 loading the state of another takes time.
+01:30 
+
+01:30 At 10,000 threads, the CPU spends most
+01:32 
+
+01:32 of its cycles just switching contexts
+01:34 
+
+01:34 instead of serving web pages. This is a
+01:36 
+
+01:36 well-known problem with its own name,
+01:38 
+
+01:38 the C10K problem. The C is for
+01:41 
+
+01:41 concurrent, the 10K for 10,000
+01:43 
+
+01:43 connections. A Russian engineer hit
+01:45 
+
+01:45 exactly this problem at Rambler. the
+01:47 
+
+01:47 search portal he worked for and he
+01:49 
+
+01:49 created engine X to fix it. This thread
+01:51 
+
+01:51 per connection model is wasteful because
+01:53 
+
+01:53 a connection spends most of its life
+01:55 
+
+01:55 waiting. It waits for the client to send
+01:57 
+
+01:57 a request, waits for the disk or a
+01:59 
+
+01:59 backend to answer, waits for the network
+02:01 
+
+02:01 to carry the bytes back. The whole time
+02:03 
+
+02:03 the thread tied to that connection is
+02:05 
+
+02:05 blocked. It can't pick up anyone else.
+02:07 
+
+02:07 It just holds its memory until that one
+02:09 
+
+02:09 connection finally needs something.
+02:11 
+
+02:11 Engine X uses a single process to watch
+02:14 
+
+02:14 thousands of connections at the same
+02:15 
+
+02:15 time. At any moment, most of them are
+02:17 
+
+02:17 idle. So, it only does anything when one
+02:19 
+
+02:19 of them has data coming in or a response
+02:21 
+
+02:21 going out. It handles that connection,
+02:24 
+
+02:24 then moves to the next one that needs
+02:25 
+
+02:25 something. The process never stops to
+02:27 
+
+02:27 wait on a connection the way the old
+02:29 
+
+02:29 thread did. So, one process keeps
+02:31 
+
+02:31 thousands of them going. When you start
+02:33 
+
+02:33 engine X, it creates one master process
+02:35 
+
+02:35 and multiple worker processes. The
+02:38 
+
+02:38 master process does very little actual
+02:40 
+
+02:40 work. It reads the configuration file,
+02:42 
+
+02:42 binds to the network ports, and spawns
+02:44 
+
+02:44 the workers. The workers do the actual
+02:46 
+
+02:46 job of handling network traffic. You
+02:48 
+
+02:48 usually configure Engine X to run one
+02:50 
+
+02:50 worker process per CPU core. If you have
+02:53 
+
+02:53 an 8 core server, you run eight workers.
+02:55 
+
+02:55 This specific ratio is intentional. When
+02:57 
+
+02:57 we have one worker per core, the
+02:59 
+
+02:59 operating system rarely needs a context
+03:00 
+
+03:00 switch between them. The worker process
+03:03 
+
+03:03 stays on the CPU and runs constantly to
+03:05 
+
+03:05 process network requests without
+03:06 
+
+03:06 interruption. We have one worker
+03:09 
+
+03:09 responsible for thousands of
+03:10 
+
+03:10 connections, but how does it know which
+03:12 
+
+03:12 ones actually need attention? most of
+03:14 
+
+03:14 them are doing absolutely nothing. So it
+03:16 
+
+03:16 can't waste time walking down the whole
+03:17 
+
+03:17 list and checking each connection one by
+03:19 
+
+03:19 one whether it has data. So instead of
+03:22 
+
+03:22 checking each connection itself, the
+03:23 
+
+03:23 worker lets the kernel do the watching.
+03:25 
+
+03:25 The kernel receives all the network
+03:27 
+
+03:27 traffic anyway. So it already knows
+03:29 
+
+03:29 which connections have data and which
+03:30 
+
+03:30 ones are idle. The worker uses a Linux
+03:33 
+
+03:33 facility called eole which keeps two
+03:35 
+
+03:35 lists that the worker and the kernel use
+03:37 
+
+03:37 to talk to each other. The first one is
+03:38 
+
+03:38 the interest list where the worker
+03:40 
+
+03:40 writes down which connections it wants
+03:42 
+
+03:42 the colonel to watch. The second one is
+03:44 
+
+03:44 the ready list where the kernel writes
+03:46 
+
+03:46 back which of those connections actually
+03:48 
+
+03:48 have something happening. The interest
+03:50 
+
+03:50 list gets built up as connections
+03:52 
+
+03:52 arrive. When a connection opens, the
+03:54 
+
+03:54 worker registers it once with a call
+03:56 
+
+03:56 named epolect and that adds it to the
+03:59 
+
+03:59 interest list. The kernel needs this
+04:00 
+
+04:00 list to know which connections belong to
+04:02 
+
+04:02 this worker. Meanwhile, the ready list
+04:04 
+
+04:04 is filled by the kernel. When data
+04:06 
+
+04:06 arrives for a connection that is on the
+04:08 
+
+04:08 interest list, the colonel adds that
+04:09 
+
+04:09 connection to the ready list. Let's look
+04:12 
+
+04:12 at a real example. A user opens the web
+04:14 
+
+04:14 app and that opens a connection. The
+04:16 
+
+04:16 worker sees the new connection and uses
+04:18 
+
+04:18 eole to tell the kernel to watch it. So
+04:20 
+
+04:20 the connection lands on the interest
+04:22 
+
+04:22 list. Then the user clicks the orders
+04:24 
+
+04:24 tab and the front end sends a request to
+04:25 
+
+04:25 the server to fetch those orders. That
+04:27 
+
+04:27 request travels over the connection
+04:29 
+
+04:29 that's already open. When the kernel
+04:31 
+
+04:31 spots the incoming bite, it checks the
+04:33 
+
+04:33 interest list and immediately flags the
+04:35 
+
+04:35 connection on the ready list. Once the
+04:37 
+
+04:37 connection is on the ready list, the
+04:38 
+
+04:38 colonel's job is done. The worker still
+04:40 
+
+04:40 has to read the bytes, fetch the orders,
+04:42 
+
+04:42 and send the response. To actually
+04:44 
+
+04:44 process the work, the worker runs an
+04:46 
+
+04:46 endless loop. The first thing it does is
+04:48 
+
+04:48 call eul wait. This asks the kernel for
+04:51 
+
+04:51 connections that are sitting on the
+04:52 
+
+04:52 ready list. If our connection is there,
+04:54 
+
+04:54 the worker grabs it, handles the
+04:56 
+
+04:56 request, and ships the data back to the
+04:58 
+
+04:58 user. Then the whole cycle starts all
+05:00 
+
+05:00 over again. If the ready list is empty,
+05:03 
+
+05:03 e-le blocks the endless loop. The worker
+05:05 
+
+05:05 falls asleep on that exact line of code
+05:07 
+
+05:07 without draining any processor
+05:09 
+
+05:09 resources. The loop doesn't just run
+05:11 
+
+05:11 over and over asking the kernel if
+05:13 
+
+05:13 anything changed. It asks once and waits
+05:15 
+
+05:15 for the kernel to wake it up when a new
+05:17 
+
+05:17 request arrives. This endless cycle runs
+05:19 
+
+05:19 for the entire life of the process. And
+05:21 
+
+05:21 this is called the event loop. Since the
+05:24 
+
+05:24 worker never wastes time on idle
+05:25 
+
+05:25 clients, Engine X can handle 10,000
+05:27 
+
+05:27 connections at once. The event loop
+05:30 
+
+05:30 seems like a perfect solution. But it
+05:32 
+
+05:32 has one big problem. If the worker gets
+05:34 
+
+05:34 stuck on one connection, all other
+05:36 
+
+05:36 connections have to wait. Let's suppose
+05:38 
+
+05:38 your server stores large video files on
+05:40 
+
+05:40 a slow mechanical hard drive. One day a
+05:42 
+
+05:42 user requests one of those videos. So
+05:44 
+
+05:44 the connection arrives and the worker
+05:46 
+
+05:46 asks the drive for the data. Because the
+05:48 
+
+05:48 disc is slow, the worker sits there
+05:50 
+
+05:50 doing absolutely nothing, just waiting
+05:53 
+
+05:53 for the hardware to read the entire file
+05:54 
+
+05:54 and respond. That same worker is
+05:57 
+
+05:57 responsible for thousands of other
+05:58 
+
+05:58 active connections. While it waits for
+06:00 
+
+06:00 the video, everyone else is blocked
+06:02 
+
+06:02 until the disc responds. Someone else
+06:04 
+
+06:04 might be asking for a simple JavaScript
+06:06 
+
+06:06 file, but they won't get it until the
+06:07 
+
+06:07 slow disk read finally finishes. The
+06:10 
+
+06:10 system needed a way to handle slow
+06:12 
+
+06:12 operations without forcing everyone to
+06:13 
+
+06:13 wait. So in order to deal with those
+06:16 
+
+06:16 cases, developers built thread pools.
+06:18 
+
+06:18 When the worker receives a request that
+06:20 
+
+06:20 requires a slow disk read, it refuses to
+06:22 
+
+06:22 process it directly. It pushes the task
+06:24 
+
+06:24 to a queue and a separate background
+06:26 
+
+06:26 thread picks it up. The background
+06:28 
+
+06:28 thread takes over the job of talking to
+06:30 
+
+06:30 the slow disk, leaving the main worker
+06:31 
+
+06:31 free to return to the event loop. It
+06:34 
+
+06:34 goes right back to calling eole weight
+06:35 
+
+06:35 and serving the other users. Once the
+06:38 
+
+06:38 background thread finally pulls the file
+06:40 
+
+06:40 from the disk, it puts the data into
+06:41 
+
+06:41 memory and sends a signal. The next time
+06:44 
+
+06:44 the main worker checks the ready list,
+06:46 
+
+06:46 it sees that the data is ready. It grabs
+06:48 
+
+06:48 the bytes, ships them to the user, and
+06:50 
+
+06:50 immediately moves on to the next task.
+06:52 
+
+06:52 The main process never had to stop and
+06:54 
+
+06:54 wait for a slow operation that would
+06:56 
+
+06:56 block all other connections. I said
+06:58 
+
+06:58 earlier that the worker grabs the
+06:59 
+
+06:59 connection, handles the request, and
+07:01 
+
+07:01 ships the data back. But I think we need
+07:03 
+
+07:03 to define what handling the request
+07:05 
+
+07:05 actually means. So the last thing I want
+07:07 
+
+07:07 to cover in this video is what Engine X
+07:09 
+
+07:09 is actually responsible for. Engine X
+07:12 
+
+07:12 does not run your application code. It
+07:14 
+
+07:14 acts as a reverse proxy. When a request
+07:17 
+
+07:17 arrives, it opens a separate connection
+07:19 
+
+07:19 to your backend like a node API. It
+07:22 
+
+07:22 forwards the incoming data to node,
+07:24 
+
+07:24 waits for the backend to finish its
+07:25 
+
+07:25 work, and relays the response back to
+07:27 
+
+07:27 the user. Because engine X already sits
+07:29 
+
+07:29 in the middle and intercepts all the
+07:31 
+
+07:31 traffic, you can also use it as a load
+07:33 
+
+07:33 balancer. You just run multiple
+07:34 
+
+07:34 instances of your application and it
+07:36 
+
+07:36 will distribute the request across all
+07:38 
+
+07:38 your servers. So, the old approach of
+07:40 
+
+07:40 giving every single connection its own
+07:42 
+
+07:42 thread is what kills web servers the
+07:44 
+
+07:44 moment traffic spikes. Engine X
+07:46 
+
+07:46 completely changes this dynamic by
+07:48 
+
+07:48 relying on an event loop, allowing a
+07:50 
+
+07:50 single worker process to efficiently
+07:52 
+
+07:52 manage thousands of clients at the exact
+07:54 
+
+07:54 same time. Instead of wasting massive
+07:56 
+
+07:56 amounts of memory and processing power
+07:58 
+
+07:58 on idle connections that are doing
+07:60 
+
+07:60 absolutely nothing, it only uses server
+08:02 
+
+08:02 resources when there is actual data
+08:04 
+
+08:04 ready to be processed. If you enjoyed
+08:07 
+
+08:07 this video, drop a like and subscribe.
+08:09 
+
+08:09 And please tell me in the comments what
+08:11 
+
+08:11 topic you want to see next. I'll pick
+08:13 
+
+08:13 the most liked one and make a video
+08:14 
+
+08:14 about it. Thanks for watching and see
+08:16 
+
+08:16 you in the next one.

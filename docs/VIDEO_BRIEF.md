@@ -4,22 +4,25 @@
 > workflow stage (see `CLAUDE.md`). The per-video part, §0, lives in each video's
 > own `videos/<NNN-name>/brief.md`. Claude follows every rule below unless I
 > override it in the brief, a script review comment, or the chat.
+>
+> **Reference scripts:** `ideal_scripts/` holds five transcripts that show the
+> script style this channel wants (Kafka, Nginx, iPhone Face ID, text rendering,
+> UUID vs auto-increment). §3 is distilled from them. Study how they're built;
+> never copy their lines.
 
 ---
 
 ## 0. This video (lives in `videos/<NNN-name>/brief.md`)
 
 - **Topic:**
-- **Target length (minutes):** (default 7–9)
+- **Target length (minutes):** (default 5–9; the problem chain decides)
 - **Target audience level:** beginner + intermediate (default; see §3.1)
-- **The ONE "aha" insight viewers should leave with:**
-- **The real-world pain that opens the video** (something the viewer has felt, e.g. "works on my machine"):
-- **What viewers probably already know:**
-- **3–5 things they probably don't know yet (the "I learned something" moments):**
-- **My take (the opinion this video argues, see §3.6):**
+- **The core idea** (the one thing everything hangs off, e.g. "Kafka is an append-only log"):
+- **The opening scenario** (a concrete situation the viewer is put in):
+- **The running example** (one app / request / face / letter followed the whole way):
+- **Problem chain draft** (problem → fix, problem → fix, …), if I have one:
+- **My take** (practical advice: when to use it, when not to):
 - **Title format I want (see §2):**
-- **Stage I'm at:** ideas / outline / script / scenes / animation code / title+thumbnail / description
-- **Audio length per scene (if recorded already):**
 - **Notes / things to include or avoid:**
 
 ---
@@ -27,24 +30,21 @@
 ## 1. Role for Claude
 
 You are my scriptwriter, technical researcher, and Motion Canvas animator for a
-YouTube channel that explains programming and infrastructure concepts in the
-simplest possible way, using minimal, code-driven animations on a dark background.
+YouTube channel that explains how programming and infrastructure tools actually
+work, using minimal, code-driven animations on a dark background.
 
 Rules:
 - Be technically accurate. If a claim is uncertain or version-specific, flag it
   with `[VERIFY]` so I can check it against official docs.
 - Write for beginners and intermediate developers at the same time (§3.1).
-  A beginner must be able to follow every sentence; an intermediate dev must
-  still learn something new.
-- Tell one story, not a list of topics (§3.2). Every scene must follow from the one before it.
-- Prefer intuition first, details second. Every concept needs a visual metaphor
-  made from simple shapes.
-- Never pad. No "Hey guys, welcome back." No "smash that like button" in the opening.
+- **The script is a chain of problems, not a list of facts (§3.2).** Every
+  section exists because the previous fix left something broken.
+- Go down to the real mechanism. The depth is the payoff.
+- Plain words, calm voice. One working engineer explaining it clearly to a
+  colleague, with practical opinions where they matter (§3.5).
+- Never pad. No "Hey guys, welcome back", no "in this video we'll cover", no
+  "smash that like button" at the start.
 - Keep my channel's own identity (§5). Do not imitate any specific creator's branding.
-- **You are the narrator, not a textbook.** The script is one opinionated
-  engineer talking to a friend, not a spec read aloud. Accuracy and clarity
-  come first; personality (§3.6) is how they get remembered. A script that is
-  correct but could have been written by anyone is not done.
 
 ---
 
@@ -76,225 +76,207 @@ Weakest: "Load Balancing Explained in 3 Minutes" 5k · "File Compression Explain
 - [ ] Is there a **curiosity gap** (why / how / vs / finally)?
 - [ ] Is there **one clear aha moment**?
 - [ ] Can the core idea be shown with **boxes, arrows, and numbers**?
-- [ ] Can it be told as **one story that starts from a pain the viewer has felt**?
+- [ ] Can it be told as a **chain of problems**, each fix creating the next one, starting from a situation the viewer recognizes?
 
 ---
 
 ## 3. Script rules
 
-### 3.1 Audience: "know some, learn some"
+### 3.1 Audience
 
-The viewer is a beginner or intermediate developer. They should feel two things:
-"I understand all of this" and "I didn't know that."
+The viewer is a beginner or intermediate developer who has **used** the tool but
+can't **explain** it. They should finish thinking "that actually makes sense now".
 
-- **Start from what they know.** Open with something they've done or seen
-  (typed `docker run`, seen a crash on a server, waited for a slow build).
-- **Assume no internals knowledge.** Do not assume they know words like kernel,
-  process, namespace, port, hash, index or protocol.
-- **Deliver 3–5 genuine "I didn't know that" moments**, spread through the video,
-  not saved for the end. Flag them in the outline. Good ones are surprising
-  facts that follow from the model (e.g. "the image contains no kernel").
-- **Never talk down.** Plain words, not baby words. Explain once, then use the term confidently.
+- Assume they've seen the outside (typed the command, opened the app, hit the error),
+  not the inside. Explain words like kernel, thread, offset, B-tree or hash the
+  first time they come up.
+- Plain words, not baby words. Explain a term once, then use it confidently.
+- Respect their intelligence: name the real mechanism (`epoll_wait`, page split,
+  hash of the key, triangulation). A beginner can follow a real mechanism if each step is shown.
 
-### 3.2 One throughline, no topic-hopping
+### 3.2 The spine: a chain of problems
 
-The video is one story, not a tour of features.
+This is the rule everything else serves. The video is a chain where **every fix
+creates the next problem**:
 
-- **One problem drives the whole video.** The hook's problem is the thing the
-  payoff solves. Every concept exists because the story needs it.
-- **Use a recurring device** that viewers can track on screen. Default: a
-  **requirements checklist** (3–5 boxes) introduced early. The naive approach
-  checks some boxes and fails at least one. Each later concept checks one box.
-  Alternatives when a checklist doesn't fit: a running example that grows, a
-  question that gets refined, or a "build it ourselves" design.
-- **One running example** for the whole video (one app, one request, one row, one string).
-  Don't switch examples between scenes.
-- **Every scene hands off to the next.** End each scene with the question,
-  limitation or tension the next scene resolves ("but blinders only hide things…").
-- **Connection test:** between every pair of consecutive scenes you must be able
-  to write "but", "so", or "because". If you can only write "also" or "next",
-  the scenes are disconnected. Rewrite or reorder.
-- **Callbacks:** the payoff and at least one mid-video scene must explicitly
-  refer back to the hook (same visual, same words).
+```
+situation → problem → fix → but: new problem → fix → but: new problem → … → core idea
+```
 
-### 3.3 Jargon rules
+From the reference scripts:
+- **Kafka:** services call each other directly; that tangles and cascades failures → a log
+  in the middle. One machine isn't enough → partitions. Partitions break ordering → keys.
+  Keys break if you add partitions → create extra partitions up front. Two copies of the
+  email service send two emails → consumer groups. A machine dies → replicas.
+- **Nginx:** a thread per connection eats RAM and CPU → one worker watching many connections.
+  How does it know which ones are ready? → the kernel watches (epoll). A slow disk read
+  blocks everyone → thread pools. What does "handling" a request even mean? → reverse proxy.
+- **Text rendering:** fonts are math, screens are grids → rasterising. Jagged edges →
+  anti-aliasing. Blurry at 8 pixels → hinting. Still not sharp → subpixel rendering.
+  Colour fringes and rotated monitors → filtering and hardware queries. Too slow → texture atlas.
+- **Face ID:** told from the attacker's side. A photo → depth map. Your brother → neural
+  network. Hacking iOS to steal the face data → Secure Enclave. Every part exists to stop one attack.
 
-- **Plain meaning first, then the name.** "A program that's running has a name: a process."
-  Never the other way round.
-- Give each new term a **one-line everyday analogy** (kernel = the computer's manager,
-  namespace = blinders, cgroup = a budget). Reuse the same analogy every time
-  the term comes back.
-- **At most one new term per scene.**
-- **Cut any term the aha doesn't need.** If removing it loses nothing for a
-  beginner, remove it (e.g. hypervisor, OverlayFS, subnet).
-- Numbers, commands and acronyms are read in a TTS-friendly way
-  ("PID, short for process ID"; "port 80, the standard port for websites").
+Rules:
+- **No section without a problem.** Before each new idea, the viewer must already
+  feel why it's needed. If a concept arrives without a problem in front of it, find
+  the problem or cut the concept.
+- **The tool arrives as the answer, not the topic.** Build the need first. Kafka
+  isn't named until the viewer already wants something like it.
+- **Turn on "but" and "so".** Between every pair of scenes you must be able to write
+  "but", "so" or "because". If only "also" or "next" fits, the scenes are disconnected.
+- **Admit the cost of each fix.** The new problem is usually the price of the last
+  solution ("splitting into partitions lets you scale, but there's one problem…").
+  That honesty is what makes the next step feel necessary instead of listed.
+- **One core idea** sits under the whole chain ("Kafka is an append-only log",
+  "only do work when a connection has data", "every part stops one attack"). State it
+  plainly once it has been earned, and return to it in the summary.
+- A good chain has **5–9 links** for a 5–9 minute video. Cut links the core idea
+  doesn't need, even if they're true and interesting.
+- **Organising frames** that work: the scaling story (it grows, it breaks, fix it);
+  the attacker (each defence answers one attack); the layered fix (each fix has a flaw
+  the next fixes); the decision (option A's flaw, option B's flaw, the third option
+  that fixes both). Pick the one the topic naturally has.
 
-### 3.4 Structure
+### 3.3 The hook
 
-1. **Hook (first 10–25 s):** a pain or surprising fact the viewer recognizes. Nothing before it.
-   The hook may run over 1–2 scenes and ends on the open question or promise.
-   **→ Channel intro** (`{id: 'intro', intro: 'default'}` in script.mjs): the shared ~7 s animated
-   logo sting with music plays right after the hook lands, before the mystery deepens.
-2. **Mystery:** why the obvious explanation can't be right, or what seems impossible.
-   End with a promise ("by the end of this video, you'll know exactly how").
-3. **Requirements:** the checklist (or other device from §3.2).
-4. **Naive approach:** what you'd try first, which boxes it checks, and exactly where it fails.
-5. **The better question:** reframe the problem; this is the turn of the story.
-6. **4–6 concepts**, each answering the question left by the previous one and
-   checking a requirement. Weave in the "I didn't know that" moments here.
-7. **The aha:** one sentence that ties every concept together. Show it as an
-   equation or summary built from the earlier visuals.
-8. **Payoff:** replay the hook with the new model; the original problem is now solved.
-9. **Proof (optional, 1–2 sentences):** something the viewer can try themselves.
-10. **Summary** (label `TO SUMMARISE`, `bed: true`): opens with "To summarise everything…",
-    then 3–5 one-line points (one cue each) and the aha as the last line. Still in the narrator's
-    voice (§3.6): the aphorism can live here. The outro music bed fades in under it.
-11. **End card** (label `END`, `endCard: true`): exactly the channel CTA from
-    `shared/brand/brand.json` → `outro.cta`: "If you liked the video, drop a like and subscribe,
-    and tell me what topics you want to see next." with cues `{like}`, `{sub}`, `{next}`. A specific
-    question to the viewer (§3.6.9) goes right before it, in the summary. The scene holds
-    `endScreenHold` seconds for YouTube's end-screen elements.
+The first 10–20 seconds. No greeting, no agenda, nothing before it.
 
-### 3.5 Style
+Four shapes that work:
+1. **Put the viewer in a situation.** "Let's say you're running a web app with five
+   services behind it…" / "Your app has twenty users. One day, ten thousand show up at once."
+2. **Make the mundane mysterious.** "You press the letter E and it appears instantly…
+   it's one of the hardest things your computer does." / "This is the most
+   overengineered part of your phone, and all it does is unlock it."
+3. **Ask the question every developer has had to answer.** "Every time you create a
+   table, you have to decide how to identify a row."
+4. **Open a loop the ending closes.** Promise a turn ("…and why this debate is missing
+   a third option") and pay it off near the end.
 
-- **Length:** ~140 spoken words per minute (8 min ≈ 1,100 words). 7–9 minutes is
-  the default; a story that needs fewer words should be shorter, not padded.
-- Spoken sentences, "you" and "I", concrete numbers and examples. One idea per sentence.
-- **Vary the rhythm.** Most sentences 8–20 words, but mix in one-to-three-word
-  punches ("Ten gigabytes." "Nope.") and the occasional long, conversational
-  sentence that runs with an idea. A run of four same-length sentences is a
-  monotone; break it. Never let every sentence be short: that is what makes
-  narration sound robotic.
-- **Every explanatory sentence must be showable.** Jokes, asides and opinions
-  don't need their own visual, but they still sit on top of the current one.
+The hook ends on the open question or the first problem. Then the channel intro plays.
+
+### 3.4 Explaining a mechanism
+
+- **One running example, the whole way.** One order, one click, one dot on your nose,
+  one letter E. When a new mechanism appears, walk the running example through it
+  step by step ("The user clicks the orders tab. The request arrives on the open
+  connection. The kernel sees the bytes and puts the connection on the ready list…").
+- **"Let's look at a real example."** After explaining a structure in general, trace
+  one concrete case through it. This is where it clicks.
+- **Concrete numbers, always.** 10,000 threads × 1 MB = 10 GB. 30,000 dots. Six
+  partitions and ten consumers means four sit idle. 4 bytes vs 16. `/users/42` →
+  `/users/43`. A lowercase e eight pixels tall. Do the arithmetic out loud.
+- **Idea first, then the name.** Describe what happens, then name it: "…and this is
+  called the event loop." Never open a section with a definition.
+- **Define in passing, in everyday words.** "Infrared, a kind of light your eyes
+  can't see, but a camera can." One short analogy when it helps ("like a flashlight
+  you can't see"), never a running metaphor.
+- **Ask the question before answering it.** "So how does a picture of dots turn
+  into distances?" "But how does the worker know which connections need attention?"
+  A question opens a short gap the next sentences close. Use it at section turns,
+  not after every paragraph.
+- **Revisit your own shortcuts.** If you glossed over something earlier, come back
+  to it: "I said the worker handles the request. But what does handling actually mean?"
+
+### 3.5 The narrator
+
+A calm, practical engineer who knows this tool well and explains it to a colleague.
+Clear first; the personality comes from judgement, not jokes.
+
+- **Practical opinions where they matter.** "For a small system, this is completely
+  fine, and I wouldn't reach for anything fancier." "That's why people usually create
+  extra partitions from the start." Say when *not* to use the thing.
+- **Flag the gotchas.** "There's one catch you should know about." The catch is
+  something that bites people in real systems.
+- **Answer the viewer's thought before they have it.** "So far this probably sounds
+  like an ordinary message queue." "That sounds almost too simple, but that's the
+  whole point." "It sounds like a lot just to unlock a phone." At least two per video.
+- **Name what makes it different.** "What makes Kafka different is one decision
+  about what it actually is." Then say the decision in one sentence.
+- **One wow moment, landed deliberately.** When a fact is surprising, slow down and
+  say it again: "Let me say that again. Fonts contain code that bends their own shapes
+  so they survive the pixel grid." Once per video, not every scene.
+- **Humour is optional.** A dry aside that comes from the subject is fine. Never add
+  a joke to fill a quota, and never one that needs the visual to land.
+- **Calm register.** Confidence comes from precision, not from adjectives. No
+  "nightmare", "massive", "game-changer", "insane".
+
+### 3.6 Structure
+
+1. **Hook** (10–20 s, §3.3). May run over 1–2 scenes; ends on the open question or first problem.
+   **→ Channel intro** (`{id: 'intro', intro: 'default'}` in script.mjs): the shared ~7 s
+   animated logo sting with music, right after the hook lands.
+2. **The naive setup:** how you'd do it without the tool, honestly ("for a small system,
+   this is fine"), then where it breaks as things grow.
+3. **The chain** (§3.2): 5–9 problem → fix links, each walking the running example
+   through the new mechanism. The core idea is stated once it's earned.
+4. **Optional last links:** the practical edges. How long is data kept, what replaced
+   what in the latest version, how it's so fast, when to pick which option. Keep each short.
+5. **Summary** (label `TO SUMMARISE`, `bed: true`): opens with "To summarise everything.",
+   then 2–4 short points (one `{pN}` cue each) and the core idea as the last line (`{aha}`).
+   For an A-vs-B video, the summary is the decision rule ("If…, use A. If…, use B.").
+   The outro music bed fades in under it.
+6. **End card** (label `END`, `endCard: true`): exactly the channel CTA from
+   `shared/brand/brand.json` → `outro.cta`: "If you liked the video, drop a like and subscribe,
+   and tell me what topics you want to see next." with cues `{like}`, `{sub}`, `{next}`.
+   The scene holds `endScreenHold` seconds for YouTube's end-screen elements.
+
+### 3.7 Style and length
+
+- **Length follows the chain.** Typically 800–1,300 spoken words (5–9 minutes at the
+  TTS pace, about 140 words per minute). A short chain makes a short video; never pad.
+- Spoken sentences with "you", "we" and "I". Connective openers carry the chain:
+  "So,", "But,", "Now,", "Basically,", "Let's say…", "To see why this matters…".
+- Mostly 8–20 words per sentence, with the odd short punch and the odd longer
+  sentence that walks through a sequence. Avoid four same-length sentences in a row.
+- **Every explanatory sentence must be showable**: boxes, arrows, lists, numbers,
+  a value moving. If you can't say what's on screen, the sentence is too abstract.
 - **Read-aloud test:** a beginner hearing it once, with no pause button, can follow it.
-  **Friend test:** it sounds like a person who has used this thing, explaining it to
-  a colleague over coffee. If it sounds like documentation, rewrite it.
+- **TTS:** write numbers and symbols as they're said ("ten thousand", "slash users
+  slash forty-two"). No parentheses, slashes, ellipses or em-dash asides in narration.
+  Land an important line as its own short sentence after a full stop.
 
-### 3.6 Voice and personality
+### 3.8 Cut on sight
 
-Learned from studying channels in this niche that people actually rewatch
-(transcripts in `transcripts/`). Use the **techniques**, never their lines,
-catchphrases or characters: our narrator is our own.
-
-**The narrator.** A working engineer who has been burned by this exact thing,
-finds the internals genuinely delightful, and has opinions. Dry, warm,
-slightly mischievous, never smug. Pokes fun at jargon, at tools, at the industry
-and at themselves, never at the viewer. Says "I" and means it.
-
-**1. Take a stance early.** The hook (the pain) already has attitude, and an
-opinion, confession or provocation lands within the first 30 seconds, never a
-neutral fact. The video argues something.
-- Flat: "Postgres stores data in tables."
-- Alive: "Postgres has a secret. It has never updated a row in its life."
-Put the stance in `meta.stance`. The ending returns to it.
-
-**2. Personify the system.** Give the main tool or mechanism a character with
-motives and habits that follow from how it really works: a database that is a
-hoarder, a kernel that lies to processes, a garbage collector that's a
-reluctant janitor. Reuse that character through the whole video; it becomes
-the running joke *and* the mental model.
-
-**3. Coin your own handles.** Invent a short, sticky name for a pattern or
-feeling ("the four-way stop", "an insert with extra paperwork", "the
-forgotten BEGIN"). One or two per video, used again later as callbacks.
-They're memorable, and they belong to us.
-
-**4. Put people in the story.** A named colleague who says the hook line
-(Sam from infra: "you need to vacuum"), a skeptical reviewer, "past you".
-Voice the viewer's objection out loud and answer it: "You might be thinking,
-that sounds wasteful. It is. On purpose." At least two voiced objections per video.
-
-**5. One real story.** A real, verifiable incident, quote, or design decision
-by a real company or person (a postmortem, a style guide, a famous outage).
-Name it, give the number, add it to `[VERIFY]`. One good story beats three
-hypotheticals.
-
-**6. Humor that comes from the subject.** 3–5 beats per video, roughly one
-every 60–90 seconds, never in the middle of the core mechanism, never a
-setup that needs its own visual. The best kinds, in order:
-- *Understatement / deflation* after a dramatic fact: "It stops accepting
-  writes. Which, for a database, is a strong move."
-- *Escalation to the absurd* that lands back on the point: "Same table, same
-  instant, two different answers, and both are right. That sounds like a bug.
-  It's the entire feature."
-- *Relatable everyday cruelty*: "someone typed BEGIN, went to lunch, and never came back."
-- *Self-deprecation*: the narrator admitting their own bad habit or past mistake.
-- *Snark at jargon*: "multi-version concurrency control, a name only a
-  committee could love."
-Don't use memes, pop-culture references that will date, sarcasm at beginners,
-or jokes that need the visual to land (TTS can't wink).
-
-**7. Concede, then commit.** Admit the trade-off or the case where the other
-side is right ("This isn't free. Here's the bill."), then come back to the
-stance. Honesty makes the opinion credible. Each video has at least one
-concession and one comparison to how something else does it differently.
-
-**8. Narrate like you're doing it.** Present tense, "we", in the middle of the
-action: "So let's pull that out. Better. But this part is still too deep for
-my taste." Small reactions ("Okay.", "Nope.", "There it is.") are what make
-it feel live.
-
-**9. Earn the ending.** Close with a callback to the hook's person or line,
-then one aphorism that compresses the aha into something quotable ("Postgres
-never forgets. It just eventually lets go."), then one genuine, specific
-question to the viewer ("Have you ever been bitten by a transaction someone
-forgot to close?"). No generic "let me know in the comments".
-
-**10. The channel's own moment.** At the story's turn (§3.4 step 5), the
-narrator says some form of "let's look under the abstraction". Once per
-video, never forced; it's the channel's signature.
-
-**TTS delivery.** Jokes live or die on timing, and timing comes from
-punctuation. Land a punchline as its own short sentence after a full stop.
-Use "Okay." and "Nope." as beats. No ALL CAPS, no "haha", no ellipses, no
-italics for emphasis; reorder the sentence so the stressed word comes last.
-
-### 3.7 AI tells: cut on sight
-
-These make a script sound generated. Search the draft for them before handing it over.
-- Stock reveals: "Here's the thing", "Here's the twist", "Here's the part most
-  people never see", "It gets stranger", "But here's the catch", "Enter X".
-- Empty framings: "Let's dive in", "In this video we'll explore", "The rule is
-  simple", "It's that simple", "And that's the magic", "game-changer", "seamlessly".
-- Reflex structures: "It's not X, it's Y" more than once; lists of exactly three
-  adjectives; every scene ending on a rhetorical question; a tidy moral after
-  every scene.
-- Scoreboard narration: "Box three fails." "Boxes one, two and three." Say it
-  like a person: "So much for a clean total." Let the checklist animation do the scorekeeping.
-- Uniform sentence length; every paragraph built the same way; no "I"; no opinions.
+- Agenda openers: "Today we're going to look at", "In this video", "Let's dive in".
+- Hype words: nightmare, massive, insane, game-changer, mind-blowing, "the industry
+  has evolved", "the best of both worlds" (say what you get instead).
+- Stock reveals: "Here's the thing", "Here's the twist", "It gets stranger", "Enter X".
+- A definition at the start of a section, or a term named before the idea is shown.
+- A concept with no problem in front of it ("Kafka also has…").
+- A tidy moral after every scene; every scene ending on a rhetorical question.
+- "It's not X, it's Y" more than once; lists of exactly three adjectives.
 - Hedge piles ("generally", "typically", "in many cases") where one plain claim would do.
 
 ---
 
 ## 4. Scene format (always output scripts like this)
 
-Split the script into numbered scenes. One scene = one idea = one visual change.
+Split the script into numbered scenes. One scene = one link of the chain (or one
+step of a walk-through) = one visual change. Usually 15–40 seconds.
 
 ```
-### SCENE 09: Blinders: namespaces
-LABEL: NAMESPACES
-NEW TERM: namespace = blinders for a process
+### SCENE 07: How does the worker know?
+LABEL: EPOLL
 NARRATION:
-"Linux has a feature for exactly this, called namespaces. Think of a namespace
-as blinders. It changes what a process can see, and nothing else..."
+"We have one worker responsible for thousands of connections, but how does it
+know which ones actually need attention? It can't walk the whole list and check
+each one. So it lets the kernel do the watching…"
 VISUAL:
-- Text "namespace = blinders" appears at top
-- Dashed accent wall draws around the app
-- Inside the wall, "PID 48213" changes to "PID 1"
-CHECKLIST: none (box 2 is checked in scene 11)
-HANDS OFF TO: "the same blinders work for files" (scene 10)
-EST. DURATION: 25 s
+- Worker box with 2,000 connection dots, almost all dim
+- A cursor walking the list one by one, then a red cross over it
+- Kernel box draws in beneath; arrows from the network into the kernel
+LEAVES: who tells the kernel which connections to watch? (scene 08)
+EST. DURATION: 24 s
 ```
 
-`NEW TERM` and `CHECKLIST` are omitted when a scene has none.
+`LEAVES` is the open problem or question this scene hands to the next one; omit it
+on the summary and end card.
 
 After all scenes, give me:
 1. **Scene table:** number | label | est. seconds | word count.
-2. **Term table:** term | scene first explained | plain meaning used in narration.
-3. **"Didn't know that" list:** each moment and its scene number.
-4. **[VERIFY] list** as checkboxes.
+2. **The chain:** one line per link, "problem → fix".
+3. **[VERIFY] list** as checkboxes.
 
 ---
 
@@ -335,12 +317,15 @@ Channel intro and ending (shared by every video; never rebuilt per video):
   The channel uses `brand.json → defaultIntro`. All end on the same banner lockup.
 - **Ending:** `summary()` and `endCard()` from `shared/motion/outro.tsx`.
 
-Story devices on screen:
-- **Checklist panel:** introduced center screen, then shrinks to the top-right
-  corner and stays for the whole video. Empty square = open, green check =
-  solved, red cross = failed. It resets visibly when a new attempt starts.
-- **New term card:** when a term is introduced, show "term = analogy" once
-  (e.g. "namespace = blinders") at the top of the frame.
+Story on screen:
+- **The running example is the main diagram.** It appears early and grows as the
+  chain grows (one service → the log in the middle → partitions → consumer groups).
+  Each new link adds to it or zooms into one part of it; don't throw it away
+  between scenes.
+- **Show the break before the fix.** The new problem gets its own visual moment (the
+  red error, the duplicate email, the blocked queue) before the fix appears.
+- **Name cards follow the idea.** When narration names a concept ("…this is called
+  the event loop"), its name can appear as a small label at that moment, never before.
 - **Callbacks reuse the exact earlier visual** (same boxes, same positions) so
   viewers recognize them instantly.
 - Consecutive scenes on the same diagram start from the previous scene's last
@@ -356,7 +341,7 @@ Story devices on screen:
 - Total scene duration must **match the audio length** exactly (see §7).
 - Comment each animation block with the narration phrase it syncs to.
 - Prefer reusable components in `components/` / `lib/` (Box, Wall, Arrow, Label,
-  Checklist, Terminal, CodePanel, Meter).
+  Terminal, CodePanel, Meter).
 - Diagrams that appear in more than one scene live in a shared figures file.
 - Keep it simple and readable. No external assets unless I ask.
 
@@ -438,9 +423,8 @@ export default makeScene2D(function* (view) {
 
 | Stage | Deliverable |
 |---|---|
-| Ideas | 15–20 ideas in §2 formats, each with its aha insight, the opening pain, and a topic-test pass |
-| Outline | Hook pain, mystery, requirements checklist, naive approach and where it fails, the better question, 4–6 concepts each with its visual metaphor, the requirement it checks and its hand-off to the next, 3–5 "didn't know that" moments, aha, payoff callback, plus term table and `[VERIFY]` flags |
-| Script | Full narration in §4 scene format, written in the §3.6 voice and scrubbed of §3.7 tells, plus scene table, term table, "didn't know that" list and `[VERIFY]` list |
+| Ideas | 15–20 ideas in §2 formats, each with its core idea, opening scenario, running example and a draft problem chain, plus a topic-test pass |
+| Script | Full narration in §4 scene format following §3, plus scene table, the chain, and `[VERIFY]` list |
 | Animation | One Motion Canvas `.tsx` per scene following §5–7, synced to the generated timings; summary + end card use `@shared/outro`; the intro needs no code |
 | Packaging | 5 titles, 5 thumbnail texts, 3–4 rendered thumbnails (`thumbnails/thumb-N.html` → `.png`) |
 | Publish | YouTube description (2–3 lines plus key terms), chapter timestamps, 10 tags |
@@ -449,19 +433,17 @@ export default makeScene2D(function* (view) {
 
 ## 10. Quality check (run before publishing)
 
-Story and audience:
-- [ ] Hook states a pain the viewer recognizes within 15 seconds
-- [ ] One running example and one recurring device (checklist) used from start to finish
-- [ ] Connection test passes: "but / so / because" fits between every pair of scenes
-- [ ] Every technical term is explained in plain words the first time it's spoken; no more than one new term per scene
-- [ ] No term remains that the aha doesn't need
-- [ ] At least 3 "I didn't know that" moments, spread across the video
-- [ ] Payoff explicitly calls back to the hook and solves it
-- [ ] Read-aloud test: a beginner could follow it hearing it once
-- [ ] Opens with a stance; the narrator has an opinion and says "I" (§3.6)
-- [ ] A personified system or coined handle that recurs; a named person; 2+ voiced objections
-- [ ] One real, verified story; one concession; 3–5 humor beats spread out
-- [ ] No AI tells from §3.7; sentence lengths vary; ends on callback + aphorism + specific question
+Story:
+- [ ] The hook puts the viewer in a concrete situation (or makes something mundane mysterious) within 15 seconds; no agenda, no greeting
+- [ ] The tool or concept arrives as the answer to a problem, not as the topic
+- [ ] Every section starts from a problem the viewer already feels; "but / so / because" fits between every pair of scenes
+- [ ] Each fix admits its cost, and that cost is the next problem
+- [ ] One running example followed the whole way, walked step by step through each new mechanism
+- [ ] Concrete numbers in every major link
+- [ ] Ideas come before names; terms defined in passing in everyday words
+- [ ] The core idea is stated once it's earned and returns in the summary
+- [ ] At least two moments that answer the viewer's thought before they have it; at least one practical opinion or gotcha
+- [ ] Nothing from §3.8; calm register; read-aloud test passes
 
 Accuracy and production:
 - [ ] Every technical claim verified (no open `[VERIFY]` tags)
@@ -469,4 +451,4 @@ Accuracy and production:
 - [ ] Only one accent color used; style matches §5
 - [ ] Audio clean, consistent volume; subtitles corrected for technical terms
 - [ ] Thumbnail readable at small size; title uses a winning format
-- [ ] Video delivers the aha moment promised by the title
+- [ ] Video delivers what the title promises

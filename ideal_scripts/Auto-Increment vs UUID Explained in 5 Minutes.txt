@@ -1,0 +1,430 @@
+00:00 Every time you create a database table,
+00:02 
+
+00:02 you have to answer one fundamental
+00:04 
+
+00:04 question. How do you identify a record?
+00:06 
+
+00:06 For decades, the default answer has been
+00:08 
+
+00:08 the auto incrementing integer. It's
+00:11 
+
+00:11 builtin, it's easy, and it just works.
+00:13 
+
+00:13 But as your system scales, you
+00:15 
+
+00:15 inevitably encounter the advice that you
+00:17 
+
+00:17 should drop integers and use UU IDs
+00:19 
+
+00:19 instead. But swapping a sequential
+00:22 
+
+00:22 integer for a UU ID isn't just a simple
+00:24 
+
+00:24 format change in your application code.
+00:27 
+
+00:27 It completely alters how your database
+00:29 
+
+00:29 stores, indexes, and retrieves data at
+00:31 
+
+00:31 the disk level. Today we are going to
+00:33 
+
+00:33 look at what actually happens under the
+00:35 
+
+00:35 hood when you choose one over the other
+00:37 
+
+00:37 and why the UUID versus integer debate
+00:39 
+
+00:39 is missing a crucial third option. Let's
+00:42 
+
+00:42 start with auto incrementing integers.
+00:45 
+
+00:45 To understand their performance, we need
+00:46 
+
+00:46 to look at how relational databases
+00:48 
+
+00:48 manage indexes. Under the hood, your
+00:51 
+
+00:51 primary key is stored in a B tree data
+00:53 
+
+00:53 structure. B trees store data in sorted
+00:56 
+
+00:56 order across memory pages on your disk.
+00:58 
+
+00:58 When you use sequential integers 1 2 3
+01:01 
+
+01:01 and so on, every new record is
+01:03 
+
+01:03 predictably larger than the last.
+01:05 
+
+01:05 Because of this, the database simply
+01:07 
+
+01:07 appends the new record to the rightmost
+01:09 
+
+01:09 edge of the index. It fills up the
+01:11 
+
+01:11 current memory page and when that page
+01:13 
+
+01:13 is full, it neatly allocates a new one.
+01:15 
+
+01:15 It's incredibly fast, requires almost
+01:17 
+
+01:17 zero overhead and uses minimal space. A
+01:20 
+
+01:20 standard integer takes up just four
+01:22 
+
+01:22 bytes. A big one takes eight. But
+01:25 
+
+01:25 sequential integers have two major
+01:27 
+
+01:27 systemic flaws. First, they are
+01:29 
+
+01:29 predictable. If a user's profile is
+01:31 
+
+01:31 located at / users/42,
+01:34 
+
+01:34 a malicious actor can easily guess that
+01:36 
+
+01:36 / users/43
+01:38 
+
+01:38 exists. This is a classic security
+01:41 
+
+01:41 vulnerability known as an insecure
+01:43 
+
+01:43 direct object reference. Second, they
+01:46 
+
+01:46 rely on a single source of truth. If you
+01:48 
+
+01:48 have a distributed database spanning
+01:50 
+
+01:50 multiple active servers, who decides
+01:52 
+
+01:52 what the next ID should be? If server A
+01:54 
+
+01:54 and server B both insert a row at the
+01:56 
+
+01:56 exact same millisecond, they might both
+01:59 
+
+01:59 try to claim ID 100, causing a
+02:01 
+
+02:01 collision. So to prevent this, the
+02:03 
+
+02:03 database needs a centralized lock, which
+02:05 
+
+02:05 quickly becomes a massive performance
+02:07 
+
+02:07 bottleneck. This is exactly the problem
+02:09 
+
+02:09 UU IDs, universally unique identifiers,
+02:12 
+
+02:12 were designed to solve. A standard UU
+02:14 
+
+02:14 ID, specifically the highly popular
+02:16 
+
+02:16 version 4, is a 128 bit value generated
+02:19 
+
+02:19 using pure randomness. Because the
+02:21 
+
+02:21 number of possible combinations is
+02:23 
+
+02:23 astronomically large, the chance of
+02:25 
+
+02:25 generating a duplicate is practically
+02:27 
+
+02:27 zero. This completely eliminates the
+02:29 
+
+02:29 distributed system problem. Any server
+02:32 
+
+02:32 or even a client device can generate a
+02:34 
+
+02:34 UU ID locally without needing to check
+02:36 
+
+02:36 with the central database authority. It
+02:38 
+
+02:38 also solves a predictability problem.
+02:40 
+
+02:40 You simply cannot guess the next ID. But
+02:43 
+
+02:43 here is the catch and it's a significant
+02:45 
+
+02:45 one. Remember how B trees keep data
+02:47 
+
+02:47 sorted? A UID version 4 is completely
+02:50 
+
+02:50 random. When the database tries to
+02:52 
+
+02:52 insert a new UU ID into the primary key
+02:54 
+
+02:54 index, it doesn't go to the end of the
+02:56 
+
+02:56 tree. It goes somewhere completely
+02:58 
+
+02:58 arbitrary in the middle. The database
+03:00 
+
+03:00 has to search for the exact memory page
+03:02 
+
+03:02 where this random sequence belongs. If
+03:04 
+
+03:04 that specific page is already full, the
+03:07 
+
+03:07 database has to perform what is called a
+03:08 
+
+03:08 page split. It stops, divides the page
+03:11 
+
+03:11 in two, moves half of the existing data
+03:13 
+
+03:13 to a new location on the disk, and
+03:15 
+
+03:15 updates the parent nodes in the tree.
+03:18 
+
+03:18 Page splits are computationally
+03:19 
+
+03:19 expensive. They consume CPU, trigger
+03:22 
+
+03:22 massive amounts of disk operations, and
+03:24 
+
+03:24 leave your index heavily fragmented. A
+03:26 
+
+03:26 fragmented index means your database has
+03:28 
+
+03:28 to read more blocks from the disk just
+03:30 
+
+03:30 to scan the table. Furthermore, a UUID
+03:33 
+
+03:33 is 16 bytes. That is up to four times
+03:36 
+
+03:36 larger than an integer. Since your
+03:38 
+
+03:38 primary key is typically duplicated and
+03:40 
+
+03:40 stored inside every secondary index you
+03:42 
+
+03:42 create, that size penalty multiplies
+03:45 
+
+03:45 across your entire database, it bloats
+03:47 
+
+03:47 your storage and more importantly pushes
+03:50 
+
+03:50 useful data out of your fast RAM,
+03:52 
+
+03:52 forcing the database to rely on slower
+03:54 
+
+03:54 disk reads. So are you forced to choose
+03:57 
+
+03:57 between a secure, scalable, distributed
+03:60 
+
+03:60 system and a fast, unfragmented
+04:02 
+
+04:02 database? No. The industry has evolved
+04:05 
+
+04:05 past this binary choice. The modern
+04:07 
+
+04:07 solution is the timeordered identifier.
+04:10 
+
+04:10 For this exact use case, the recently
+04:12 
+
+04:12 standardized UUID version 7 gives you
+04:14 
+
+04:14 the best of both worlds. It works by
+04:17 
+
+04:17 combining a Unix time stamp with a block
+04:19 
+
+04:19 of random data because the first half of
+04:21 
+
+04:21 the identifier is based on the current
+04:22 
+
+04:22 time. These IDs are naturally
+04:25 
+
+04:25 sequential. From the database's
+04:27 
+
+04:27 perspective, they append to the right
+04:28 
+
+04:28 edge of the B tree index exactly like an
+04:30 
+
+04:30 auto incrementing integer. This entirely
+04:33 
+
+04:33 eliminates page splits and index
+04:35 
+
+04:35 fragmentation.
+04:37 
+
+04:37 But because the second half of the
+04:39 
+
+04:39 identifier contains cryptographically
+04:41 
+
+04:41 secure randomness, they remain
+04:43 
+
+04:43 universally unique and completely
+04:44 
+
+04:44 unpredictable. You get the decentralized
+04:47 
+
+04:47 generation of a UID with the mechanical
+04:49 
+
+04:49 sympathy of an integer. To summarize, if
+04:53 
+
+04:53 you are building a simple single node
+04:55 
+
+04:55 application where ids are strictly
+04:57 
+
+04:57 internal and never exposed to the
+04:58 
+
+04:58 client, auto incrementing integers are
+05:01 
+
+05:01 still the most efficient choice. But if
+05:03 
+
+05:03 you are building a distributed system or
+05:05 
+
+05:05 if your identifiers will ever be exposed
+05:07 
+
+05:07 in URLs or APIs, do not default to
+05:09 
+
+05:09 random UIDV4.
+05:11 
+
+05:11 Adopt a timeordered identifier like
+05:13 
+
+05:13 UIDV7.
+05:15 
+
+05:15 You will save your database from a
+05:16 
+
+05:16 massive amount of unnecessary work.

@@ -4,13 +4,16 @@ Production repo for the YouTube channel *Under the Abstraction*: minimal,
 code-animated explainers of programming and infrastructure concepts.
 **`docs/VIDEO_BRIEF.md` is the channel rulebook. Read it before any creative
 work and follow it unless the video's brief or the user overrides it.**
-Scripts must have a narrator with personality (§3.6) and none of the AI tells in
-§3.7; `transcripts/` holds reference transcripts for studying voice (never copy lines).
+Scripts are a chain of problems, each fix creating the next one (§3.2), told in a
+calm, practical voice (§3.5) with nothing from §3.8. `ideal_scripts/` holds the five
+reference scripts for this style (study them, never copy lines). `transcripts/` is
+from an older style and is no longer a reference.
 
 ## Layout
 
 ```
 docs/VIDEO_BRIEF.md        channel rules: story, script format, visual style, thumbnails
+ideal_scripts/             reference scripts for the script style (VIDEO_BRIEF §3)
 ideas/backlog.json         brainstormed ideas (written by /brainstorm, read by the Studio)
 videos/NNN-name/           one folder per video
   video.json               workflow state: stage, reviews, history (Studio reads/writes it)
@@ -20,7 +23,7 @@ videos/NNN-name/           one folder per video
   SCRIPT.md                generated from script.mjs (npm run script <video>)
   src/project.ts           auto-loads src/scenes/scene*.tsx in order (don't edit)
   src/scenes/sceneNN.tsx   one Motion Canvas scene per narration scene
-  src/lib/                 video-local: checklist.tsx (ITEMS), figures.tsx (shared diagrams),
+  src/lib/                 video-local: figures.tsx (shared diagrams, the running example),
                            sync/ui/theme shims that re-export @shared/*
   src/timings.json         generated: scene durations, cue times, captions
   audio/                   generated voiceover, captions.srt, chapters.txt
@@ -87,29 +90,25 @@ npm run showcase [-- B]           render demo videos with each intro → showcas
 
 ```js
 export const meta = {
-  title, aha, audience, hook, device,           // strings
-  stance,                                       // the narrator's opinion the video argues (VIDEO_BRIEF §3.6)
-  checklist: ['own files', ...],                // the recurring device's items (if a checklist)
-  terms: [{term, scene, meaning}],              // term table
-  didntKnow: [{scene, text}],                   // "I didn't know that" moments
+  title, aha, audience, hook, example, stance,  // strings: aha = the core idea, example = the running example,
+                                                // stance = the practical take (VIDEO_BRIEF §3.5)
+  chain: ['problem → fix', ...],                // the problem chain, one line per link (VIDEO_BRIEF §3.2)
   verify: ['…'],                                // [VERIFY] items, plain strings
   titles: [5], thumbnails: [5], thumbnailLayout, description, tags: [10],
 };
 export const scenes = [
-  // …hook scene(s)…
+  {id: 'scene01', label: 'FIVE SERVICES', title: 'One order, five reactions',
+   text: "{app}Let's say you're running a web application. {services}Behind it…",
+   visual: ['APP box with five service boxes behind it', …],   // one bullet per {cue}
+   leaves: 'how do the other services find out about the order?'},   // open problem for the next scene
+  // …more hook scenes if needed…
   {id: 'intro', intro: 'default'},              // channel intro right after the hook (music only)
-  // …story…, then the standard ending:
+  // …the chain…, then the standard ending:
   {id: 'scene21', label: 'TO SUMMARISE', title: 'Summary', bed: true,
-   text: "{sum}To summarise everything. {p1}… {p2}… {p3}… {aha}…", visual: [...]},
+   text: "{sum}To summarise everything. {p1}… {p2}… {aha}…", visual: [...]},
   {id: 'scene22', label: 'END', title: 'End card', endCard: true,
    text: "{like}If you liked the video, drop a like {sub}and subscribe, {next}and tell me what topics you want to see next.",
    visual: ['like()', 'subscribe() + click', 'suggest(next_topic)']},
-  {id: 'scene01', label: 'THE PROBLEM', title: 'Works on my machine',
-   term: 'kernel = the computer\'s manager',    // optional, max one per scene
-   text: "{laptop}Your app works perfectly on your laptop. {server}You put it on a server…",
-   visual: ['LAPTOP frame with my-app and a green check', …],   // one bullet per {cue}
-   checklist: 'box 4 fails',                    // optional
-   handsOff: '"but blinders only hide things…" (scene 10)'},
 ];
 ```
 
@@ -121,6 +120,9 @@ export const scenes = [
 - `bed: true` mixes the outro music under that scene and all after it; `endCard: true` also
   holds the scene for brand.json `outro.endScreenHold` s. Videos made before the intro/outro kit
   (001, 002) have their own project.ts and scripts; leave them as they are.
+- Scripts written before the problem-chain format (001–003, 005) use old fields (`checklist`,
+  `didntKnow`, `terms`, per-scene `term`/`handsOff`/`checklist`). The tools and Studio still
+  render them; don't add those fields to new scripts.
 
 ## Motion Canvas conventions
 
@@ -128,7 +130,7 @@ export const scenes = [
   `enter()`, `like()`, `subscribe()`, `suggest()`, `idle()` (both from `@shared/outro`; see showcase/_demo).
 - Every scene: `const s = setup(view, 'sceneNN', 'LABEL')`, put content in
   `s.stage`, wait on words with `yield* s.at('cue')`, finish with `yield* s.end()`.
-  Persistent devices (checklist) are added to `view`, not `s.stage`.
+  Persistent overlays (the old checklist) are added to `view`, not `s.stage`.
 - Use the factories in `@shared/ui` (box, frame, arrow, wall, terminal, code,
   meter, termCard, mono, sans, fadeIn, draw, swap…) and colors from `@shared/theme`.
   Add a new factory to shared/motion/ui.tsx only if it's channel-generic;

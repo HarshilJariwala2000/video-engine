@@ -25,12 +25,15 @@ because it waits on cue names, not fixed seconds).
    (seconds per cue, scene durations: know how much time each animation has).
 
 ## Write
-- `src/lib/checklist.tsx`: set `ITEMS` (and heading) from `meta.checklist`, if the device is a checklist.
+- `src/lib/checklist.tsx`: only for old-format scripts with `meta.checklist`; new scripts have no checklist.
 - `src/lib/figures.tsx`: every diagram used by more than one scene (continuity and callbacks).
+  The running example (`meta.example`) is the main diagram: build it once here so each link
+  of the chain can add to it or zoom into it (VIDEO_BRIEF §5 "Story on screen").
   Factories return nodes created invisible plus handles to animate.
 - `src/scenes/sceneNN.tsx` for every scene in script.mjs:
-  - `const s = setup(view, 'sceneNN', 'LABEL')`; content into `s.stage`; persistent
-    checklist into `view` in the state the previous scene left it.
+  - `const s = setup(view, 'sceneNN', 'LABEL')`; content into `s.stage`.
+  - Show the break before the fix: when narration states a new problem, it gets its own
+    visual moment (red error, blocked queue, duplicate) before the fix appears.
   - One `yield* s.at('cue')` block per cue, commented with the narration phrase.
     Implement that cue's VISUAL bullet. Animations 0.3–0.8 s, ease defaults.
     Each block must finish before the next cue's time (check timings.json).

@@ -459,7 +459,9 @@ const routes = [
     const {slug} = createVideo({
       name: b.name || src.topic || src.title, title: src.title, topic: src.topic, aha: src.aha, pain: src.pain,
       format: src.format, idea,
-      notes: [b.notes, idea?.didntKnow?.length ? `Didn't-know candidates: ${idea.didntKnow.join(' | ')}` : '',
+      notes: [b.notes, idea?.example ? `Running example: ${idea.example}` : '',
+        idea?.chain?.length ? `Chain draft: ${idea.chain.join(' | ')}` : '',
+        idea?.didntKnow?.length ? `Didn't-know candidates: ${idea.didntKnow.join(' | ')}` : '',
         idea?.visual ? `Core visual: ${idea.visual}` : '', idea?.device ? `Device: ${idea.device}` : ''].filter(Boolean).join('  \n'),
     });
     if (idea) { idea.video = slug; writeIdeas(readIdeas().map(i => (i.id === idea.id ? {...i, status: 'picked', video: slug} : i))); }

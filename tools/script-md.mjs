@@ -29,7 +29,9 @@ const list = v => (Array.isArray(v) ? v : v ? [v] : []);
 const out = [];
 out.push(`# ${meta.title}`, '');
 out.push(`**Aha:** ${meta.aha}  `, `**Audience:** ${meta.audience}  `);
-if (meta.hook) out.push(`**Hook pain:** ${meta.hook}  `);
+if (meta.hook) out.push(`**Hook:** ${meta.hook}  `);
+if (meta.example) out.push(`**Running example:** ${meta.example}  `);
+if (meta.stance) out.push(`**Take:** ${meta.stance}  `);
 if (meta.device) out.push(`**Recurring device:** ${meta.device}  `);
 out.push(`**Length:** ${scenes.reduce((a, s) => a + words(s.text), 0)} words, ${clock(total)} (${kind})`, '');
 out.push('> Generated from `narration/script.mjs`. Edit that file, not this one, then run `npm run script ' + slug + '`.', '', '---', '');
@@ -45,13 +47,16 @@ for (const s of scenes) {
   out.push('NARRATION:', `"${clean(s.text)}"`, 'VISUAL:', ...list(s.visual).map(v => `- ${v}`));
   if (s.checklist) out.push(`CHECKLIST: ${s.checklist}`);
   if (s.handsOff) out.push(`HANDS OFF TO: ${s.handsOff}`);
+  if (s.leaves) out.push(`LEAVES: ${s.leaves}`);
   out.push(`EST. DURATION: ${secs(s).toFixed(1)} s`, '');
 }
 
 out.push(`## Scene table (${kind})`, '', '| # | Label | Seconds | Words |', '|---|---|---|---|');
 for (const s of scenes) out.push(`| ${s.intro ? 'intro' : num(s.id)} | ${s.intro ? 'CHANNEL INTRO' : s.label} | ${secs(s).toFixed(1)} | ${words(s.text)} |`);
 
-out.push('', '## Term table', '', '| Term | Scene | Plain meaning used in narration |', '|---|---|---|');
+if (meta.chain?.length) out.push('', '## The chain', '', ...meta.chain.map((c, i) => `${i + 1}. ${c}`));
+
+if (meta.terms?.length || scenes.some(s => s.term)) out.push('', '## Term table', '', '| Term | Scene | Plain meaning used in narration |', '|---|---|---|');
 if (meta.terms?.length) for (const t of meta.terms) out.push(`| ${t.term} | ${t.scene} | ${t.meaning} |`);
 else for (const s of scenes) if (s.term) out.push(`| ${s.term.split('=')[0].trim()} | ${num(s.id)} | ${s.term.split('=').slice(1).join('=').trim()} |`);
 

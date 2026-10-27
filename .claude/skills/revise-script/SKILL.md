@@ -16,14 +16,16 @@ Video: $ARGUMENTS
 3. Snapshot: copy `narration/script.mjs` to `narration/history/script.v<scriptVersion>.mjs`.
 4. Apply **every** comment. The user's comments override the brief. If a comment
    is ambiguous, make the most reasonable interpretation and note it in your reply.
-   Keep the narrator's voice (VIDEO_BRIEF §3.6): rewritten lines must sound like the
-   same person, keep the personified system and callbacks consistent, and must not
-   reintroduce §3.7 tells. If the user asks for "more personality", run the
-   write-script skill's voice pass on the whole script.
-   After local edits, re-check story-level rules: connection test between all
-   neighbouring scenes, one new term per scene, callbacks still match, cue/visual
-   bullets still line up, scene ids still consecutive (renumber if you add/remove
-   scenes and update `term`/`didntKnow`/`terms` scene references).
+   Keep the narrator's voice (VIDEO_BRIEF §3.5, `ideal_scripts/` as reference):
+   rewritten lines must sound like the same calm, practical person and must not
+   reintroduce anything from §3.8.
+   After local edits, re-check the chain (VIDEO_BRIEF §3.2): every scene still starts
+   from a problem the previous one left, `leaves` still matches what the next scene
+   answers, "but / so / because" fits between all neighbouring scenes, `meta.chain`
+   still matches the scenes, cue/visual bullets still line up, scene ids still
+   consecutive (renumber if you add/remove scenes and update `leaves` references).
+   If the script is in the old format (checklist, `didntKnow`, `handsOff`) and the user
+   asks for a rewrite, convert it to the new format with the write-script skill.
 5. `npm run script <video>` and `npm run voice:estimate <video>`; fix any error.
 6. In video.json: bump `scriptVersion`, and on the review you applied set
    `"addressed": true` and `"addressedIn": <new version>` (edit the JSON carefully; keep everything else).

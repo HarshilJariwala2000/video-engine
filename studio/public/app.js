@@ -195,6 +195,8 @@ function renderIdeas(m) {
           <dt>pain</dt><dd class="muted">${esc(i.pain)}</dd>
           ${i.visual ? `<dt>visual</dt><dd class="muted">${esc(i.visual)}</dd>` : ''}
         </dl>
+        ${i.chain?.length ? `<details><summary class="dim mono" style="font-size:11px;cursor:pointer">${i.chain.length}-link problem chain</summary>
+          <ol class="list-tight muted" style="font-size:12.5px">${i.chain.map(d => `<li>${esc(d)}</li>`).join('')}</ol></details>` : ''}
         ${i.didntKnow?.length ? `<details><summary class="dim mono" style="font-size:11px;cursor:pointer">${i.didntKnow.length} didn't-know moments</summary>
           <ul class="list-tight muted" style="font-size:12.5px">${i.didntKnow.map(d => `<li>${esc(d)}</li>`).join('')}</ul></details>` : ''}
         ${i.why ? `<div class="dim" style="font-size:12px">${esc(i.why)}</div>` : ''}
@@ -341,7 +343,8 @@ function tabScript(el, v) {
       ${meta.stance ? `<div class="card"><div class="k">Stance</div>${esc(meta.stance)}</div>` : ''}
       <div class="card"><div class="k">Aha</div>${esc(meta.aha)}</div>
       <div class="card"><div class="k">Hook pain</div>${esc(meta.hook ?? v.scenes[0]?.clean.slice(0, 140))}</div>
-      <div class="card"><div class="k">Device</div>${esc(meta.device ?? '')}${meta.checklist ? `<ul class="list-tight">${meta.checklist.map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}</div>
+      ${meta.example ? `<div class="card"><div class="k">Running example</div>${esc(meta.example)}</div>`
+        : `<div class="card"><div class="k">Device</div>${esc(meta.device ?? '')}${meta.checklist ? `<ul class="list-tight">${meta.checklist.map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}</div>`}
       <div class="card"><div class="k">Length</div><span class="mono">${words} words · ${clock(secs)}</span>
         <div class="dim" style="font-size:12px">${v.scenes.length} scenes · v${v.scriptVersion ?? 1} · ${v.timingsKind === 'none' ? 'estimated from word count' : v.timingsKind + ' timings'}</div></div>
     </div>
@@ -368,6 +371,7 @@ function tabScript(el, v) {
           <ul class="visuals">${(sc.visual ?? []).map((b, k) => `<li>${cues[k] ? `<span class="cue-name">${esc(cues[k])}</span>` : ''}${esc(b)}</li>`).join('')}</ul>
           ${sc.checklist ? `<div class="handoff"><b>Checklist:</b> ${esc(sc.checklist)}</div>` : ''}
           ${sc.handsOff ? `<div class="handoff"><b>Hands off →</b> ${esc(sc.handsOff)}</div>` : ''}
+          ${sc.leaves ? `<div class="handoff"><b>Leaves open →</b> ${esc(sc.leaves)}</div>` : ''}
         </div>
         <div class="scene-side">
           ${sc.audio ? `<audio controls preload="none" src="${sc.audio}"></audio>` : ''}
@@ -377,6 +381,7 @@ function tabScript(el, v) {
       </div>`;
     }).join('')}
     <div class="grid cols-2" style="margin-top:20px">
+      ${meta.chain?.length ? `<div class="card"><h3>Problem chain</h3><ol class="list-tight">${meta.chain.map(d => `<li>${esc(d)}</li>`).join('')}</ol></div>` : ''}
       ${meta.didntKnow?.length ? `<div class="card"><h3>“Didn't know that” moments</h3><ul class="list-tight">${meta.didntKnow.map(d => `<li><span class="mono dim">${esc(d.scene)}</span> ${esc(d.text)}</li>`).join('')}</ul></div>` : ''}
       ${meta.verify?.length ? `<div class="card"><h3>[VERIFY]</h3><ul class="list-tight">${meta.verify.map(d => `<li>${esc(d)}</li>`).join('')}</ul></div>` : ''}
       ${meta.terms?.length ? `<div class="card"><h3>Terms</h3><dl class="kv">${meta.terms.map(t => `<dt>${esc(t.term)} <span class="dim">· ${esc(t.scene)}</span></dt><dd>${esc(t.meaning)}</dd>`).join('')}</dl></div>` : ''}

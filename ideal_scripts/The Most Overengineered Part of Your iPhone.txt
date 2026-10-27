@@ -1,0 +1,448 @@
+00:00 This is the most over-engineered part of
+00:02 
+
+00:02 the iPhone, and all it does is unlock
+00:04 
+
+00:04 your phone. That spot used to be a thick
+00:06 
+
+00:06 strip on top of the display, then it
+00:08 
+
+00:08 became the notch, and now it's a Dynamic
+00:10 
+
+00:10 Island, which holds the key parts of
+00:12 
+
+00:12 Face ID. There's the regular front
+00:14 
+
+00:14 camera for selfies, and next to it a dot
+00:16 
+
+00:16 projector, a flood illuminator, and an
+00:18 
+
+00:18 infrared camera.
+00:20 
+
+00:20 Those last three together are called the
+00:21 
+
+00:21 TrueDepth camera. It sounds like a lot
+00:24 
+
+00:24 just to unlock a phone, but every part
+00:25 
+
+00:25 of Face ID is there to stop one specific
+00:27 
+
+00:27 attack. Let's say someone wants to get
+00:29 
+
+00:29 into your phone, and the first thing
+00:30 
+
+00:30 they try is a photo of your face. A
+00:32 
+
+00:32 photo like that is easy to get because
+00:34 
+
+00:34 you probably have dozens of them on your
+00:35 
+
+00:35 Instagram. With a regular camera, this
+00:37 
+
+00:37 trick would actually work. A regular
+00:39 
+
+00:39 camera only records colors and
+00:41 
+
+00:41 brightness, so it has no way to tell how
+00:43 
+
+00:43 far away things are. For that camera, a
+00:46 
+
+00:46 sharp printed photo of your face and
+00:48 
+
+00:48 your real face look almost exactly the
+00:49 
+
+00:49 same. Face ID deals with this by
+00:51 
+
+00:51 measuring distance, which basically
+00:53 
+
+00:53 means it checks how far every single
+00:55 
+
+00:55 point of your face is from the phone. To
+00:57 
+
+00:57 do that, it uses infrared, which is a
+00:59 
+
+00:59 kind of light that your eyes can't see,
+01:01 
+
+01:01 but camera can. When you pick up your
+01:03 
+
+01:03 phone, the first part that turns on is
+01:05 
+
+01:05 the flood illuminator. Its job is to
+01:07 
+
+01:07 light up your whole face with infrared
+01:09 
+
+01:09 light, a bit like a flashlight that you
+01:11 
+
+01:11 can't see. Thanks to that, the infrared
+01:14 
+
+01:14 camera can take a clear picture of your
+01:15 
+
+01:15 face even when you're lying in a
+01:16 
+
+01:16 completely dark bedroom.
+01:18 
+
+01:18 Right after that, the dot projector
+01:20 
+
+01:20 turns on, and inside it there's a tiny
+01:22 
+
+01:22 infrared laser with a special lens in
+01:24 
+
+01:24 front of it. The lens splits the single
+01:25 
+
+01:25 laser beam into more than 30,000
+01:27 
+
+01:27 separate dots, and those dots land all
+01:29 
+
+01:29 over your face. Then the infrared takes
+01:31 
+
+01:31 a second picture, and this time it shows
+01:33 
+
+01:33 exactly where each dot landed. So, how
+01:36 
+
+01:36 does a picture of dots turn into
+01:37 
+
+01:37 distances? The dot projector and the
+01:39 
+
+01:39 infrared camera sit a small fixed
+01:42 
+
+01:42 distance apart from each other, and the
+01:44 
+
+01:44 phone already knows where each dot would
+01:46 
+
+01:46 show up in the picture if you pointed it
+01:47 
+
+01:47 at a flat wall. Take the dot that lands
+01:50 
+
+01:50 on the tip of your nose. Your nose is
+01:51 
+
+01:51 much closer to the phone than that flat
+01:53 
+
+01:53 wall would be, so in the camera's
+01:55 
+
+01:55 picture this dot shows up shifted to the
+01:57 
+
+01:57 side. A dot that lands on your cheek is
+01:59 
+
+01:59 a little farther away, so it's shifted a
+02:01 
+
+02:01 little less. The phone measures the
+02:02 
+
+02:02 shift for every one of those 30,000
+02:04 
+
+02:04 dots. Then it uses basic geometry, which
+02:07 
+
+02:07 is called triangulation, to turn each
+02:09 
+
+02:09 shift into a distance. When you put all
+02:11 
+
+02:11 of those distances together, you get a
+02:13 
+
+02:13 3D map of your face, and this map is
+02:15 
+
+02:15 called a depth map. With the printed
+02:17 
+
+02:17 photo, all of those dots land on the
+02:18 
+
+02:18 same flat sheet of paper, so the depth
+02:20 
+
+02:20 map comes out as one flat surface
+02:22 
+
+02:22 without a nose that sticks out, and Face
+02:24 
+
+02:24 ID rejects it. Since a flat photo
+02:26 
+
+02:26 doesn't work, the attacker's next idea
+02:28 
+
+02:28 is to use a real face that looks a lot
+02:29 
+
+02:29 like yours, for example, your brother's.
+02:32 
+
+02:32 A depth map alone can't tell two similar
+02:34 
+
+02:34 faces apart, and this is the job of a
+02:36 
+
+02:36 neural network. That network gets to
+02:38 
+
+02:38 know your face when you set up Face ID
+02:39 
+
+02:39 for the first time. The phone asks you
+02:41 
+
+02:41 to slowly move your head in a circle and
+02:43 
+
+02:43 then to do it one more time. During
+02:45 
+
+02:45 those two scans, the phone captures your
+02:47 
+
+02:47 face from a lot of different angles. The
+02:49 
+
+02:49 network then turns everything it saw
+02:51 
+
+02:51 into a long list of numbers, and you can
+02:53 
+
+02:53 think of that list as a description of
+02:55 
+
+02:55 your face. From then on, the same thing
+02:57 
+
+02:57 happens every time you unlock your
+02:59 
+
+02:59 phone. The network takes a fresh
+03:01 
+
+03:01 infrared picture and the fresh depth
+03:03 
+
+03:03 map, and it turns them into a new list
+03:05 
+
+03:05 of numbers. Then it compares the new
+03:07 
+
+03:07 list with the one it saved during setup,
+03:09 
+
+03:09 and if the two lists are close enough to
+03:10 
+
+03:10 each other, the phone treats it as a
+03:12 
+
+03:12 match. According to Apple, the chance
+03:14 
+
+03:14 that a random stranger's face is close
+03:16 
+
+03:16 enough to unlock your phone is less than
+03:18 
+
+03:18 one in a million, but your brother has a
+03:20 
+
+03:20 much better chance than a random
+03:21 
+
+03:21 stranger because he shares a lot of your
+03:23 
+
+03:23 features. So fooling the camera doesn't
+03:25 
+
+03:25 work, and the attacker tries a different
+03:27 
+
+03:27 approach. If they manage to hack the
+03:29 
+
+03:29 phone's software, maybe they can copy
+03:31 
+
+03:31 your face data out of memory and use it
+03:32 
+
+03:32 later. This doesn't work either because
+03:35 
+
+03:35 your face data lives in a part of the
+03:36 
+
+03:36 phone that iOS can't reach.
+03:38 
+
+03:38 Inside Apple's main chip, there's a
+03:40 
+
+03:40 separate small processor called the
+03:41 
+
+03:41 secure enclave, and it has its own
+03:44 
+
+03:44 memory and even its own operating
+03:45 
+
+03:45 system.
+03:46 
+
+03:46 iOS can't look into that memory at all,
+03:48 
+
+03:48 and the only thing it can do is send the
+03:50 
+
+03:50 secure enclave a request and wait for an
+03:52 
+
+03:52 answer.
+03:53 
+
+03:53 Apple built it this way so that even if
+03:55 
+
+03:55 an attacker takes full control of iOS,
+03:57 
+
+03:57 they still can't read anything inside
+03:59 
+
+03:59 the Secure Enclave. The list of numbers
+04:01 
+
+04:01 that describes your face is encrypted
+04:03 
+
+04:03 and only the Secure Enclave has the key.
+04:05 
+
+04:05 That data never leaves your phone and
+04:07 
+
+04:07 it's not included in your iCloud backup,
+04:08 
+
+04:08 either. The Secure Enclave is also the
+04:11 
+
+04:11 part that actually unlocks your phone.
+04:12 
+
+04:12 The files on your iPhone are encrypted
+04:14 
+
+04:14 and each time you lock the phone, the
+04:16 
+
+04:16 keys to your most sensitive files get
+04:18 
+
+04:18 locked with one more key.
+04:20 
+
+04:20 That extra key is kept inside the Secure
+04:22 
+
+04:22 Enclave where iOS can't touch it. When
+04:24 
+
+04:24 your face matches, the Secure Enclave
+04:26 
+
+04:26 uses that extra key to unlock the keys
+04:28 
+
+04:28 to your files and only then can iOS open
+04:31 
+
+04:31 them. So, basically, a successful match
+04:33 
+
+04:33 gives the phone back the keys to your
+04:35 
+
+04:35 own data. Regular apps get even less
+04:37 
+
+04:37 than iOS does because when your banking
+04:39 
+
+04:39 app asks for Face ID, the only thing it
+04:42 
+
+04:42 gets back is a yes or a no. The app
+04:44 
+
+04:44 never gets to see your face at any
+04:46 
+
+04:46 point.
